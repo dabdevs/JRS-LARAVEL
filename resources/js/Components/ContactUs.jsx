@@ -1,6 +1,8 @@
+import useBusinessInfo from '@/Hooks/useBusinessInfo';
 import { useForm } from '@inertiajs/react'
 
 export default function ContactUs() {
+    const {address, phone, email} = useBusinessInfo()
     const { data, setData, post, processing, errors, reset } = useForm({
         name: '',
         email: '',
@@ -20,9 +22,9 @@ export default function ContactUs() {
                         <p className="mt-4 text-gray-600">Feel free to reach out to us for any inquiries or to schedule a
                             service appointment.</p>
                         <div className="mt-8">
-                            <p className="text-gray-600"><strong>Address:</strong> 4025 Jericho Turnpike, East Northport, NY 11731</p>
-                            <p className="mt-4 text-gray-600"><strong>Phone:</strong> (631) 623-5427</p>
-                            <p className="mt-4 text-gray-600"><strong>Email:</strong> info@jrsautocorp.com</p>
+                            <p className="text-gray-600"><strong>Address:</strong> {address}</p>
+                            <p className="mt-4 text-gray-600"><strong>Phone:</strong> {phone}</p>
+                            <p className="mt-4 text-gray-600"><strong>Email:</strong> {email}</p>
                         </div>
                     </div>
                     <div>

@@ -1,16 +1,14 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
-use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Index');
-});
+Route::get('/', [GuestController::class, 'index'])->name('index');
 
 // Dashboard routes
 Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');

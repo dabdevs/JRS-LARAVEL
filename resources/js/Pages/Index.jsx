@@ -7,6 +7,7 @@ import ContactUs from '@/Components/ContactUs';
 import ScrollToTopButton from '@/Components/ScrollToTopButton';
 
 export default function Index() {
+
     return (
         <GuestLayout>
 

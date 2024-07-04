@@ -17,7 +17,7 @@ export default function Navbar() {
                     </div>
                 }
 
-                {url === '/' && <nav className="space-x-8">
+                {url === '/' && <nav className="space-x-8 hidden md:block">
                     <Link role="button" to="/" className="text-primary font-bold hover:text-gray-500">Home</Link>
                     <Link
                         role="button"

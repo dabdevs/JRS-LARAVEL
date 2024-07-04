@@ -9,7 +9,7 @@ export default function Pagination() {
                 {cars.links.map((page, i) => (
                     <li key={i} className="mx-1">
                         <Link
-                            className="px-4 py-2 bg-white text-bold text-primary rounded hover:border hover:border-primary"
+                            className="px-4 py-2 bg-white text-bold text-primary rounded hover:border-2 hover:border-primary"
                             href={page.url}
                         >
                             {page.label.includes('Previous') ? 'Previous' : (page.label.includes('Next') ? 'Next' : page.label)} 

@@ -47,7 +47,7 @@ export default function ContactUs() {
                             </div>
                             <div>
                                 <button type="submit"
-                                    className="w-full bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-primary hover:border hover:border-primary transition duration-300">
+                                    className="w-full bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-primary hover:border-2 hover:border-primary transition duration-300">
                                     Send Message
                                 </button>
                             </div>

@@ -13,7 +13,7 @@ export default function Navbar() {
                 {url !== '/' &&
                     <div className="gap-2 w-1/3 justify-end hidden md:inline-block">
                         <input type="text" placeholder="Search cars..." className="border rounded-lg p-2 w-3/4" />
-                        <button type="submit" className='bg-primary font-bold text-white ml-1 py-2 px-4 rounded-lg hover:bg-white hover:border hover:border-primary hover:text-primary transition duration-300'>Search</button>
+                        <button type="submit" className='bg-primary font-bold text-white ml-1 py-2 px-4 rounded-lg hover:bg-white hover:border-2 hover:border-primary hover:text-primary transition duration-300'>Search</button>
                     </div>
                 }
 

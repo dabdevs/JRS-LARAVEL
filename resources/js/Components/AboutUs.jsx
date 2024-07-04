@@ -10,7 +10,7 @@ export default function AboutUs() {
                         <h2 className="text-3xl font-bold">About Us</h2>
                         <p className="mt-4 text-gray-600">Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque cupiditate culpa molestias velit, quam sit omnis totam atque nostrum dolorem necessitatibus incidunt voluptates in quaerat facilis rem, voluptas rerum veritatis</p>
                         <a href="#contact"
-                            className="mt-8 inline-block bg-primary font-bold text-white py-2 px-4 rounded-lg hover:bg-white hover:text-primary hover:border hover:border-primary transition duration-300">
+                            className="mt-8 inline-block bg-primary font-bold text-white py-2 px-4 rounded-lg hover:bg-white hover:text-primary hover:border-2 hover:border-primary transition duration-300">
                             Contact Us
                         </a>
                     </div>

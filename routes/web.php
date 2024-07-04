@@ -30,4 +30,8 @@ Route::resource('roles', RoleController::class)->middleware(AdminMiddleware::cla
 Route::post('/roles/{roleId}/add', [RoleController::class, 'addPermission'])->name('roles.permissions.add');
 Route::post('/roles/{roleId}/remove', [RoleController::class, 'removePermission'])->name('roles.permissions.remove');
 
+Route::fallback(function () {
+    return redirect('/');
+});
+
 require __DIR__.'/auth.php';

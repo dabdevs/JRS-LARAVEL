@@ -9,7 +9,7 @@ export default function Guest({ children }) {
             <main className="w-full">
             
                 {children}
-
+                
             </main>
 
             <Footer />

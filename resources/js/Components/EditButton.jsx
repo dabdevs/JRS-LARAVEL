@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function EditButton({ className = '', disabled, ...props }) {
     let size = 'py-2'
     if (className.includes('btn-sm')) size = 'py-1'

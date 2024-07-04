@@ -1,4 +1,3 @@
-import React from 'react'
 import Card from './Card'
 import { usePage } from '@inertiajs/react';
 import Pagination from './Pagination';

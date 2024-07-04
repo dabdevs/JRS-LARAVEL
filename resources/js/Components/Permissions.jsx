@@ -1,5 +1,5 @@
 import { useForm } from '@inertiajs/react';
-import React, { useCallback } from 'react'
+import { useCallback } from 'react'
 import InputLabel from './InputLabel';
 import TextInput from './TextInput';
 import InputError from './InputError';

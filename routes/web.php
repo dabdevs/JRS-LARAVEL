@@ -24,6 +24,7 @@ Route::middleware('auth')->group(function () {
 
 // Listing routes
 Route::get('listing', [ListingController::class, 'index'])->name('listing.index');
+Route::get('cars/{slug}', [ListingController::class, 'displayCar'])->name('listing.car');
 
 // Roles routes
 Route::resource('roles', RoleController::class)->middleware(AdminMiddleware::class);

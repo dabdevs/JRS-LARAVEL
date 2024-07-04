@@ -1,6 +1,6 @@
 import { usePage } from '@inertiajs/react'
-import React from 'react'
 import { Link } from 'react-scroll'
+import Logo from './Logo'
 
 export default function Navbar() {
     const { url } = usePage()
@@ -8,12 +8,10 @@ export default function Navbar() {
     return (
         <header className="bg-white shadow-md">
             <div className="container mx-auto px-4 py-2 flex justify-between items-center">
-                <a href="/" className="text-xl font-bold text-primary">
-                    <img width="130" src="img/logo.png" alt="" />
-                </a>
+                <Logo />
 
                 {url !== '/' &&
-                    <div className="flex gap-2 w-1/3 justify-end hidden md:inline-block">
+                    <div className="gap-2 w-1/3 justify-end hidden md:inline-block">
                         <input type="text" placeholder="Search cars..." className="border rounded-lg p-2 w-3/4" />
                         <button type="submit" className='bg-primary font-bold text-white ml-1 py-2 px-4 rounded-lg hover:bg-white hover:border hover:border-primary hover:text-primary transition duration-300'>Search</button>
                     </div>
@@ -24,7 +22,6 @@ export default function Navbar() {
                     <Link
                         role="button"
                         className="text-primary font-bold hover:text-gray-500"
-                        activeclassName="active"
                         to="about-us"
                         spy={true}
                         smooth={true}
@@ -37,7 +34,6 @@ export default function Navbar() {
                     <Link
                         role="button"
                         className="text-primary font-bold hover:text-gray-500"
-                        activeclassName="active"
                         to="services"
                         spy={true}
                         smooth={true}
@@ -50,7 +46,6 @@ export default function Navbar() {
                     <Link
                         role="button"
                         className="text-primary font-bold hover:text-gray-500"
-                        activeclassName="active"
                         to="contact-us"
                         spy={true}
                         smooth={true}

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-scroll'
 
 export default function Hero() {
@@ -18,7 +17,6 @@ export default function Hero() {
                     <Link
                         role="button"
                         className="hover:text-primary hover:bg-white text-white font-bold py-2 px-6 rounded-lg transition duration-300 border border-white"
-                        activeclassName="active"
                         to="services"
                         spy={true}
                         smooth={true}

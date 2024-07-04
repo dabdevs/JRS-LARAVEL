@@ -15,6 +15,7 @@ class Car extends Model
      * @var array
      */
     protected $fillable = [
+        'slug',
         'make',
         'model',
         'year',

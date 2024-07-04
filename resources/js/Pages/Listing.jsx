@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import Checkbox from '@/Components/Checkbox';
-import GuestLayout from '@/Layouts/GuestLayout';
+import GuestLayout from '@/Layouts/GuestLayout'
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
@@ -19,7 +19,8 @@ export default function Index({ cars }) {
 
     return (
         <GuestLayout>
-            <Head title="Listing" />
+
+            <Head title="Car deals" />
 
             <div className="py-5 flex">
                 <Filter />

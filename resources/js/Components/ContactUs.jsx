@@ -1,8 +1,14 @@
-import React from 'react'
+import { useForm } from '@inertiajs/react'
 
 export default function ContactUs() {
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: '',
+        email: '',
+        message: '',
+    }); 
+
     return (
-        <section id="contact-us" className="py-20 border-b-2 border-primary bg-white">
+        <section id="contact-us" className="py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl font-bold">Contact Us</h2>

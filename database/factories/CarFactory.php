@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Car>
@@ -16,7 +17,7 @@ class CarFactory extends Factory
      */
     public function definition(): array
     {
-        return [
+        $data = [
             'make' => $this->faker->randomElement(['Toyota', 'Honda', 'Ford', 'Chevrolet', 'BMW', 'Lexus', 'Mercedes', 'Tesla', 'Nissan']),
             'model' => $this->faker->word,
             'year' => $this->faker->numberBetween(2000, 2024),
@@ -31,5 +32,10 @@ class CarFactory extends Factory
             'is_used' => $this->faker->boolean(),
             'is_published' => true,
         ];
+
+        $slug = Str::slug($data['make'] . "-" . $data['model'] . "-" . $data['year'] . "-" . $data['color'] . "-" . $data['mileage'] . "-" . $data['price'] . "-" . $data['transmission'] . "-" .$data['fuel_type'] . "-" .$data['body_type']. "-" . $data['engine_size'] . "-" . $data['doors']);
+        $data['slug'] = $slug;
+        
+        return $data;
     }
 }

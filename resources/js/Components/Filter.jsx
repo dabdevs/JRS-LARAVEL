@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function Filter() {
     return (
         <aside className="w-1/5 h-[1400px] bg-white p-4 rounded-lg shadow-md hidden md:block">

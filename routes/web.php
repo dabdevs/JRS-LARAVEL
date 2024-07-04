@@ -9,6 +9,7 @@ use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index'])->name('index');
+Route::get('/search/{keyword}', [ListingController::class, 'search'])->name('search');
 
 // Dashboard routes
 Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');

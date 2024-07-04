@@ -2,7 +2,7 @@ import { Link, usePage } from '@inertiajs/react';
 
 export default function Pagination() {
     const { cars } = usePage().props;
-
+    
     return (
         <div className="flex justify-center">
             <ul className="flex list-none lg:mt-6">

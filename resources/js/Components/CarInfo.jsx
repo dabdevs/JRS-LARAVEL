@@ -10,8 +10,8 @@ export default function CarInfo({car}) {
                 <li className="mb-2"><strong>Mileage:</strong> {car.mileage} miles</li>
                 <li className="mb-2"><strong>Price:</strong> ${car.price}</li>
                 <li className="mb-2"><strong>Transmission:</strong> {car.transmission}</li>
-                <li className="mb-2"><strong>Fuel Type:</strong> {car.fuelType}</li>
-                <li className="mb-2"><strong>Body Type:</strong> {car.bodyType}</li>
+                <li className="mb-2"><strong>Fuel Type:</strong> {car.fuel_type}</li>
+                <li className="mb-2"><strong>Body Type:</strong> {car.body_type}</li>
                 <li className="mb-2"><strong>Engine Size:</strong> {car.engineSize}L</li>
                 <li className="mb-2"><strong>Doors:</strong> {car.doors}</li>
                 <li className="mb-2"><strong>Condition:</strong> {car.isUsed ? 'Used' : 'New'}</li>

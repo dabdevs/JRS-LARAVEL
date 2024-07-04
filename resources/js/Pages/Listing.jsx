@@ -10,7 +10,7 @@ import Filter from '@/Components/Filter';
 import Footer from '@/Components/Footer';
 import CarsList from '@/Components/CarsList';
 
-export default function Index({ status, canResetPassword }) {
+export default function Index({ cars }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         password: '',
@@ -21,10 +21,10 @@ export default function Index({ status, canResetPassword }) {
         <GuestLayout>
             <Head title="Listing" />
 
-            <div className="py-2 flex">
+            <div className="py-5 flex">
                 <Filter />
 
-                <CarsList />
+                <CarsList cars={cars} />
             </div>
 
         </GuestLayout>

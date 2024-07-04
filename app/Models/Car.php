@@ -29,4 +29,14 @@ class Car extends Model
         'is_used',
         'is_published'
     ];
+
+    /**
+     * Get all of the images for the Car
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function images()
+    {
+        return $this->hasMany(Image::class);
+    }
 }

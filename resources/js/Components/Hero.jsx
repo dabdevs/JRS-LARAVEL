@@ -4,7 +4,7 @@ import { Link } from 'react-scroll'
 export default function Hero() {
     return (
         <div style={{
-            backgroundImage: "url('https://images.unsplash.com/photo-1591278169757-deac26e49555?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+            backgroundImage: "url('img/car-1.jpg')",
             backgroundSize: 'cover',
             backgroundPosition: 'center'
         }} className="hero-bg w-full h-screen flex items-center justify-center relative">
@@ -18,7 +18,7 @@ export default function Hero() {
                     <Link
                         role="button"
                         className="hover:text-primary hover:bg-white text-white font-bold py-2 px-6 rounded-lg transition duration-300 border border-white"
-                        activeClass="active"
+                        activeclassName="active"
                         to="services"
                         spy={true}
                         smooth={true}

@@ -1,15 +1,17 @@
 import React from 'react'
 
-export default function Card() {
+export default function Card({car}) {
+    const url = car.images[0]?.url
+
     return (
         <div className="bg-white p-3 rounded-lg shadow-md">
             <img
-                src="img/default-car.jpg"
-                alt="Car"
+                src={url}
+                alt={url}
                 className="w-full h-48 object-cover rounded-lg mb-4"
             />
             <div className="text-center">
-                <h3 className="text-xl text-primary font-bold mb-2">2019 Toyota Camry</h3>
+                <h3 className="text-xl text-primary font-bold mb-2">{`${car.year} ${car.make} ${car.model}`}</h3>
                 <p className="text-gray-600 text-sm mb-2">$22,000</p>
                 <p className="text-gray-600 text-sm mb-4">45,000 miles</p>
                 <a

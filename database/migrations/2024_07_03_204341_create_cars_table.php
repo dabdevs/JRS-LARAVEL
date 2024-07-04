@@ -26,6 +26,8 @@ return new class extends Migration
             $table->integer('doors')->unsigned()->nullable();
             $table->boolean('is_used')->default(true);
             $table->boolean('is_published')->default(false);
+            $table->index(['make', 'model', 'year']);
+            $table->index(['transmission', 'color', 'body_type']);
             $table->timestamps();
         });
     }

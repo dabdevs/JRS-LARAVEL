@@ -4,6 +4,7 @@ import { useState } from "react"
 export default function Filter({ manufacturers }) {
     const [models, setModels] = useState([])
     const { data, setData, get} = useForm({
+        state: [],
         make: [],
         model: [],
         body_type: [],
@@ -56,6 +57,9 @@ export default function Filter({ manufacturers }) {
                 case "cylinders":
                     setData('cylinders', [...data.cylinders, value])
                     break;
+                case "state":
+                    setData('state', [...data.state, value])
+                    break;
 
                 default:
                     break;
@@ -89,17 +93,28 @@ export default function Filter({ manufacturers }) {
                 case "cylinders":
                     setData('cylinders', data.cylinders.filter(filter => filter !== value))
                     break;
+                case "state":
+                    setData('state', data.state.filter(filter => filter !== value))
+                    break;
 
                 default:
                     break;
             }
         }
     }
-    
+    console.log(data)
     return (
         <aside className="w-1/5 p-4 rounded-lg hidden md:block">
             <form onSubmit={handleSubmit}>
                 <h2 className="text-lg font-bold mb-4">Filters</h2>
+
+                <div className="mb-4">
+                    <h3 className="font-semibold mb-2">State</h3>
+                    <div className="pl-1">
+                        <label className="block"><input onClick={handleCheckbox} name="state" value={'New'} type="checkbox" className="mr-2" /> New</label>
+                        <label className="block"><input onClick={handleCheckbox} name="state" value={'Used'} type="checkbox" className="mr-2" /> Used</label>
+                    </div>
+                </div>
 
                 <div className="mb-4">
                     <h3 className="font-semibold mb-2">Make</h3>

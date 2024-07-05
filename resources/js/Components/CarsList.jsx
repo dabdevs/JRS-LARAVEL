@@ -4,7 +4,6 @@ import Pagination from './Pagination';
 
 export default function CarsList() {
     const { cars } = usePage().props;
-    console.log(cars)
 
     return (
         <section className="w-full px-2 md:px-4 mx-auto">
@@ -13,10 +12,10 @@ export default function CarsList() {
             </div>
 
             {
-                cars?.data?.length == 0 ? <p className="p-8">
-                    No data found
+                cars?.data?.length == 0 ? <p className="p-8 mt-8 text-center font-bold text-2xl text-gray-600">
+                    No data found.
                 </p>
-                    : <Pagination />
+                    : <Pagination links={cars.links} />
             }
         </section>
     )

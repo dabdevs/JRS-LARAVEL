@@ -27,8 +27,6 @@ export default function Filter({ manufacturers }) {
                 console.log(page.props)
             }
         })
-
-        reset()
     }
 
     const handleCheckbox = (e) => {
@@ -101,7 +99,7 @@ export default function Filter({ manufacturers }) {
             }
         }
     }
-
+    
     return (
         <aside className="w-1/5 p-4 rounded-lg hidden md:block">
             <form onSubmit={handleSubmit}>

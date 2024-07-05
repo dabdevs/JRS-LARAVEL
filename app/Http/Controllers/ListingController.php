@@ -27,14 +27,14 @@ class ListingController extends Controller
             // Filter cars
             $query = Car::query();
             $filters = request()->all();
-
+            
             $query->select(['id', 'slug', 'make', 'model', 'year', 'price', 'mileage'])
                 ->with(['images' => function ($q) {
                     $q->select(['id', 'url', 'car_id'])->orderBy('id')->take(1);
                 }]);
-
-            if (!empty($filters["make"])) $query->orWhereIn('make', $filters["make"]);
-            if (!empty($filters["model"])) $query->orWhereIn('model', $filters["model"]);
+           
+            if (!empty($filters["make"])) $query->whereIn('make', $filters["make"]);
+            if (!empty($filters["model"])) $query->whereIn('model', $filters["model"]);
             if (!empty($filters["body_type"])) $query->orWhereIn('body_type', $filters["body_type"]);
             if (!empty($filters["fuelType"])) $query->orWhereIn('fuelType', $filters["fuelType"]);
             if (!empty($filters["size"])) $query->orWhereIn('size', $filters["size"]);

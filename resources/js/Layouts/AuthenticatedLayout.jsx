@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import ApplicationLogo from '@/Components/ApplicationLogo';
 import Dropdown from '@/Components/Dropdown';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import FlashMessage from '@/Components/FlashMessage';
 import Sidebar from '@/Components/Sidebar';
+import Logo from '@/Components/Logo';
 
 export default function AuthenticatedLayout({ user, permissions, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -17,7 +17,7 @@ export default function AuthenticatedLayout({ user, permissions, header, childre
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
                                 <Link href="/">
-                                    <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
+                                    <Logo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
 

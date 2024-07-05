@@ -1,8 +1,9 @@
 export default function CarInfo({car}) {
     return (
-        <div className="specs h-full w-full md:w-1/2 lg:py-4 lg:px-10">
+        <div className="specs h-full w-full md:w-1/2 lg:px-10">
             <h2 className="text-2xl font-bold mb-4">{`${car.year} ${car.make} ${car.model}`}</h2>
-            <ul className="list-none mb-4">
+            <ul className="list-none mb-2">
+                <li className="mb-2"><strong>State:</strong> {car.state}</li>
                 <li className="mb-2"><strong>Make:</strong> {car.make}</li>
                 <li className="mb-2"><strong>Model:</strong> {car.model}</li>
                 <li className="mb-2"><strong>Year:</strong> {car.year}</li>

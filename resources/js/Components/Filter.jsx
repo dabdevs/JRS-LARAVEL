@@ -3,7 +3,7 @@ import { useState } from "react"
 
 export default function Filter({ manufacturers }) {
     const [models, setModels] = useState([])
-    const { data, setData, post, setError, errors, reset } = useForm({
+    const { data, setData, get} = useForm({
         make: [],
         model: [],
         body_type: [],
@@ -22,11 +22,7 @@ export default function Filter({ manufacturers }) {
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        post(`/listing`, {
-            onSuccess: (page) => {
-                console.log(page.props)
-            }
-        })
+        get(`/listing`)
     }
 
     const handleCheckbox = (e) => {

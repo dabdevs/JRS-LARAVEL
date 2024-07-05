@@ -23,62 +23,59 @@ class ListingController extends Controller
             });
         });
 
-        if (request()->method() === "POST") {
-            // Filter cars
-            $query = Car::query();
-            $filters = request()->all();
-            
-            $query->select(['id', 'slug', 'make', 'model', 'year', 'price', 'mileage'])
-                ->with(['images' => function ($q) {
-                    $q->select(['id', 'url', 'car_id'])->orderBy('id')->take(1);
-                }]);
-           
-            if (!empty($filters["make"])) $query->whereIn('make', $filters["make"]);
-            if (!empty($filters["model"])) $query->whereIn('model', $filters["model"]);
-            if (!empty($filters["body_type"])) $query->orWhereIn('body_type', $filters["body_type"]);
-            if (!empty($filters["fuelType"])) $query->orWhereIn('fuelType', $filters["fuelType"]);
-            if (!empty($filters["size"])) $query->orWhereIn('size', $filters["size"]);
-            if (!empty($filters["doors"])) $query->orWhereIn('doors', $filters["doors"]);
-            if (!empty($filters["transmission"])) $query->orWhereIn('transmission', $filters["transmission"]);
-            if (!empty($filters["cylinders"])) $query->orWhereIn('cylinders', $filters["cylinders"]);
-            if (!empty($filters["minYear"])) $query->orWhere('year', '>', $filters["minYear"]);
-            if (!empty($filters["maxYear"])) $query->orWhere('year', '<', $filters["maxYear"]);
+        // Initiate query builder
+        $query = Car::query();
+       
+        $query->select(['id', 'slug', 'make', 'model', 'year', 'price', 'mileage'])
+            ->with(['images' => function ($q) {
+                $q->select(['id', 'url', 'car_id'])->orderBy('id')->take(1);
+            }]);
 
-            if (!empty($filters["price"])) {
-                $prices = explode("-", $filters["price"]);
-                $minPrice = (float)$prices[0];
-                $maxPrice = (float)$prices[1];
-
-                $query->whereBetween("price", [$minPrice, $maxPrice]);
-            }
-
-            if (!empty($filters["mileage"])) {
-                $mileage = explode("-", $filters["mileage"]);
-                $minMileage = (int)$mileage[0];
-                $maxMileage = (int)$mileage[1];
-
-                $query->whereBetween("mileage", [$minMileage, $maxMileage]);
-            }
-
-            // Execute the query and paginate results
-            $cars = $query->paginate(20);
-
-            return inertia('Listing', [
-                'cars' => $cars,
-                'manufacturers' => $formadedMakeModels,
-            ]);
+        // search
+        if (request('search')) {
+            $query->where("slug", "like", "%" . request('search') . "%");
         }
 
-        $cars = Cache::remember('cars', 10, function () {
-            return Car::select(['id', 'slug', 'make', 'model', 'year', 'price', 'mileage'])
-                ->with(['images' => function ($query) {
-                    $query->select(['id', 'url', 'car_id'])->orderBy('id')->take(1);
-                }])
-                ->paginate(20);
-        });
+        $filters = request()->all();
+
+        if (!empty($filters["make"])) $query->whereIn('make', $filters["make"]);
+        if (!empty($filters["model"])) $query->whereIn('model', $filters["model"]);
+        if (!empty($filters["body_type"])) $query->orWhereIn('body_type', $filters["body_type"]);
+        if (!empty($filters["fuelType"])) $query->orWhereIn('fuelType', $filters["fuelType"]);
+        if (!empty($filters["size"])) $query->orWhereIn('size', $filters["size"]);
+        if (!empty($filters["doors"])) $query->orWhereIn('doors', $filters["doors"]);
+        if (!empty($filters["transmission"])) $query->orWhereIn('transmission', $filters["transmission"]);
+        if (!empty($filters["cylinders"])) $query->orWhereIn('cylinders', $filters["cylinders"]);
+        if (!empty($filters["minYear"])) $query->orWhere('year', '>', $filters["minYear"]);
+        if (!empty($filters["maxYear"])) $query->orWhere('year', '<', $filters["maxYear"]);
+
+        if (!empty($filters["price"])) {
+            $prices = explode("-", $filters["price"]);
+            $minPrice = (float)$prices[0];
+            $maxPrice = (float)$prices[1];
+
+            $query->whereBetween("price", [$minPrice, $maxPrice]);
+        }
+
+        if (!empty($filters["mileage"])) {
+            $mileage = explode("-", $filters["mileage"]);
+            $minMileage = (int)$mileage[0];
+            $maxMileage = (int)$mileage[1];
+
+            $query->whereBetween("mileage", [$minMileage, $maxMileage]);
+        }
+
+        // Execute the query and paginate results
+        $cars = $query->paginate(20);
 
         return inertia('Listing', [
             'cars' => $cars,
+            'manufacturers' => $formadedMakeModels,
+        ]);
+
+        return inertia('Listing', [
+            'cars' => $query->paginate(20),
+            'count' => Car::count(),
             'manufacturers' => $formadedMakeModels,
         ]);
     }
@@ -104,23 +101,6 @@ class ListingController extends Controller
         return inertia('DisplayCar', [
             'car' => $car,
             'similarCars' => $similarCars
-        ]);
-    }
-
-    /**
-     *  Search a car by keyword
-     */
-    public function search($keyword)
-    {
-        $cars = Car::select(['id', 'slug', 'make', 'model', 'year', 'price'])
-            ->where("slug", "like", "%" . $keyword . "%")
-            ->with(['images' => function ($query) {
-                $query->select(['id', 'url', 'car_id'])->orderBy('id')->take(1);
-            }])
-            ->paginate(20);
-
-        return inertia('Listing', [
-            'cars' => $cars,
         ]);
     }
 }

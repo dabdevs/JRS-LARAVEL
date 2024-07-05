@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
 // Listing routes
 Route::match(['get', 'post'], '/listing', [ListingController::class, 'index']);
 Route::get('cars/{slug}', [ListingController::class, 'displayCar'])->name('listing.car');
-Route::get('/search/{keyword}', [ListingController::class, 'search'])->name('search');
+// Route::get('listing/search', [ListingController::class, 'search'])->name('search');
 
 // Roles routes
 Route::resource('roles', RoleController::class)->middleware(AdminMiddleware::class);

@@ -9,7 +9,6 @@ use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index'])->name('index');
-Route::get('/search/{keyword}', [ListingController::class, 'search'])->name('search');
 
 // Dashboard routes
 Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
@@ -22,8 +21,9 @@ Route::middleware('auth')->group(function () {
 });
 
 // Listing routes
-Route::get('listing', [ListingController::class, 'index'])->name('listing.index');
+Route::match(['get', 'post'], '/listing', [ListingController::class, 'index']);
 Route::get('cars/{slug}', [ListingController::class, 'displayCar'])->name('listing.car');
+Route::get('/search/{keyword}', [ListingController::class, 'search'])->name('search');
 
 // Roles routes
 Route::resource('roles', RoleController::class)->middleware(AdminMiddleware::class);

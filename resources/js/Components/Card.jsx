@@ -11,7 +11,7 @@ export default function Card({car}) {
             <div className="text-center">
                 <h3 className="text-xl text-primary font-bold mb-2">{`${car?.year} ${car?.make} ${car?.model}`}</h3>
                 <p className="text-gray-600 text-sm mb-2">$ {car.price}</p>
-                <p className="text-gray-600 text-sm mb-4">{car.mileage} miles</p>
+                <p className="text-gray-600 text-sm mb-4 w-full">{car.mileage} miles</p>
                 <a
                     href="#"
                     className="inline-block bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-lg transition duration-300"

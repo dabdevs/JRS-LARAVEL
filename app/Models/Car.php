@@ -27,6 +27,7 @@ class Car extends Model
         'body_type',
         'engine_size',
         'doors',
+        'cylinders',
         'is_used',
         'is_published'
     ];

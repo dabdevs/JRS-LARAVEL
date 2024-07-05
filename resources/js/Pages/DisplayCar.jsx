@@ -13,7 +13,7 @@ export default function DisplayCar({ car, similarCars }) {
 
             <div className="bg-gray-100 text-gray-800 min-h-screen">
 
-                <section className="flex-column lg:flex lg:flex-wrap p-6 lg:h-[500px]">
+                <section className="flex-column lg:flex lg:flex-wrap p-6">
 
                     <Carousel images={car?.images} />
 

@@ -13,7 +13,7 @@ export default function Carousel({images}) {
         <div className="h-full w-full md:w-1/2">
             <Slider {...settings}>
                 {images?.map(img => (
-                    <div key={img.url} className='lg:h-[500px]'>
+                    <div key={img.url} className='lg:h-[530px]'>
                         <img src={`/${img.url}`} alt="Car Image" className="w-full h-full object-cover" />
                     </div>
                 ))}

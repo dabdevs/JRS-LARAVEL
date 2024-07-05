@@ -10,20 +10,14 @@ import Filter from '@/Components/Filter';
 import Footer from '@/Components/Footer';
 import CarsList from '@/Components/CarsList';
 
-export default function Index({ cars }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
-        email: '',
-        password: '',
-        remember: false,
-    });
-
+export default function Index({ cars, manufacturers }) {
     return (
         <GuestLayout>
 
             <Head title="Car deals" />
 
             <div className="py-5 flex">
-                <Filter />
+                <Filter manufacturers={manufacturers} />
 
                 <CarsList cars={cars} />
             </div>

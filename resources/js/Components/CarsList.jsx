@@ -4,6 +4,7 @@ import Pagination from './Pagination';
 
 export default function CarsList() {
     const { cars } = usePage().props;
+    console.log(cars)
 
     return (
         <section className="w-full px-2 md:px-4 mx-auto">
@@ -11,7 +12,12 @@ export default function CarsList() {
                 {cars?.data?.map(car => <Card  key={car.id} car={car} /> )}
             </div>
 
-            <Pagination />
+            {
+                cars?.data?.length == 0 ? <p className="p-8">
+                    No data found
+                </p>
+                    : <Pagination />
+            }
         </section>
     )
 }

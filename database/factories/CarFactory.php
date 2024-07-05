@@ -25,6 +25,7 @@ class CarFactory extends Factory
             'mileage' => $this->faker->numberBetween(0, 100000),
             'price' => $this->faker->numberBetween(5000, 50000),
             'transmission' => $this->faker->randomElement(['Automatic', 'Manual']),
+            'cylinders' => $this->faker->randomElement([4, 6, 8]),
             'fuel_type' => $this->faker->randomElement(['Gasoline', 'Diesel', 'Electric']),
             'body_type' => $this->faker->randomElement(['Sedan', 'SUV', 'Truck', 'Coupe']),
             'engine_size' => $this->faker->randomFloat(2, 1.0, 5.0),

@@ -1,6 +1,6 @@
 export default function CarInfo({car}) {
     return (
-        <div className="specs h-full w-full md:w-1/2 py-4 px-10">
+        <div className="specs h-full w-full md:w-1/2 lg:py-4 lg:px-10">
             <h2 className="text-2xl font-bold mb-4">{`${car.year} ${car.make} ${car.model}`}</h2>
             <ul className="list-none mb-4">
                 <li className="mb-2"><strong>Make:</strong> {car.make}</li>
@@ -8,11 +8,12 @@ export default function CarInfo({car}) {
                 <li className="mb-2"><strong>Year:</strong> {car.year}</li>
                 <li className="mb-2"><strong>Color:</strong> {car.color}</li>
                 <li className="mb-2"><strong>Mileage:</strong> {car.mileage} miles</li>
-                <li className="mb-2"><strong>Price:</strong> ${car.price}</li>
+                <li className="mb-2"><strong>Price:</strong> $ {car.price}</li>
                 <li className="mb-2"><strong>Transmission:</strong> {car.transmission}</li>
                 <li className="mb-2"><strong>Fuel Type:</strong> {car.fuel_type}</li>
                 <li className="mb-2"><strong>Body Type:</strong> {car.body_type}</li>
-                <li className="mb-2"><strong>Engine Size:</strong> {car.engineSize}L</li>
+                <li className="mb-2"><strong>Engine Size:</strong> {car.engine_size}</li>
+                <li className="mb-2"><strong>Cylinders:</strong> {car.cylinders}</li>
                 <li className="mb-2"><strong>Doors:</strong> {car.doors}</li>
                 <li className="mb-2"><strong>Condition:</strong> {car.isUsed ? 'Used' : 'New'}</li>
             </ul>

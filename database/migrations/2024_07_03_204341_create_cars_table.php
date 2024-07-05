@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('body_type')->nullable();
             $table->string('engine_size')->nullable();
             $table->integer('doors')->unsigned()->nullable();
+            $table->integer('cylinders')->unsigned()->nullable();
             $table->boolean('is_used')->default(true);
             $table->boolean('is_published')->default(false);
             $table->index(['make', 'model', 'year']);

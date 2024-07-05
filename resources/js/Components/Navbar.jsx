@@ -11,7 +11,7 @@ export default function Navbar() {
             <div className="container mx-auto px-4 py-2 flex justify-between items-center">
                 <Logo />
 
-                {url !== '/' && <SearchForm />}
+                {(url.includes('/cars/') || url === '/listing') && <SearchForm />}
 
                 {url === '/' && <nav className="space-x-8 hidden md:block">
                     <Link role="button" to="/" className="text-primary font-bold hover:text-gray-500">Home</Link>

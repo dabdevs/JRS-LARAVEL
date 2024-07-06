@@ -157,6 +157,8 @@ class CarFactory extends Factory
             'engine_size' => $this->faker->randomFloat(2, 1.0, 5.0),
             'doors' => $this->faker->numberBetween(2, 5),
             'is_published' => true,
+            'date_published' => now(),
+            'is_published' => true,
         ];
 
         $slug = Str::slug($data['make'] . "-" . $data['model'] . "-" . $data['year'] . "-" . $data['color'] . "-" . $data['mileage'] . "-" . $data['price'] . "-" . $data['transmission'] . "-" .$data['fuel_type'] . "-" .$data['body_type']. "-" . $data['engine_size'] . "-" . $data['doors']);

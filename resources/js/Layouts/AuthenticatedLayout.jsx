@@ -4,7 +4,6 @@ import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import FlashMessage from '@/Components/FlashMessage';
 import Sidebar from '@/Components/Sidebar';
-import Logo from '@/Components/Logo';
 
 export default function AuthenticatedLayout({ user, permissions, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
@@ -34,10 +33,10 @@ export default function AuthenticatedLayout({ user, permissions, header, childre
                                     </div>
 
                                     {/* <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                    Dashboard
-                                </NavLink>
-                            </div> */}
+                                        <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                            Dashboard
+                                        </NavLink>
+                                    </div> */}
                                 </div>
 
                                 <div className="hidden sm:flex sm:items-center sm:ms-6">

@@ -30,6 +30,7 @@ return new class extends Migration
             $table->boolean('is_published')->default(false);
             $table->index(['make', 'model', 'year']);
             $table->index(['transmission', 'slug', 'body_type']);
+            $table->dateTime('date_published')->nullable();
             $table->timestamps();
         });
     }

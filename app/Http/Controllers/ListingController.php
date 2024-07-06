@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Car;
-use App\Models\Manufacturer;
 use Illuminate\Support\Facades\Cache;
 
 class ListingController extends Controller
@@ -32,7 +31,7 @@ class ListingController extends Controller
         $query = Car::query()->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
             ->with(['images' => function ($q) {
                 $q->select(['id', 'url', 'car_id'])->orderBy('id')->take(1);
-            }]);
+            }])->where('is_published', true);
 
         // search
         if (request('search')) {
@@ -67,6 +66,27 @@ class ListingController extends Controller
             $maxMileage = (int)$mileage[1];
 
             $query->whereBetween("mileage", [$minMileage, $maxMileage]);
+        }
+
+        // sorBy
+        if (!empty(request('sortBy'))) {
+            $order = request('sortBy');
+            $field = null;
+
+            if ($order === "lowest-price") {
+                $field = "price";
+                $order = "ASC";
+            }
+            if ($order === "highest-price") {
+                $field = "price";
+                $order = "DESC";
+            }
+            if ($order === "newest") {
+                $field = "date_published";
+                $order = "ASC";
+            }
+
+            if (!is_null($field)) $query->orderBy($field, $order);
         }
 
         // Execute the query and paginate results

@@ -26,7 +26,7 @@ class ListingController extends Controller
             }
 
             return $carsData;
-        });
+        }); 
 
         // Initiate query builder
         $query = Car::query()->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])

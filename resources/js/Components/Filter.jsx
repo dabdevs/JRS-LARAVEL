@@ -222,7 +222,7 @@ export default function Filter({ manufacturers }) {
                 </div>
 
                 <div className="mb-4">
-                    <button type="submit" className='bg-gray-700 w-full font-bold text-white ml-1 py-2 px-4 rounded-lg hover:bg-white hover:border-2 hover:border-primary hover:text-primary transition duration-300'>Filter</button>
+                    <button type="submit" className='bg-gray-700 border-gray-700 w-full font-bold text-white ml-1 py-2 px-4 rounded-lg hover:bg-white border-2 hover:border-primary hover:text-primary transition duration-300'>Filter</button>
                 </div>
             </form>
         </aside>

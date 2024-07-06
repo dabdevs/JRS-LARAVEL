@@ -85,7 +85,7 @@ export default function Login({ status, canResetPassword }) {
                             </Link>
                         )}
 
-                        <button type="submit" disabled={processing} className="mt-3 bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-primary hover:border-2 hover:border-primary transition duration-300 w-full">Login</button>
+                        <button type="submit" disabled={processing} className="mt-3 bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-primary border-2 hover:border-primary transition duration-300 w-full">Login</button>
                     </form>
                 </div>
             </div>

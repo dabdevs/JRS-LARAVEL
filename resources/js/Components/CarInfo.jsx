@@ -18,7 +18,7 @@ export default function CarInfo({car}) {
                 <li className="mb-2"><strong>Doors:</strong> {car.doors}</li>
                 <li className="mb-2"><strong>Condition:</strong> {car.isUsed ? 'Used' : 'New'}</li>
             </ul>
-            <button className="w-full mt-1 bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:border-2 hover:border-primary hover:text-primary transition duration-300">Contact Us</button>
+            <button className="w-full bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white border-2 hover:border-primary hover:text-primary transition duration-300">Contact Us</button>
         </div>
     )
 }

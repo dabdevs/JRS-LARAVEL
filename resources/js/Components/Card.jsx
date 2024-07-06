@@ -17,7 +17,7 @@ export default function Card({car}) {
                 </div>
                 <a
                     href="#"
-                    className="inline-block bg-primary hover:bg-primary-dark text-white font-bold py-2 px-4 rounded-lg transition duration-300"
+                    className="inline-block bg-primary border-2 hover:bg-white hover:border-primary hover:text-primary text-white font-bold py-2 px-4 rounded-lg transition duration-300"
                 >
                     View Details
                 </a>

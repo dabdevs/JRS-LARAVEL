@@ -8,7 +8,7 @@ export default function Pagination({links}) {
                     <li key={i} className='mx-1'>
                         {page.url ? (
                             <Link
-                                className={`px-4 py-2 ${page.active ? 'bg-primary text-white hover:bg-white hover:text-primary' : 'bg-white text-primary'} hover:border-primary text-bold rounded hover:border-2`}
+                                className={`px-4 py-2 ${page.active ? 'bg-primary text-white hover:bg-white hover:text-primary' : 'bg-white text-primary'} hover:border-primary text-bold rounded border-2`}
                                 href={page.url}
                             >
                                 {page.label.includes('Previous') ? 'Previous' : (page.label.includes('Next') ? 'Next' : page.label)}

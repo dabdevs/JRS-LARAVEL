@@ -8,7 +8,7 @@ export default function CarsList() {
     const { data, setData, get } = useForm({
         sortBy: 'best-match',
     }) 
-    const { url, props } = usePage();
+    const { url } = usePage();
 
     const submitBtnRef = useRef(null) 
 

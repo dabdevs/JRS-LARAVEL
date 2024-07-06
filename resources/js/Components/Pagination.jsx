@@ -1,6 +1,15 @@
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
 export default function Pagination({links}) {
+    const { url } = usePage();
+
+    // Preserve existing filters
+    const currentQueryParams = new URLSearchParams(url.split('?')[1]);
+    const newQueryParams = new URLSearchParams(currentQueryParams);
+    
+    // Delete existing url page parameter
+    newQueryParams.delete('page')
+
     return (
         <div className="flex justify-center">
             <ul className="flex list-none lg:mt-6">
@@ -9,7 +18,7 @@ export default function Pagination({links}) {
                         {page.url ? (
                             <Link
                                 className={`px-4 py-2 ${page.active ? 'bg-primary text-white hover:bg-white hover:text-primary' : 'bg-white text-primary'} hover:border-primary text-bold rounded border-2`}
-                                href={page.url}
+                                href={`${page.url}&${newQueryParams.toString()}`}
                             >
                                 {page.label.includes('Previous') ? 'Previous' : (page.label.includes('Next') ? 'Next' : page.label)}
                             </Link>

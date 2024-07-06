@@ -13,14 +13,19 @@ class ListingController extends Controller
      */
     public function index()
     {
-        $formadedMakeModels = Cache::rememberForever('formadedMakeModels', function () {
-            // Retrieve all manufacturers with their models
-            $manufacturers = Manufacturer::with('models')->get();
+        $formadedMakeModels = Cache::remember('formadedMakeModels', 60, function() {
+            $carsData = [];
+            $cars = Car::select(['make', 'model'])->where('is_published', true)->get();
 
-            // Format the data using Laravel Collection methods
-            return $manufacturers->mapWithKeys(function ($manufacturer) {
-                return [$manufacturer->name => $manufacturer->models->pluck('name')->toArray()];
-            });
+            foreach ($cars as $car) {
+                if (!array_key_exists($car->make, $carsData)) {
+                    $carsData[$car->make] = [];
+                }
+
+                array_push($carsData[$car->make], $car->model);
+            }
+
+            return $carsData;
         });
 
         // Initiate query builder

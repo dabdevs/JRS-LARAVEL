@@ -12,13 +12,25 @@ import PlusIcon from '@/Components/PlusIcon';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import DangerButton from '@/Components/DangerButton';
+import Pagination from '@/Components/Pagination';
 
 const Cars = React.memo(({ auth, cars }) => {
     const { isOpen, openModal, closeModal } = useModal();
     const { data, setData, delete: destroy, reset } = useForm({
-        id: '',
-        name: '',
-        permissions: []
+        id: 0,
+        state: '',
+        make: '',
+        model: '',
+        body_type: '',
+        year: '',
+        price: '',
+        mileage: '',
+        fuel_type: '',
+        doors: '',
+        transmission: '',
+        cylinders: '',
+        images: [],
+        search: ''
     });
 
     const handleDelete = (id) => {
@@ -56,36 +68,70 @@ const Cars = React.memo(({ auth, cars }) => {
             user={auth.user}
         >
             <section className="w-full px-4 container mx-auto">
-                <SuccessButton onClick={() => { reset(); openModal() }}>
-                    <PlusIcon />
-                    New
-                </SuccessButton>
-
                 <Modal isOpen={isOpen} closeModal={closeModal}>
                     <Car car={data} />
                 </Modal>
 
-                <div className="flex flex-col">
+                <div className="flex justify-between">
+                    <SuccessButton onClick={() => { reset(); openModal() }}>
+                        <PlusIcon />
+                        New
+                    </SuccessButton>
+                    
+                    <input onChange={(e) => setData('search', e.target.value)} value={data.search} type="text" placeholder="Search cars..." className="border rounded-lg p-2 w-[200px]" />
+                </div>
+
+                <div className="flex flex-col pb-5">
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                             <div className="overflow-hidden border border-gray-200 md:rounded-lg">
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
+                                            <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500"></th>
+
                                             <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">
-                                                ID
+                                                State
                                             </th>
 
                                             <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                                                Name
+                                                Make
                                             </th>
 
                                             <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                                                Date Created
+                                                Model
                                             </th>
 
                                             <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
-                                                Last Updated
+                                                Body Type
+                                            </th>
+
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                                Year
+                                            </th>
+
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                                Price
+                                            </th>
+
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                                Mileage
+                                            </th>
+
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                                Fuel Type
+                                            </th>
+
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                                Doors
+                                            </th>
+
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                                Transmission
+                                            </th>
+
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                                Cylinders
                                             </th>
 
                                             <th scope="col" className="relative py-3.5 px-4">
@@ -94,20 +140,50 @@ const Cars = React.memo(({ auth, cars }) => {
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
-                                        {cars?.map(r => (
-                                            <tr key={r.id}>
-                                                <td className="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                                    {r.id}
+                                        {cars?.data?.map(car => (
+                                            <tr key={car.id}>
+                                                <td className="h-[100px] p-2 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                                    <img className='w-[120px] h-full' src={car.images[0].url} alt={car.images[0].url} />
                                                 </td>
-                                                <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">
-                                                    {r.name}
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.state}
                                                 </td>
-                                                <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">{format(new Date(r.created_at), 'MMMM dd, yyyy')}</td>
-                                                <td className="px-4 py-4 text-sm text-gray-500 whitespace-nowrap">{formatDistanceToNow(parseISO(r.updated_at))} ago</td>
-                                                <td className="px-4 py-4 text-sm whitespace-nowrap">
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.make}
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.model}
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.body_type}
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.year}
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.price}
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.mileage}
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.fuel_type}
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.doors}
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.transmission}
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {car.cylinders}
+                                                </td>
+                                                {/* <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{format(new Date(car.created_at.toIso8601String()), 'MMMM dd, yyyy')}</td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{formatDistanceToNow(parseISO(car.updated_at.toIso8601String()))} ago</td> */}
+                                                <td className="p-2 text-sm whitespace-nowrap">
                                                     <div className="flex items-center gap-x-6">
-                                                        <EditButton onClick={() => { setData({ 'id': r.id, 'name': r.name, 'permissions': r.permissions }); openModal() }} className='btn-sm' />
-                                                        <DeleteButton onClick={() => handleDelete(r.id)} className='btn-sm' />
+                                                        <EditButton onClick={() => { setData({ 'id': car.id, 'name': car.name, 'permissions': car.permissions }); openModal() }} className='btn-sm' />
+                                                        <DeleteButton onClick={() => handleDelete(car.id)} className='btn-sm' />
                                                     </div>
                                                 </td>
                                             </tr>
@@ -116,13 +192,15 @@ const Cars = React.memo(({ auth, cars }) => {
                                 </table>
                             </div>
                         </div>
+
+                        <div className="py-2">
+                            <Pagination links={cars.links} />
+                        </div>
                     </div>
                 </div>
-
-                {/* {showForm && <Car car={data} setShowForm={setShowForm} />} */}
             </section>
         </AuthenticatedLayout>
     )
 })
 
-export default cars
+export default Cars

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CarController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
@@ -29,6 +30,9 @@ Route::get('cars/{slug}', [ListingController::class, 'displayCar'])->name('listi
 Route::resource('roles', RoleController::class)->middleware(AdminMiddleware::class);
 Route::post('/roles/{roleId}/add', [RoleController::class, 'addPermission'])->name('roles.permissions.add');
 Route::post('/roles/{roleId}/remove', [RoleController::class, 'removePermission'])->name('roles.permissions.remove');
+
+// Cars routes
+Route::resource('cars', CarController::class)->middleware(AdminMiddleware::class);
 
 Route::fallback(function () {
     return redirect('/');

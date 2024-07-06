@@ -24,9 +24,7 @@ class ListingController extends Controller
         });
 
         // Initiate query builder
-        $query = Car::query();
-       
-        $query->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
+        $query = Car::query()->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
             ->with(['images' => function ($q) {
                 $q->select(['id', 'url', 'car_id'])->orderBy('id')->take(1);
             }]);
@@ -37,7 +35,7 @@ class ListingController extends Controller
         }
 
         $filters = request()->all();
-        
+
         if (!empty($filters["state"])) $query->whereIn('state', $filters["state"]);
         if (!empty($filters["make"])) $query->whereIn('make', $filters["make"]);
         if (!empty($filters["model"])) $query->whereIn('model', $filters["model"]);

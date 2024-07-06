@@ -102,7 +102,7 @@ export default function Filter({ manufacturers }) {
             }
         }
     }
-    console.log(data)
+    
     return (
         <aside className="w-1/5 p-4 rounded-lg hidden md:block">
             <form onSubmit={handleSubmit}>

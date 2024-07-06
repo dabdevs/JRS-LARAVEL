@@ -32,16 +32,17 @@ export default function Login({ status, canResetPassword }) {
 
             {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}
 
-            <div class="bg-gray-100 flex justify-center items-center h-screen">
-             
-                <div class="w-1/2 h-screen hidden lg:block">
-                    <img src="/img/car-login.jpg" alt="Placeholder Image" class="object-cover w-full h-full" />
+            <div className="bg-gray-100 flex justify-center items-center h-screen">
+
+                <div className="w-1/2 h-screen hidden lg:block">
+                    <img src="/img/car-login.jpg" alt="Placeholder Image" className="object-cover w-full h-full" />
                 </div>
-               
-                <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
-                    <h1 class="text-2xl font-semibold mb-4">Admin</h1>
-                    <form onSubmit={submit}>
+
+                <div className="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
+                    <h1 className="text-2xl font-semibold mb-4">Admin</h1>
                     
+                    <form onSubmit={submit}>
+
                         <div>
                             <InputLabel htmlFor="email" value="Email" />
 
@@ -83,8 +84,8 @@ export default function Login({ status, canResetPassword }) {
                                 Forgot your password?
                             </Link>
                         )}
-                 
-                        <button type="submit" disabled={processing} class="mt-3 bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-primary hover:border-2 hover:border-primary transition duration-300 w-full">Login</button>
+
+                        <button type="submit" disabled={processing} className="mt-3 bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-primary hover:border-2 hover:border-primary transition duration-300 w-full">Login</button>
                     </form>
                 </div>
             </div>

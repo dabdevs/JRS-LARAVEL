@@ -4,7 +4,7 @@ import { Head} from '@inertiajs/react';
 import Filter from '@/Components/Filter';
 import CarsList from '@/Components/CarsList';
 
-export default function Index({ cars, manufacturers}) {
+export default function Listing({ cars, manufacturers}) {
     return (
         <GuestLayout>
 

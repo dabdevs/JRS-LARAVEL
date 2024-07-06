@@ -8,6 +8,7 @@ export default function CarsList() {
     const { data, setData, get } = useForm({
         sortBy: 'best-match',
     }) 
+    const { url, props } = usePage();
 
     const submitBtnRef = useRef(null) 
 
@@ -19,7 +20,7 @@ export default function CarsList() {
 
     const handleSortBy = (e) => {
         setData('sortBy', e.target.value)
-      
+
         setTimeout(() => {
             console.log('click submit button')
             handleTriggerClick()
@@ -28,7 +29,11 @@ export default function CarsList() {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        get(`/listing`, {preserveState: true})
+        const currentQueryParams = new URLSearchParams(url.split('?')[1]);
+        const newQueryParams = new URLSearchParams(currentQueryParams);
+        newQueryParams.set('sortBy', data.sortBy);
+
+        get(`/listing?${newQueryParams.toString()}`, { preserveState: true, preserveScroll: true });
     }
 
     return (

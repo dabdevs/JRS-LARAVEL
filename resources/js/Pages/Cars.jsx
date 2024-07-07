@@ -13,6 +13,8 @@ import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
 import DangerButton from '@/Components/DangerButton';
 import Pagination from '@/Components/Pagination';
+import SearchForm from '@/Components/SearchForm';
+import ClearFilters from '@/Components/ClearFilters';
 
 const Cars = React.memo(({ auth, cars }) => {
     const { isOpen, openModal, closeModal } = useModal();
@@ -78,13 +80,16 @@ const Cars = React.memo(({ auth, cars }) => {
                         New
                     </SuccessButton>
                     
-                    <input onChange={(e) => setData('search', e.target.value)} value={data.search} type="text" placeholder="Search cars..." className="border rounded-lg p-2 w-[200px]" />
+                    <SearchForm admin={true} />
                 </div>
 
                 <div className="flex flex-col pb-5">
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                             <div className="overflow-hidden border border-gray-200 md:rounded-lg">
+                                <div className="p-2">
+                                    <ClearFilters admin={true} data={cars} />
+                                </div>
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
@@ -181,21 +186,27 @@ const Cars = React.memo(({ auth, cars }) => {
                                                 {/* <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{format(new Date(car.created_at.toIso8601String()), 'MMMM dd, yyyy')}</td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{formatDistanceToNow(parseISO(car.updated_at.toIso8601String()))} ago</td> */}
                                                 <td className="p-2 text-sm whitespace-nowrap">
-                                                    <div className="flex items-center gap-x-6">
+                                                    <div className="flex items-center gap-x-3">
                                                         <EditButton onClick={() => { setData({ 'id': car.id, 'name': car.name, 'permissions': car.permissions }); openModal() }} className='btn-sm' />
                                                         <DeleteButton onClick={() => handleDelete(car.id)} className='btn-sm' />
                                                     </div>
                                                 </td>
                                             </tr>
                                         ))}
+
+                                        {
+                                            cars?.data?.length === 0 && <tr className="p-8 mt-8 text-center font-bold text-2xl text-gray-600">
+                                                <td className='py-5' colSpan={13}>No data found.</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                             </div>
                         </div>
 
-                        <div className="py-2">
+                        {cars?.data?.length > 0 && <div className="py-2">
                             <Pagination links={cars.links} />
-                        </div>
+                        </div>}
                     </div>
                 </div>
             </section>

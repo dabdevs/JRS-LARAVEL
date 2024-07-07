@@ -6,7 +6,7 @@ export default function Sidebar() {
     const { can } = usePermissions()
 
     return (
-        <aside className="flex">
+        <aside className="flex min-h-screen">
             <div className="h-full w-52 px-2 py-2 bg-white shadow-md">
                 <div className="px-8">
                     <Logo />

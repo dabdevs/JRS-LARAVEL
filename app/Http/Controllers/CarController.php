@@ -6,6 +6,8 @@ use App\Http\Requests\CarRequest;
 use App\Models\Car;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CarController extends Controller
 {
@@ -82,12 +84,25 @@ class CarController extends Controller
     /**
      *  Delete existing car
      */
-    public function destroy($id)
+    public function destroy(Car $car)
     {
         try {
-            Car::destroy($id);
+            DB::transaction(function () use ($car) {
+                // Delete the image files from the storage first
+                // foreach ($car->images as $image) {
+                //     Storage::delete($image->url);
+                // }
+
+                // Delete the images from the database
+                $car->images()->delete();
+
+                // Then delete the car
+                $car->delete();
+            });
+
             return redirect()->back()->with('success', 'Car deleted successfuly.');
         } catch (\Throwable $th) {
+            DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());
         }
     }

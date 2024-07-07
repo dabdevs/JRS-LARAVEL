@@ -1,6 +1,6 @@
 import { useForm } from '@inertiajs/react'
 
-export default function SearchForm() {
+export default function SearchForm({admin}) {
     const { data, setData, get, reset } = useForm({
         search: '',
     })
@@ -10,7 +10,7 @@ export default function SearchForm() {
 
         if (data.search === '') return
         
-        get(`/listing`)
+        get(`${admin ? '/cars' : '/listing'}`)
 
         reset('search')
     }

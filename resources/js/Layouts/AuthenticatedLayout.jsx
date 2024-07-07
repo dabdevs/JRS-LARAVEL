@@ -21,9 +21,9 @@ export default function AuthenticatedLayout({ user, permissions, header, childre
                 
                 <Sidebar user={user} />
 
-                <div className='px-4 w-full'>
+                <div className='w-full'>
                     <nav className="border-b border-gray-100">
-                        <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
+                        <div className="max-w-8xl mx-auto sm:px-6 lg:px-4">
                             <div className="flex justify-between h-16">
                                 <div className="flex">
                                     <div className="shrink-0 flex items-center">
@@ -31,12 +31,6 @@ export default function AuthenticatedLayout({ user, permissions, header, childre
                                             {/* <Logo className="block h-9 w-auto fill-current text-gray-800" /> */}
                                         </Link>
                                     </div>
-
-                                    {/* <div className="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                        <NavLink href={route('dashboard')} active={route().current('dashboard')}>
-                                            Dashboard
-                                        </NavLink>
-                                    </div> */}
                                 </div>
 
                                 <div className="hidden sm:flex sm:items-center sm:ms-6">
@@ -46,7 +40,7 @@ export default function AuthenticatedLayout({ user, permissions, header, childre
                                                 <span className="inline-flex rounded-md">
                                                     <button
                                                         type="button"
-                                                        className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                        className="inline-flex items-center py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                                     >
                                                         {user.name}
 

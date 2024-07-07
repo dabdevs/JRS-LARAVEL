@@ -23,7 +23,7 @@ Route::middleware('auth')->group(function () {
 
 // Listing routes
 Route::match(['get', 'post'], '/listing', [ListingController::class, 'index']);
-Route::get('cars/{slug}', [ListingController::class, 'displayCar'])->name('listing.car');
+Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('listing.car');
 // Route::get('listing/search', [ListingController::class, 'search'])->name('search');
 
 // Roles routes
@@ -32,7 +32,9 @@ Route::post('/roles/{roleId}/add', [RoleController::class, 'addPermission'])->na
 Route::post('/roles/{roleId}/remove', [RoleController::class, 'removePermission'])->name('roles.permissions.remove');
 
 // Cars routes
-Route::resource('cars', CarController::class)->middleware(AdminMiddleware::class);
+Route::prefix('dashboard')->middleware('auth')->group(function () {
+    Route::resource('cars', CarController::class);
+})->middleware(AdminMiddleware::class);
 
 Route::fallback(function () {
     return redirect('/');

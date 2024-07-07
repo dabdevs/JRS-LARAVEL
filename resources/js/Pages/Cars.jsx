@@ -79,8 +79,10 @@ const Cars = React.memo(({ auth, cars }) => {
                         <PlusIcon />
                         New
                     </SuccessButton>
-                    
-                    <SearchForm admin={true} />
+
+                    <div className='w-1/3'>
+                        <SearchForm admin={true} />
+                    </div>
                 </div>
 
                 <div className="flex flex-col pb-5">
@@ -148,7 +150,7 @@ const Cars = React.memo(({ auth, cars }) => {
                                         {cars?.data?.map(car => (
                                             <tr key={car.id}>
                                                 <td className="h-[100px] p-2 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                                    <img className='w-[120px] h-full' src={car.images[0].url} alt={car.images[0].url} />
+                                                    <img className='w-[120px] h-full' src={`../${car.images[0].url}`} alt={car.images[0].url} />
                                                 </td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     {car.state}

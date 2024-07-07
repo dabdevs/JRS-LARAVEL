@@ -8,10 +8,14 @@ export default function Navbar() {
 
     return (
         <header className="bg-white shadow-md">
-            <div className="container mx-auto px-4 py-2 flex justify-between items-center">
+            <div className={`${url.includes('/listing') ? 'px-4' : 'container mx-auto px-4'} py-2 flex justify-between items-center`}>
                 <Logo />
 
-                {(url.includes('/cars/') || url.includes('/listing')) && <SearchForm />}
+                {(url.includes('/cars/') || url.includes('/listing')) && 
+                    <div className='hidden md:block w-1/3'>
+                        <SearchForm />
+                    </div>
+                }
 
                 {url === '/' && <nav className="space-x-8 hidden md:block">
                     <Link role="button" to="/" className="text-primary font-bold hover:text-gray-500">Home</Link>

@@ -2,7 +2,7 @@ export default function Card({car}) {
     const url = car?.images[0]?.url
 
     return (
-        <div role="button" onClick={() => window.location.href = `/cars/${car.slug}`} className="bg-white p-3 rounded-lg shadow-md">
+        <div role="button" onClick={() => window.location.href = `/listing/${car.slug}`} className="bg-white p-3 rounded-lg shadow-md">
             <img
                 src={`/${url}`}
                 alt={url}

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helper;
 use App\Http\Requests\CarRequest;
 use App\Models\Car;
 use Illuminate\Http\Request;
@@ -16,31 +17,18 @@ class CarController extends Controller
      */
     public function index(Request $request)
     {
-        // $cars = Car::with('images')->get()->map(function ($car) {
-        //     return [
-        //         'id' => $car->id,
-        //         'name' => $car->name,
-        //         'permissions' => $car->permissions,
-        //         'created_at' => $car->created_at->toIso8601String(),
-        //         'updated_at' => $car->created_at->toIso8601String(),
-        //     ];
-        // });
-
         $query = Car::query()
             // ->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
             ->with(['images' => function ($q) {
                 $q->select(['id', 'url', 'car_id'])->orderBy('id')->take(1);
             }]);
 
-        // Filtering
+        // Search
         if ($request->has('search')) {
             $query->where('slug', 'like', '%' . $request->input('search') . '%');
         }
 
-        // Sorting
-        if ($request->has('sort')) {
-            $query->orderBy($request->input('sort'), $request->input('direction', 'asc'));
-        }
+        $query = Helper::sortCars($query);
 
         // Pagination
         $cars = $query->paginate(5);

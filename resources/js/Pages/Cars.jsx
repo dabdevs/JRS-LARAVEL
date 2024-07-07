@@ -15,6 +15,7 @@ import DangerButton from '@/Components/DangerButton';
 import Pagination from '@/Components/Pagination';
 import SearchForm from '@/Components/SearchForm';
 import ClearFilters from '@/Components/ClearFilters';
+import Sort from '@/Components/Sort';
 
 const Cars = React.memo(({ auth, cars }) => {
     const { isOpen, openModal, closeModal } = useModal();
@@ -89,8 +90,9 @@ const Cars = React.memo(({ auth, cars }) => {
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                             <div className="overflow-hidden border border-gray-200 md:rounded-lg">
-                                <div className="p-2">
+                                <div className="p-2 flex justify-between">
                                     <ClearFilters admin={true} data={cars} />
+                                    <Sort admin={true} />
                                 </div>
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">

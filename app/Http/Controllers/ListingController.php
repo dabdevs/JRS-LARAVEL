@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helper;
 use App\Models\Car;
 use Illuminate\Support\Facades\Cache;
 
@@ -67,27 +68,9 @@ class ListingController extends Controller
 
             $query->whereBetween("mileage", [$minMileage, $maxMileage]);
         }
-
-        // sorBy
-        if (!empty(request('sortBy'))) {
-            $order = request('sortBy');
-            $field = null;
-
-            if ($order === "lowest-price") {
-                $field = "price";
-                $order = "ASC";
-            }
-            if ($order === "highest-price") {
-                $field = "price";
-                $order = "DESC";
-            }
-            if ($order === "newest") {
-                $field = "date_published";
-                $order = "ASC";
-            }
-
-            if (!is_null($field)) $query->orderBy($field, $order);
-        }
+        
+        // Sort cart
+        $query = Helper::sortCars($query);
 
         // Execute the query and paginate results
         $cars = $query->paginate(20);

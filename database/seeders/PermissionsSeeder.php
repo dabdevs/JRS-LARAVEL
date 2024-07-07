@@ -32,6 +32,7 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'unpublish cars']);
 
         // Create contact permissions
+        Permission::create(['name' => 'read contacts']);
         Permission::create(['name' => 'reply contacts']);
         Permission::create(['name' => 'delete contacts']);
 
@@ -53,6 +54,7 @@ class PermissionsSeeder extends Seeder
         $admin->givePermissionTo('unpublish cars');
 
         // Assign contact permissions to admin
+        $admin->givePermissionTo('read contacts');
         $admin->givePermissionTo('reply contacts');
         $admin->givePermissionTo('delete contacts');
 

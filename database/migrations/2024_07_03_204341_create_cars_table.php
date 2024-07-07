@@ -28,6 +28,7 @@ return new class extends Migration
             $table->integer('cylinders')->unsigned()->nullable();
             $table->enum('state', ['New', 'Used']);
             $table->boolean('is_published')->default(false);
+            $table->boolean('is_sold')->default(false);
             $table->index(['make', 'model', 'year']);
             $table->index(['transmission', 'slug', 'body_type']);
             $table->dateTime('date_published')->nullable();

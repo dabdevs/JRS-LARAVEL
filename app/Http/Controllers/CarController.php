@@ -17,6 +17,8 @@ class CarController extends Controller
      */
     public function index(Request $request)
     {
+        $formatedMakeModels = Helper::getCarsMakeAndModels();
+
         $query = Car::query()
             // ->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
             ->with(['images' => function ($q) {
@@ -35,7 +37,7 @@ class CarController extends Controller
 
         return inertia('Cars', [
             'cars' => $cars,
-            'filters' => $request->only(['search', 'sort', 'direction']),
+            'manufacturers' => $formatedMakeModels,
         ]);
     }
 

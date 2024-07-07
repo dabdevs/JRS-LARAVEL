@@ -17,7 +17,7 @@ import SearchForm from '@/Components/SearchForm';
 import ClearFilters from '@/Components/ClearFilters';
 import Sort from '@/Components/Sort';
 
-const Cars = React.memo(({ auth, cars }) => {
+const Cars = React.memo(({ auth, cars, manufacturers }) => {
     const { isOpen, openModal, closeModal } = useModal();
     const { data, setData, delete: destroy, reset } = useForm({
         id: 0,
@@ -72,7 +72,7 @@ const Cars = React.memo(({ auth, cars }) => {
         >
             <section className="w-full px-4 container mx-auto">
                 <Modal isOpen={isOpen} closeModal={closeModal}>
-                    <Car car={data} />
+                    <Car car={data} manufacturers={manufacturers} />
                 </Modal>
 
                 <div className="flex justify-between">
@@ -191,7 +191,7 @@ const Cars = React.memo(({ auth, cars }) => {
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{formatDistanceToNow(parseISO(car.updated_at.toIso8601String()))} ago</td> */}
                                                 <td className="p-2 text-sm whitespace-nowrap">
                                                     <div className="flex items-center gap-x-3">
-                                                        <EditButton onClick={() => { setData({ 'id': car.id, 'name': car.name, 'permissions': car.permissions }); openModal() }} className='btn-sm' />
+                                                        <EditButton onClick={() => { setData(car); openModal() }} className='btn-sm' />
                                                         <DeleteButton onClick={() => handleDelete(car.id)} className='btn-sm' />
                                                     </div>
                                                 </td>

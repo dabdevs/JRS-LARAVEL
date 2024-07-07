@@ -27,9 +27,9 @@ Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('li
 // Route::get('listing/search', [ListingController::class, 'search'])->name('search');
 
 // Roles routes
-Route::resource('roles', RoleController::class)->middleware(AdminMiddleware::class);
-Route::post('/roles/{roleId}/add', [RoleController::class, 'addPermission'])->name('roles.permissions.add');
-Route::post('/roles/{roleId}/remove', [RoleController::class, 'removePermission'])->name('roles.permissions.remove');
+// Route::resource('roles', RoleController::class)->middleware(AdminMiddleware::class);
+// Route::post('/roles/{roleId}/add', [RoleController::class, 'addPermission'])->name('roles.permissions.add');
+// Route::post('/roles/{roleId}/remove', [RoleController::class, 'removePermission'])->name('roles.permissions.remove');
 
 // Cars routes
 Route::prefix('dashboard')->middleware('auth')->group(function () {

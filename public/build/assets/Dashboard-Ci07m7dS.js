@@ -1,0 +1,1 @@
+import{j as s}from"./app-D6eEK87w.js";import{A as o}from"./AuthenticatedLayout-Cq1bGDN4.js";import"./transition-DJoTf7Wm.js";import"./Logo-d5tY7MWq.js";function p({auth:r}){return s.jsx(o,{user:r.user,permissions:r.permissions})}export{p as default};

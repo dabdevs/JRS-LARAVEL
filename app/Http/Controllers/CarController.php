@@ -88,7 +88,23 @@ class CarController extends Controller
             $car = Car::findOrFail($request->id);
 
             // Write rules for CarRequest
-            $car->update($request->all());
+            $car->fill($request->all());
+
+            switch ($car->status) {
+                case 'Published':
+                    $car->date_published = now();
+                    break;
+                case 'Sold':
+                    $car->date_sold = now();
+                    break;
+                
+                default:
+                    $car->date_published = null;
+                    $car->date_sold = null;
+                    break;
+            }
+
+            $car->save();
 
             return redirect()->back()->with('success', 'Car updated successfuly.');
         } catch (\Throwable $th) {

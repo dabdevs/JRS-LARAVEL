@@ -20,7 +20,8 @@ export default function Edit({ auth, car, models }) {
         fuel_type: [],
         doors: [],
         transmission: [],
-        cylinders: []
+        cylinders: [],
+        status: ''
     });
 
     const handleUpdate = useCallback((e) => {
@@ -120,7 +121,7 @@ export default function Edit({ auth, car, models }) {
                    <h1 className="text-2xl font-semibold mb-4">{car.make} {car.model}</h1>
                     <div className="my-2 w-full grid grid-cols-6 gap-4">
                         <div className="my-2">
-                            <InputLabel htmlFor="state" value="State" />
+                            <InputLabel htmlFor="state" value="State" className='text-center' />
                             <div className="flex justify-around gap-3" id='state'>
                                 <div className="flex gap-2">
                                     <input
@@ -348,6 +349,22 @@ export default function Edit({ auth, car, models }) {
                                 <option value="12">12</option>
                             </select>
                             <InputError message={errors.cylinders} className="mt-2" />
+                        </div>
+                        <div className="my-2">
+                            <InputLabel htmlFor="status" value="Status" />
+                            <select
+                                value={data.status}
+                                onChange={(e) => setData('status', e.target.value)}
+                                name="status"
+                                id="status"
+                                className="w-full mt-1 rounded border border-gray-400 py-1"
+                            >
+                                <option value="">Select</option>
+                                <option value="Published">Published</option>
+                                <option value="Unpublished">Unpublished</option>
+                                <option value="Sold">Sold</option>
+                            </select>
+                            <InputError message={errors.status} className="mt-2" />
                         </div>
                     </div>
                     <div className="flex gap-2 justify-end">

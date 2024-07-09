@@ -73,14 +73,13 @@ export default function Index({ auth, cars }) {
         >
             <section className="w-full px-4 container mx-auto">
                 <div className="flex justify-between">
+                    <div className='w-1/3'>
+                        <SearchForm admin={true} />
+                    </div>
                     <SuccessButton onClick={() => { reset(); openModal() }}>
                         <PlusIcon />
                         New
                     </SuccessButton>
-
-                    <div className='w-1/3'>
-                        <SearchForm admin={true} />
-                    </div>
                 </div>
 
                 <div className="flex flex-col pb-5">

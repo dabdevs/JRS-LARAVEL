@@ -115,9 +115,9 @@ export default function Edit({ auth, car, models }) {
         <AuthenticatedLayout
             user={auth.user}
         >
-            <section className="w-3/4 px-4 container mx-auto bg-white rounded-md shadow-sm">
-                <div className="mt-3 pr-3 py-3 text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    <h1 className="text-2xl font-semibold mb-4">{car.make} {car.model}</h1>
+            <section className="px-4 container mx-auto">
+                <div className="p-4 rounded-md shadow-sm bg-white text-center sm:ml-4 sm:mt-0 sm:text-left">
+                   <h1 className="text-2xl font-semibold mb-4">{car.make} {car.model}</h1>
                     <div className="my-2 w-full grid grid-cols-6 gap-4">
                         <div className="my-2">
                             <InputLabel htmlFor="state" value="State" />

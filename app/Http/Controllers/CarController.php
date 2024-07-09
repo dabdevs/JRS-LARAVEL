@@ -5,9 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Helper;
 use App\Http\Requests\CarRequest;
 use App\Models\Car;
-use App\Models\Manufacturer;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -87,8 +85,9 @@ class CarController extends Controller
     public function update(CarRequest $request)
     {
         try {
-            $car = Car::findOrFail($request->id); dd($car);
+            $car = Car::findOrFail($request->id);
 
+            // Write rules for CarRequest
             $car->update($request->all());
 
             return redirect()->back()->with('success', 'Car updated successfuly.');

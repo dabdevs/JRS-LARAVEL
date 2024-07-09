@@ -46,7 +46,7 @@ export default function Index({ auth, cars }) {
             }
         })
     }
-    console.log(cars)
+
     return (
         <AuthenticatedLayout
             user={auth.user}

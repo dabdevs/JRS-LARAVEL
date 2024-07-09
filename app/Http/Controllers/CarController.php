@@ -48,7 +48,7 @@ class CarController extends Controller
             $car = new Car($request->all()); 
             $car->slug = Str::slug($car->make . "-" . $car->model . "-" . $car->year . "-" . $car->color . "-" . $car->mileage . "-" . $car->price . "-" . $car->transmission . "-" . $car->fuel_type . "-" . $car->body_type . "-" . $car->engine_size . "-" . $car->doors);
             $car->save();
-            return redirect()->back()->with(['extraData' => ['slug' => $car->slug], 'success' => 'Car created successfuly.']);
+            return redirect(route('cars.edit', $car->slug))->with('success', 'Car created successfuly.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -81,7 +81,7 @@ class CarController extends Controller
      */
     public function edit($slug) 
     {
-        $car = Car::whereSlug($slug)->firstOrFail();
+        $car = Car::whereSlug($slug)->with('images')->firstOrFail();
 
 
         return inertia('Car/Form', [

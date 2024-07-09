@@ -20,7 +20,6 @@ export default function Sort({ admin }) {
         setData('sortBy', e.target.value)
 
         setTimeout(() => {
-            console.log('click submit button')
             handleTriggerClick()
         }, 10);
     }

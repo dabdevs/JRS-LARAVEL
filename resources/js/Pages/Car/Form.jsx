@@ -4,6 +4,7 @@ import InputError from '@/Components/InputError';
 import { Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import SaveIcon from '@/Components/SaveIcon';
+import ImageUpload from '@/Components/ImageUpload';
 
 export default function Form({ auth, car, models }) {
     const { data, setData, get, post, put, setError, errors } = useForm(car || {
@@ -41,14 +42,7 @@ export default function Form({ auth, car, models }) {
         e.preventDefault()
 
         // Send post request
-        post(route('cars.store'), {
-            onSuccess: (page) => {
-                // Get new created ID
-                const slug = page.props.flash.extraData.slug;
-
-                get(route('cars.show', slug))
-            }
-        });
+        post(route('cars.store'));
     })
 
     const handleKeyDown = (event) => {
@@ -108,7 +102,7 @@ export default function Form({ auth, car, models }) {
         >
             <section className="px-4 container mx-auto">
                 <div className="p-4 rounded-md shadow-sm bg-white text-center sm:ml-4 sm:mt-0 sm:text-left">
-                    {car && <h1 className="text-2xl font-semibold mb-4">{car?.make} {car?.model}</h1>}
+                    <h1 className="text-2xl font-semibold mb-4">{car ? `${car?.make} ${car?.model}` : 'New Car'}</h1>
                     <div className="my-2 w-full grid grid-cols-6 gap-4">
                         <div className="my-2">
                             <InputLabel htmlFor="state" value="State" className='text-center' />
@@ -341,7 +335,7 @@ export default function Form({ auth, car, models }) {
                             </select>
                             <InputError message={errors.cylinders} className="mt-2" />
                         </div>
-                        <div className="my-2">
+                        {car && <div className="my-2">
                             <InputLabel htmlFor="status" value="Status" />
                             <select
                                 value={data.status}
@@ -356,7 +350,7 @@ export default function Form({ auth, car, models }) {
                                 <option value="Sold">Sold</option>
                             </select>
                             <InputError message={errors.status} className="mt-2" />
-                        </div>
+                        </div>}
                         <div className="my-2">
                             <InputLabel htmlFor="price" value="Price" />
                             <input
@@ -371,6 +365,19 @@ export default function Form({ auth, car, models }) {
                             <InputError message={errors.price} className="mt-2" />
                         </div>
                     </div>
+                  
+                    
+
+                    {car && <div>
+                        <h4 className='text-xl font-bold my-2'>Images</h4>
+
+                        {car.images?.length > 0 && <div className='flex gap-2 mb-3'>
+                            {car?.images?.map(img => <img width={'150px'} src={`/storage/${img.url}`} alt={img.id} />)}
+                        </div>}
+
+                        <ImageUpload model={'Car'} modelId={car.id} url={route('upload.images')} images={car.images} />
+                    </div>}
+
                     <div className="flex gap-2 justify-end">
                         {car ?
                             <Link href={route('cars.show', car?.slug)} className='font-bold py-2 px-6 '>Cancel</Link>

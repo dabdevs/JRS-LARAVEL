@@ -6,6 +6,7 @@ use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UploadController;
 use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
@@ -35,6 +36,7 @@ Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('li
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::resource('cars', CarController::class);
     Route::get('cars/{slug}', [CarController::class, 'show'])->name('cars.show');
+    Route::post('upload-images', [UploadController::class, 'images'])->name('upload.images');
 })->middleware(AdminMiddleware::class);
 
 Route::fallback(function () {

@@ -15,8 +15,7 @@ class Image extends Model
      * @var array
      */
     protected $fillable = [
-        'path',
-        'extention',
+        'url',
         'is_primary',
         'car_id'
     ];

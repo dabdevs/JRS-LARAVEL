@@ -34,7 +34,6 @@ class ImageFactory extends Factory
         
         return [
             'url' => $url,
-            'extention' => 'jpg',
             'car_id' => Car::factory(), 
         ];
     }

@@ -6,7 +6,7 @@ import SuccessButton from '@/Components/SuccessButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import SaveIcon from '@/Components/SaveIcon';
 
-export default function Edit({ auth, car }) {
+export default function Edit({ auth, car, models }) {
     const { data, setData, post, put, setError, errors } = useForm(car || {
         id: 0,
         state: [],
@@ -109,6 +109,7 @@ export default function Edit({ auth, car }) {
         '4.6L',
         '5.0L'
     ];
+    console.log(data.make)
 
     return (
         <AuthenticatedLayout
@@ -158,13 +159,13 @@ export default function Edit({ auth, car }) {
                                 className="w-full mt-1 rounded border border-gray-400 py-1"
                             >
                                 <option value="">Select</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
+                                {Object.keys(models)?.map(make => (
+                                    <option value={make}>{make}</option>
+                                ))}
                             </select>
                             <InputError message={errors.make} className="mt-2" />
                         </div>
-                        <div className="my-2 col-span-2">
+                        {data.make && <div className="my-2 col-span-2">
                             <InputLabel htmlFor="model" value="Model" />
                             <select
                                 value={data.model}
@@ -174,12 +175,12 @@ export default function Edit({ auth, car }) {
                                 className="w-full mt-1 rounded border border-gray-400 py-1"
                             >
                                 <option value="">Select</option>
-                                <option value="">1</option>
-                                <option value="">2</option>
-                                <option value="">3</option>
+                                {models[data.make]?.map(model => (
+                                    <option value={model}>{model}</option>
+                                ))}
                             </select>
                             <InputError message={errors.model} className="mt-2" />
-                        </div>
+                        </div>}
                         <div className="my-2 w-full">
                             <InputLabel htmlFor="year" value="Year" />
                             <select
@@ -211,7 +212,7 @@ export default function Edit({ auth, car }) {
                             >
                                 <option value={""}>Select</option>
                                 {carColors.map(color => (
-                                    <option key={color} value={color.toLowerCase()}>
+                                    <option key={color} value={color}>
                                         {color}
                                     </option>
                                 ))}
@@ -274,6 +275,7 @@ export default function Edit({ auth, car }) {
                                         name="transmission"
                                         type='radio'
                                         id='Automatic'
+                                        checked={data.transmission === 'Automatic'}
                                         className="mt-3 rounded border border-gray-400 py-1"
                                     />
                                     <InputLabel className='py-2 text-black' htmlFor="Automatic" value="Automatic" />
@@ -285,6 +287,7 @@ export default function Edit({ auth, car }) {
                                         name="transmission"
                                         type='radio'
                                         id='Manual'
+                                        checked={data.transmission === 'Manual'}
                                         className="mt-3 rounded border border-gray-400 py-1"
                                     />
                                     <InputLabel className='py-2 text-black' htmlFor="Manual" value="Manual" />

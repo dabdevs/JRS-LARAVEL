@@ -18,7 +18,7 @@ class CarController extends Controller
      *  Render car view
      */
     public function index(Request $request)
-    {
+    { 
         $query = Car::query()
             // ->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
             ->with(['images' => function ($q) {
@@ -74,8 +74,10 @@ class CarController extends Controller
     {
         $car = Car::whereSlug($slug)->firstOrFail();
 
+
         return inertia('Car/Edit', [
-            'car' => $car
+            'car' => $car,
+            'models' => Helper::getCarModels()
         ]);
     }
 

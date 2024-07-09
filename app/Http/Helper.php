@@ -7,26 +7,30 @@ use Illuminate\Support\Facades\Cache;
 class Helper {
     public static function sortCars($q, $options=[])
     {
+        $field = "id";
+        $order = "DESC";
+
         // Sort
         if (!empty(request('sortBy'))) {
-            $order = request('sortBy');
-            $field = null;
+            $sortBy = request('sortBy');
 
-            if ($order === "lowest-price") {
-                $field = "price";
-                $order = "ASC";
+            switch ($sortBy) {
+                case 'lowest-price':
+                    $field = "price";
+                    $order = "ASC";
+                    break;
+                case 'highest-price':
+                    $field = "price";
+                    $order = "DESC";
+                    break;
+                case 'newest':
+                    $field = "date_published";
+                    $order = "ASC";
+                    break;
             }
-            if ($order === "highest-price") {
-                $field = "price";
-                $order = "DESC";
-            }
-            if ($order === "newest") {
-                $field = "date_published";
-                $order = "ASC";
-            }
-
-            if (!is_null($field)) return $q->orderBy($field, $order); 
         }
+        
+        $q->orderBy($field, $order); 
         
         return $q;
     }

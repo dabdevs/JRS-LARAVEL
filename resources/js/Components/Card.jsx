@@ -13,7 +13,7 @@ export default function Card({car}) {
                 <p className="text-gray-600 text-lg font-bold mb-2">$ {car.price}</p>
                 <div className="flex gap-2 align-center justify-center">
                     <p className="text-gray-600 text-sm mb-4">{car.state}</p>
-                    <p className="text-gray-600 text-sm mb-4">{car.mileage} miles</p>
+                    {car.state === 'Used' && <p className="text-gray-600 text-sm mb-4">{car.mileage} miles</p>}
                 </div>
                 <a
                     href="#"

@@ -45,9 +45,10 @@ class CarController extends Controller
     public function store(CarRequest $request)
     {
         try {
-            $car = Car::create(["name" => Str::lower($request->name)]);
-
-            return redirect()->back()->with(['extraData' => ['carId' => $car->id], 'success' => 'Car created successfuly.']);
+            $car = new Car($request->all()); 
+            $car->slug = Str::slug($car->make . "-" . $car->model . "-" . $car->year . "-" . $car->color . "-" . $car->mileage . "-" . $car->price . "-" . $car->transmission . "-" . $car->fuel_type . "-" . $car->body_type . "-" . $car->engine_size . "-" . $car->doors);
+            $car->save();
+            return redirect()->back()->with(['extraData' => ['slug' => $car->slug], 'success' => 'Car created successfuly.']);
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -58,7 +59,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        return inertia('Car/Create', [
+        return inertia('Car/Form', [
             'models' => Helper::getCarModels()
         ]);
     }
@@ -83,7 +84,7 @@ class CarController extends Controller
         $car = Car::whereSlug($slug)->firstOrFail();
 
 
-        return inertia('Car/Edit', [
+        return inertia('Car/Form', [
             'car' => $car,
             'models' => Helper::getCarModels()
         ]);

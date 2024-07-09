@@ -5,22 +5,22 @@ import { Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import SaveIcon from '@/Components/SaveIcon';
 
-export default function Edit({ auth, car, models }) {
-    const { data, setData, post, put, setError, errors } = useForm(car || {
-        id: 0,
-        state: [],
-        make: [],
-        model: [],
+export default function Form({ auth, car, models }) {
+    const { data, setData, get, post, put, setError, errors } = useForm(car || {
+        id: '',
+        state: '',
+        make: '',
+        model: '',
         year: '',
         color: '',
-        body_type: [],
+        body_type: '',
         price: '',
         mileage: '',
-        fuel_type: [],
-        doors: [],
-        transmission: [],
-        cylinders: [],
-        status: ''
+        fuel_type: '',
+        doors: '',
+        transmission: '',
+        cylinders: '',
+        status: 'Unpublished'
     });
 
     const handleUpdate = useCallback((e) => {
@@ -39,22 +39,14 @@ export default function Edit({ auth, car, models }) {
 
     const handleCreate = useCallback((e) => {
         e.preventDefault()
-        setError('name', '')
-
-        if (data.make === '' || typeof data.make === 'undefined') {
-            setError('name', 'Field is required')
-            return
-        }
 
         // Send post request
         post(route('cars.store'), {
             onSuccess: (page) => {
                 // Get new created ID
-                const carId = page.props.flash.extraData.carId;
+                const slug = page.props.flash.extraData.slug;
 
-                // Set new data ID
-                setData('id', carId)
-
+                get(route('cars.show', slug))
             }
         });
     })
@@ -108,8 +100,7 @@ export default function Edit({ auth, car, models }) {
         '4.4L',
         '4.6L',
         '5.0L'
-    ];
-    console.log(data.make)
+    ]
 
     return (
         <AuthenticatedLayout
@@ -117,7 +108,7 @@ export default function Edit({ auth, car, models }) {
         >
             <section className="px-4 container mx-auto">
                 <div className="p-4 rounded-md shadow-sm bg-white text-center sm:ml-4 sm:mt-0 sm:text-left">
-                   <h1 className="text-2xl font-semibold mb-4">{car.make} {car.model}</h1>
+                    {car && <h1 className="text-2xl font-semibold mb-4">{car?.make} {car?.model}</h1>}
                     <div className="my-2 w-full grid grid-cols-6 gap-4">
                         <div className="my-2">
                             <InputLabel htmlFor="state" value="State" className='text-center' />
@@ -160,7 +151,7 @@ export default function Edit({ auth, car, models }) {
                             >
                                 <option value="">Select</option>
                                 {Object.keys(models)?.map(make => (
-                                    <option value={make}>{make}</option>
+                                    <option key={make} value={make}>{make}</option>
                                 ))}
                             </select>
                             <InputError message={errors.make} className="mt-2" />
@@ -176,7 +167,7 @@ export default function Edit({ auth, car, models }) {
                             >
                                 <option value="">Select</option>
                                 {models[data.make]?.map(model => (
-                                    <option value={model}>{model}</option>
+                                    <option key={model} value={model}>{model}</option>
                                 ))}
                             </select>
                             <InputError message={errors.model} className="mt-2" />
@@ -253,9 +244,10 @@ export default function Edit({ auth, car, models }) {
                             </select>
                             <InputError message={errors.doors} className="mt-2" />
                         </div>
-                        <div className="my-2">
+                        {data.state === 'Used' && <div className="my-2">
                             <InputLabel htmlFor="mileage" value="Mileage" />
                             <input
+                                readOnly={data.state === 'New'}
                                 value={data.mileage}
                                 onChange={(e) => setData('mileage', e.target.value)}
                                 name="mileage"
@@ -264,7 +256,7 @@ export default function Edit({ auth, car, models }) {
                                 className="w-full mt-1 rounded border border-gray-400 py-1"
                             />
                             <InputError message={errors.mileage} className="mt-2" />
-                        </div>
+                        </div>}
                         <div className="my-2 col-span-2">
                             <InputLabel className='text-center' htmlFor="transmission" value="Transmission" />
                             <div className="flex justify-around gap-4" id='transmission'>
@@ -373,14 +365,18 @@ export default function Edit({ auth, car, models }) {
                                 name="price"
                                 id="price"
                                 type='number'
+                                placeholder='ex: 4750.99'
                                 className="w-full mt-1 rounded border border-gray-400 py-1"
                             />
                             <InputError message={errors.price} className="mt-2" />
                         </div>
                     </div>
                     <div className="flex gap-2 justify-end">
-                        <Link href={route('cars.show', car.slug)} className='font-bold py-2 px-6 '>Cancel</Link>
-                        <button onClick={handleUpdate} type='button' className='inline-flex gap-2 px-2 py-1 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+                        {car ?
+                            <Link href={route('cars.show', car?.slug)} className='font-bold py-2 px-6 '>Cancel</Link>
+                            : <Link href={route('cars.index')} className='font-bold py-2 px-6 '>Go Back</Link>
+                        }
+                        <button onClick={car ? handleUpdate : handleCreate} type='button' className='inline-flex gap-2 p-2 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
                             <SaveIcon />
                             Save
                         </button>

@@ -54,6 +54,16 @@ class CarController extends Controller
     }
 
     /**
+     *  Create view
+     */
+    public function create()
+    {
+        return inertia('Car/Create', [
+            'models' => Helper::getCarModels()
+        ]);
+    }
+
+    /**
      *  Show view
      */
     public function show($slug) 

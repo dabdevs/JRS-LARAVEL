@@ -1,13 +1,7 @@
-import React from 'react';
-import { formatDistanceToNow, parseISO, format } from 'date-fns';
 import DeleteButton from '@/Components/DeleteButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import SuccessButton from '@/Components/SuccessButton';
 import { Link, useForm } from '@inertiajs/react';
-import Car from '@/Components/Car';
-import EditButton from '@/Components/EditButton';
-import useModal from '@/Components/hooks/useModal';
-import Modal from '@/Components/Modal';
 import PlusIcon from '@/Components/PlusIcon';
 import { confirmAlert } from 'react-confirm-alert';
 import 'react-confirm-alert/src/react-confirm-alert.css';
@@ -19,22 +13,8 @@ import Sort from '@/Components/Sort';
 import EditICon from '@/Components/EditICon';
 
 export default function Index({ auth, cars }) {
-    const { isOpen, openModal, closeModal } = useModal();
-    const { data, setData, delete: destroy, reset } = useForm({
-        id: 0,
-        state: '',
-        make: '',
-        model: '',
-        body_type: '',
-        year: '',
-        price: '',
-        mileage: '',
-        fuel_type: '',
-        doors: '',
-        transmission: '',
-        cylinders: '',
-        images: [],
-        search: ''
+    const { data, setData, delete: destroy } = useForm({
+        id: ''
     });
 
     const handleDelete = (id) => {
@@ -76,10 +56,10 @@ export default function Index({ auth, cars }) {
                     <div className='w-1/3'>
                         <SearchForm admin={true} />
                     </div>
-                    <SuccessButton onClick={() => { reset(); openModal() }}>
+                    <Link href={route('cars.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
                         <PlusIcon />
                         New
-                    </SuccessButton>
+                    </Link>
                 </div>
 
                 <div className="flex flex-col pb-5">

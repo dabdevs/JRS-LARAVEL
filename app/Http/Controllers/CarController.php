@@ -131,9 +131,9 @@ class CarController extends Controller
         try {
             DB::transaction(function () use ($car) {
                 // Delete the image files from the storage first
-                // foreach ($car->images as $image) {
-                //     Storage::delete($image->url);
-                // }
+                foreach ($car->images as $image) {
+                    Storage::delete('public/' . $image->url);
+                }
 
                 // Delete the images from the database
                 $car->images()->delete();
@@ -147,5 +147,23 @@ class CarController extends Controller
             DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());
         }
+    }
+
+    /** 
+     * Delete image
+     */
+    public function deleteImage(Request $request, $imgId)
+    {
+        $car = Car::findOrFail($request->id);
+        $image = $car->images()->findOrFail($imgId);
+
+        // Delete the image file from storage
+        Storage::delete('public/' . $image->url);
+
+        // Delete the image record from the database
+        $image->delete();
+
+        return redirect()->back()->with('success', 'Image deleted successfully.');
+        dd($request->all(), $imgId);
     }
 }

@@ -5,9 +5,13 @@ import { Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import SaveIcon from '@/Components/SaveIcon';
 import ImageUpload from '@/Components/ImageUpload';
+import DeleteIcon from '@/Components/DeleteIcon';
+import { confirmAlert } from 'react-confirm-alert';
+import DangerButton from '@/Components/DangerButton';
+import SuccessButton from '@/Components/SuccessButton';
 
 export default function Form({ auth, car, models }) {
-    const { data, setData, get, post, put, setError, errors } = useForm(car || {
+    const { data, setData, post, put, setError, errors } = useForm(car || {
         id: '',
         state: '',
         make: '',
@@ -21,7 +25,8 @@ export default function Form({ auth, car, models }) {
         doors: '',
         transmission: '',
         cylinders: '',
-        status: 'Unpublished'
+        status: 'Unpublished',
+        deleteImgId: ''
     });
 
     const handleUpdate = useCallback((e) => {
@@ -95,6 +100,39 @@ export default function Form({ auth, car, models }) {
         '4.6L',
         '5.0L'
     ]
+
+    const deleteImage = (id) => {
+        setData('deleteImgId', id)
+        confirmAlert({
+            customUI: ({ onClose }) => {
+                return (
+                    <div className='bg-white shadow-md'>
+                        <div className="p-5">
+                            <h1 className='text-2xl'>Are you sure?</h1>
+                            <p>You want to delete this image?</p>
+                        </div>
+                        <div className="flex gap-2 p-2 bg-gray-50">
+                            <DangerButton onClick={onClose}>No</DangerButton>
+                            <SuccessButton
+                                onClick={() => {
+                                    post(route('cars.images.delete', id), {
+                                        onSuccess: () => {
+                                            onClose()
+                                        },
+                                        onError: (error) => {
+                                            onClose()
+                                        }
+                                    })
+                                }}
+                            >
+                                yes
+                            </SuccessButton>
+                        </div>
+                    </div>
+                );
+            }
+        })
+    }
 
     return (
         <AuthenticatedLayout
@@ -365,17 +403,20 @@ export default function Form({ auth, car, models }) {
                             <InputError message={errors.price} className="mt-2" />
                         </div>
                     </div>
-                  
-                    
 
                     {car && <div>
-                        <h4 className='text-xl font-bold my-2'>Images</h4>
+                        <h4 className='text-xl font-bold my-2'>Images (Up to 10) <span className="text-sm">Extensions: jpg, jpeg or png</span> </h4>
 
-                        {car.images?.length > 0 && <div className='flex gap-2 mb-3'>
-                            {car?.images?.map(img => <img width={'150px'} src={`/storage/${img.url}`} alt={img.id} />)}
+                        {car.images?.length > 0 && <div className='grid grid-cols-5 gap-2 mb-3'>
+                            {car?.images?.map(img => (
+                                <div className='flex gap-2' key={img.id}>
+                                    <img width={'150px'} src={`/storage/${img.url}`} alt={img.id} />
+                                    <button onClick={() => deleteImage(img.id)}  className='bg-primary rounded-md p-2 h-[30px] my-auto'><DeleteIcon /></button>
+                                </div>
+                            ))}
                         </div>}
 
-                        <ImageUpload model={'Car'} modelId={car.id} url={route('upload.images')} images={car.images} />
+                        {car && car.images?.length < 10 && <ImageUpload model={'Car'} modelId={car.id} url={route('upload.images')} images={car.images} />}
                     </div>}
 
                     <div className="flex gap-2 justify-end">

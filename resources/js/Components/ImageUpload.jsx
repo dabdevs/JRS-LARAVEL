@@ -1,4 +1,5 @@
 import { useForm } from '@inertiajs/react';
+import { useRef } from 'react';
 
 const ImageUpload = ({images, url, model, modelId}) => {
     const {data, setData, error, setError, post} = useForm({
@@ -6,6 +7,8 @@ const ImageUpload = ({images, url, model, modelId}) => {
         model: model,
         modelId: modelId
     })
+
+    const fileInputRef = useRef(null);
 
     if (!(url && model && modelId)) throw new Error('Model data is missing')
 
@@ -40,12 +43,16 @@ const ImageUpload = ({images, url, model, modelId}) => {
                 'Content-Type': 'multipart/form-data'
             }
         })
+
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
     }
 
     return (
         <form onSubmit={handleSubmit}>
             <div className="gap-2 flex w-80 align-middle">
-                <input type="file" accept="image/jpeg, image/png, image/jpg" multiple onChange={handleImageChange} />
+                <input ref={fileInputRef} type="file" accept="image/jpeg, image/png, image/jpg" multiple onChange={handleImageChange} />
                 <button type="submit" className='bg-white text-primary border-primary border-2 font-bold px-2 h-[30px] my-auto rounded-md'>Upload</button>
             </div>
         </form>

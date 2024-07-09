@@ -36,6 +36,7 @@ Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('li
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::resource('cars', CarController::class);
     Route::get('cars/{slug}', [CarController::class, 'show'])->name('cars.show');
+    Route::post('cars/image/{imgId}/delete', [CarController::class, 'deleteImage'])->name('cars.images.delete');
     Route::post('upload-images', [UploadController::class, 'images'])->name('upload.images');
 })->middleware(AdminMiddleware::class);
 

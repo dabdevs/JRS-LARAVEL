@@ -16,6 +16,6 @@ class CarSeeder extends Seeder
         // Create 100 cars
         Car::factory()->count(100)->create()->each(function ($car) {
             Image::factory()->count(2)->create(['car_id' => $car->id]);
-        });;
+        });
     }
 }

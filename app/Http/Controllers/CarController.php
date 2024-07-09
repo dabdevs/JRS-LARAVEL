@@ -56,7 +56,7 @@ class CarController extends Controller
     }
 
     /**
-     *  Show a car
+     *  Show view
      */
     public function show($slug) 
     {
@@ -68,12 +68,24 @@ class CarController extends Controller
     }
 
     /**
+     *  Edit view
+     */
+    public function edit($slug) 
+    {
+        $car = Car::whereSlug($slug)->firstOrFail();
+
+        return inertia('Car/Edit', [
+            'car' => $car
+        ]);
+    }
+
+    /**
      *  Update existing car
      */
     public function update(CarRequest $request)
     {
         try {
-            $car = Car::findOrFail($request->id);
+            $car = Car::findOrFail($request->id); dd($car);
 
             $car->update($request->all());
 

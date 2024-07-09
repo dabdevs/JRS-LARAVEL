@@ -13,7 +13,7 @@ export default function Hero() {
                 <p className="text-2xl font-extralight">Car Sales & Repair Shop</p>
                 <em className="font-light mb-4">Quality Service You Can Trust</em>
                 <div className="flex flex-wrap justify-center mt-4 gap-4">
-                    <a href="/listing" className="bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-primary border-2border-primary transition duration-300">Car Deals</a>
+                    <a href="/listing" className="bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-primary border-2 border-primary transition duration-300">Car Deals</a>
                     <Link
                         role="button"
                         className="hover:text-primary hover:bg-white text-white font-bold py-2 px-6 rounded-lg transition duration-300 border border-white"

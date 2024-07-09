@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react'
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
-import { useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import SuccessButton from '@/Components/SuccessButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
+import SaveIcon from '@/Components/SaveIcon';
 
 export default function Edit({ auth, car }) {
     const { data, setData, post, put, setError, errors } = useForm(car || {
@@ -34,8 +35,6 @@ export default function Edit({ auth, car }) {
 
         // Send update request
         put(route('cars.update', data.id))
-
-        setData('name', data.make)
     });
 
     const handleCreate = useCallback((e) => {
@@ -129,6 +128,7 @@ export default function Edit({ auth, car }) {
                                         name="state"
                                         type='radio'
                                         id='New'
+                                        checked={data.state === 'New'}
                                         className="mt-3 rounded border border-gray-400 py-1"
                                     />
                                     <InputLabel className='py-2 text-black' htmlFor="New" value="New" />
@@ -140,6 +140,7 @@ export default function Edit({ auth, car }) {
                                         name="state"
                                         type='radio'
                                         id='Used'
+                                        checked={data.state === 'Used'}
                                         className="mt-3 rounded border border-gray-400 py-1"
                                     />
                                     <InputLabel className='py-2 text-black' htmlFor="Used" value="Used" />
@@ -345,6 +346,13 @@ export default function Edit({ auth, car }) {
                             </select>
                             <InputError message={errors.cylinders} className="mt-2" />
                         </div>
+                    </div>
+                    <div className="flex gap-2 justify-end">
+                        <Link href={route('cars.show', car.slug)} className='font-bold py-2 px-6 '>Cancel</Link>
+                        <button onClick={handleUpdate} type='button' className='inline-flex gap-2 px-2 py-1 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+                            <SaveIcon />
+                            Save
+                        </button>
                     </div>
                 </div>
             </section>

@@ -1,6 +1,6 @@
-export default function Logo() {
+export default function Logo({admin}) {
     return (
-        <a href="/" className="text-xl font-bold text-primary">
+        <a href={`${admin ? '/dashboard/cars' : '/'}`} className="text-xl font-bold text-primary">
             <img width="130" src="/img/logo.png" alt="" />
         </a>
     );

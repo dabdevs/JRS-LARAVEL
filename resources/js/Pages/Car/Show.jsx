@@ -1,119 +1,9 @@
-import React, { useCallback } from 'react'
 import InputLabel from '@/Components/InputLabel';
-import InputError from '@/Components/InputError';
-import TextInput from '@/Components/TextInput';
-import { Link, useForm } from '@inertiajs/react';
-import SuccessButton from '@/Components/SuccessButton';
+import { Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Select } from '@headlessui/react';
 import EditICon from '@/Components/EditICon';
 
 export default function Show({ auth, car }) {
-    const { data, setData, post, put, setError, errors } = useForm(car || {
-        id: 0,
-        state: [],
-        make: [],
-        model: [],
-        year: '',
-        color: '',
-        body_type: [],
-        price: '',
-        mileage: '',
-        fuel_type: [],
-        doors: [],
-        transmission: [],
-        cylinders: []
-    });
-
-    const handleUpdate = useCallback((e) => {
-        e.preventDefault();
-        setError('name', '')
-
-        // Validate name field
-        if (data.make === '' || typeof data.make === 'undefined') {
-            setError('name', 'Field is required')
-            return
-        }
-
-        // Send update request
-        put(route('cars.update', data.id))
-
-        setData('name', data.make)
-    });
-
-    const handleCreate = useCallback((e) => {
-        e.preventDefault()
-        setError('name', '')
-
-        if (data.make === '' || typeof data.make === 'undefined') {
-            setError('name', 'Field is required')
-            return
-        }
-
-        // Send post request
-        post(route('cars.store'), {
-            onSuccess: (page) => {
-                // Get new created ID
-                const carId = page.props.flash.extraData.carId;
-
-                // Set new data ID
-                setData('id', carId)
-
-            }
-        });
-    })
-
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-        }
-    }
-
-    // Options for year Select element
-    const startYear = 1980;
-    const currentYear = new Date().getFullYear();
-    const years = Array.from({ length: currentYear - startYear + 1 }, (_, index) => currentYear - index)
-
-    // Car colors
-    const carColors = [
-        'White',
-        'Black',
-        'Silver',
-        'Gray',
-        'Red',
-        'Blue',
-        'Brown',
-        'Yellow',
-        'Green',
-        'Beige',
-        'Orange',
-        'Pink'
-    ];
-
-    // Engine sizes
-    const engineSizes = [
-        '1.0L',
-        '1.2L',
-        '1.4L',
-        '1.6L',
-        '1.8L',
-        '2.0L',
-        '2.2L',
-        '2.4L',
-        '2.5L',
-        '2.7L',
-        '3.0L',
-        '3.3L',
-        '3.5L',
-        '3.6L',
-        '3.8L',
-        '4.0L',
-        '4.2L',
-        '4.4L',
-        '4.6L',
-        '5.0L'
-    ];
-
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -182,6 +72,10 @@ export default function Show({ auth, car }) {
                             <InputLabel htmlFor="date_sold" value="Date Sold" />
                             <p id="date_sold" className='text-xl'>{car.date_published}</p>
                         </div>}
+                        <div className="my-2">
+                            <InputLabel htmlFor="price" value="Price" />
+                            <p id="price" className='text-xl'>${car.price}</p>
+                        </div>
                     </div>
                     <div className="flex gap-2 justify-end">
                         <Link href={route('cars.index')} className='font-bold py-2 px-6 '>Go Back</Link>

@@ -2,7 +2,6 @@ import React, { useCallback } from 'react'
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import { Link, useForm } from '@inertiajs/react';
-import SuccessButton from '@/Components/SuccessButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import SaveIcon from '@/Components/SaveIcon';
 
@@ -365,6 +364,18 @@ export default function Edit({ auth, car, models }) {
                                 <option value="Sold">Sold</option>
                             </select>
                             <InputError message={errors.status} className="mt-2" />
+                        </div>
+                        <div className="my-2">
+                            <InputLabel htmlFor="price" value="Price" />
+                            <input
+                                value={data.price}
+                                onChange={(e) => setData('price', e.target.value)}
+                                name="price"
+                                id="price"
+                                type='number'
+                                className="w-full mt-1 rounded border border-gray-400 py-1"
+                            />
+                            <InputError message={errors.price} className="mt-2" />
                         </div>
                     </div>
                     <div className="flex gap-2 justify-end">

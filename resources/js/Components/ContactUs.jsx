@@ -1,13 +1,33 @@
 import useBusinessInfo from '@/Hooks/useBusinessInfo';
 import { useForm } from '@inertiajs/react'
+import { useState } from 'react';
 
 export default function ContactUs() {
     const {address, phone, email} = useBusinessInfo()
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const [success, setSuccess] = useState(false)
+    const { data, setData, post, reset } = useForm({
         name: '',
         email: '',
         message: '',
     }); 
+
+    const handleChange = (e) => {
+        setSuccess(false)
+        setData(e.target.name, e.target.value)
+    }
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        post(route('contact'), {
+            preserveScroll: true,
+            onSuccess: () => {
+                reset()
+                setSuccess(true)
+            }
+        })
+        
+    }
 
     return (
         <section id="contact-us" className="py-20 bg-white">
@@ -28,24 +48,37 @@ export default function ContactUs() {
                         </div>
                     </div>
                     <div>
-                        <form>
+                        <form onSubmit={handleSubmit}>
                             <div className="mb-4">
                                 <label className="block text-gray-600">Name</label>
-                                <input type="text"
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                <input 
+                                    onChange={handleChange}
+                                    value={data.name}
+                                    name="name"
+                                    type="text"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-0"
                                     placeholder="Your Name" />
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-600">Email</label>
-                                <input type="email"
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                <input 
+                                    onChange={handleChange}
+                                    value={data.email}
+                                    type="email"
+                                    name="email"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-0"
                                     placeholder="Your Email" />
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-600">Message</label>
                                 <textarea
-                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                                    onChange={handleChange}
+                                    value={data.message}
+                                    name="message"
+                                    className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-0"
                                     rows="4" placeholder="Your Message"></textarea>
+
+                                {success && <p className='font-bold text-green-600'>Message sent successfuly!</p>}
                             </div>
                             <div>
                                 <button type="submit"

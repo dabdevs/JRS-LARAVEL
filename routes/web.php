@@ -11,6 +11,7 @@ use App\Http\Middleware\AdminMiddleware;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [GuestController::class, 'index'])->name('index');
+Route::post('/contact', [GuestController::class, 'contact'])->name('contact');
 
 // Dashboard routes
 Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');

@@ -11,6 +11,7 @@ import SearchForm from '@/Components/SearchForm';
 import ClearFilters from '@/Components/ClearFilters';
 import Sort from '@/Components/Sort';
 import EditICon from '@/Components/EditICon';
+import ViewIcon from '@/Components/ViewIcon';
 
 export default function Index({ auth, cars }) {
     const { data, setData, delete: destroy } = useForm({
@@ -167,8 +168,8 @@ export default function Index({ auth, cars }) {
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{formatDistanceToNow(parseISO(car.updated_at.toIso8601String()))} ago</td> */}
                                                 <td className="p-2 text-sm whitespace-nowrap">
                                                     <div className="flex items-center gap-x-3">
-                                                        <Link href={route('cars.show', car.slug)} className='inline-flex px-2 py-1 items-center bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
-                                                            <EditICon />
+                                                        <Link href={route('cars.show', car.slug)} className='inline-flex px-2 py-1 items-center bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+                                                            <ViewIcon />
                                                         </Link>
                                                         <DeleteButton onClick={() => handleDelete(car.id)} className='btn-sm' />
                                                     </div>

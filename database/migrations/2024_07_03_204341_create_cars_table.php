@@ -27,11 +27,11 @@ return new class extends Migration
             $table->integer('doors')->unsigned()->nullable();
             $table->integer('cylinders')->unsigned()->nullable();
             $table->enum('state', ['New', 'Used']);
-            $table->boolean('is_published')->default(false);
-            $table->boolean('is_sold')->default(false);
+            $table->enum('status', ['Published', 'Unpublished', 'Sold']);
             $table->index(['make', 'model', 'year']);
             $table->index(['transmission', 'slug', 'body_type']);
             $table->dateTime('date_published')->nullable();
+            $table->dateTime('date_sold')->nullable();
             $table->timestamps();
         });
     }

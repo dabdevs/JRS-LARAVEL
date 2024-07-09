@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Helper;
 use App\Http\Requests\CarRequest;
 use App\Models\Car;
+use App\Models\Manufacturer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -33,7 +35,7 @@ class CarController extends Controller
         // Pagination
         $cars = $query->paginate(5);
 
-        return inertia('Cars', [
+        return inertia('Car/Index', [
             'cars' => $cars,
             'filters' => $request->only(['search', 'sort', 'direction']),
         ]);
@@ -51,6 +53,18 @@ class CarController extends Controller
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
+    }
+
+    /**
+     *  Show a car
+     */
+    public function show($slug) 
+    {
+        $car = Car::whereSlug($slug)->firstOrFail();
+        
+        return inertia('Car/Show', [
+            'car' => $car
+        ]);
     }
 
     /**

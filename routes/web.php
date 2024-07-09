@@ -34,6 +34,7 @@ Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('li
 // Cars routes
 Route::prefix('dashboard')->middleware('auth')->group(function () {
     Route::resource('cars', CarController::class);
+    Route::get('cars/{slug}', [CarController::class, 'show'])->name('cars.show');
 })->middleware(AdminMiddleware::class);
 
 Route::fallback(function () {

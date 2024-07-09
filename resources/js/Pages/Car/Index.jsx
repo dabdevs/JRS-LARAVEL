@@ -3,7 +3,7 @@ import { formatDistanceToNow, parseISO, format } from 'date-fns';
 import DeleteButton from '@/Components/DeleteButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import SuccessButton from '@/Components/SuccessButton';
-import { useForm } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import Car from '@/Components/Car';
 import EditButton from '@/Components/EditButton';
 import useModal from '@/Components/hooks/useModal';
@@ -17,7 +17,7 @@ import SearchForm from '@/Components/SearchForm';
 import ClearFilters from '@/Components/ClearFilters';
 import Sort from '@/Components/Sort';
 
-const Cars = React.memo(({ auth, cars }) => {
+export default function Index({ auth, cars }) {
     const { isOpen, openModal, closeModal } = useModal();
     const { data, setData, delete: destroy, reset } = useForm({
         id: 0,
@@ -71,10 +71,6 @@ const Cars = React.memo(({ auth, cars }) => {
             user={auth.user}
         >
             <section className="w-full px-4 container mx-auto">
-                <Modal isOpen={isOpen} closeModal={closeModal}>
-                    <Car car={data} />
-                </Modal>
-
                 <div className="flex justify-between">
                     <SuccessButton onClick={() => { reset(); openModal() }}>
                         <PlusIcon />
@@ -191,6 +187,7 @@ const Cars = React.memo(({ auth, cars }) => {
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{formatDistanceToNow(parseISO(car.updated_at.toIso8601String()))} ago</td> */}
                                                 <td className="p-2 text-sm whitespace-nowrap">
                                                     <div className="flex items-center gap-x-3">
+                                                        <Link href={route('cars.show', car.slug)}>Edit</Link>
                                                         <EditButton onClick={() => { setData({ 'id': car.id, 'name': car.name, 'permissions': car.permissions }); openModal() }} className='btn-sm' />
                                                         <DeleteButton onClick={() => handleDelete(car.id)} className='btn-sm' />
                                                     </div>
@@ -216,6 +213,5 @@ const Cars = React.memo(({ auth, cars }) => {
             </section>
         </AuthenticatedLayout>
     )
-})
+}
 
-export default Cars

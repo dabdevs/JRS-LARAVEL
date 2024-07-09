@@ -13,9 +13,9 @@ class ListingController extends Controller
      */
     public function index()
     {
-        $formadedMakeModels = Cache::remember('formadedMakeModels', 60, function() {
+        $formatedMakeModels = Cache::remember('formatedMakeModels', 60, function() {
             $carsData = [];
-            $cars = Car::select(['make', 'model'])->where('is_published', true)->get();
+            $cars = Car::select(['make', 'model'])->where('status', 'Published')->get();
 
             foreach ($cars as $car) {
                 if (!array_key_exists($car->make, $carsData)) {
@@ -32,7 +32,7 @@ class ListingController extends Controller
         $query = Car::query()->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
             ->with(['images' => function ($q) {
                 $q->select(['id', 'url', 'car_id'])->orderBy('id')->take(1);
-            }])->where('is_published', true);
+            }])->where('status', 'Published');
 
         // search
         if (request('search')) {
@@ -77,13 +77,7 @@ class ListingController extends Controller
 
         return inertia('Listing', [
             'cars' => $cars,
-            'manufacturers' => $formadedMakeModels,
-        ]);
-
-        return inertia('Listing', [
-            'cars' => $query->paginate(20),
-            'count' => Car::count(),
-            'manufacturers' => $formadedMakeModels,
+            'manufacturers' => $formatedMakeModels,
         ]);
     }
 

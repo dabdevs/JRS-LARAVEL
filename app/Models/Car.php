@@ -30,8 +30,8 @@ class Car extends Model
         'doors',
         'cylinders',
         'date_published',
-        'is_published',
-        'is_sold',
+        'date_sold',
+        'status',
     ];
 
     /**

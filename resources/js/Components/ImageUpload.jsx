@@ -56,6 +56,7 @@ const ImageUpload = ({images, url, model, modelId}) => {
             fileInputRef.current.value = '';
         }
 
+        setData('images', [])
         submitBtn.disabled = false
     }
 

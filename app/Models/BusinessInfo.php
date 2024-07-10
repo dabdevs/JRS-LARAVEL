@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class BusinessInfo extends Model
 {
+    use Notifiable;
+    
     /**
      * The attributes that are mass assignable.
      *
@@ -18,3 +21,4 @@ class BusinessInfo extends Model
         'about_us'
     ]; 
 }
+ 

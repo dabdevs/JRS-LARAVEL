@@ -3,9 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class Contact extends Model
 {
+    use Notifiable;
+    
     /**
      *  Fillable fields
      */
@@ -13,5 +16,9 @@ class Contact extends Model
         'name',
         'email',
         'message'
+    ];
+
+    protected $dispatchesEvents = [
+        'created' => \App\Events\NewContact::class,
     ];
 }

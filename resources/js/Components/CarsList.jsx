@@ -23,7 +23,7 @@ export default function CarsList() {
 
             {(url.includes('/cars/') || url.includes('/listing')) &&
                 <div className='md:hidden w-full my-1'>
-                    <SearchForm /> 
+                    <SearchForm />
                 </div>
             }
 
@@ -32,7 +32,7 @@ export default function CarsList() {
                 <ClearFilters data={cars} />
 
                 <div className='flex gap-2'>
-                    <Sort />
+                    {cars.data.length > 0 && <Sort />}
 
                     <button onClick={toggleFilter} type='button' className='bg-white px-2 rounded-md md:hidden'>
                         <svg width="20px" height="20px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +45,7 @@ export default function CarsList() {
             </div>
 
             <div className="mb-8 grid grid-cols-2 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-2 lg:gap-4">
-                {cars?.data?.map(car => <Card  key={car.id} car={car} /> )}
+                {cars?.data?.map(car => <Card key={car.id} car={car} />)}
             </div>
 
             {

@@ -10,7 +10,6 @@ import Pagination from '@/Components/Pagination';
 import SearchForm from '@/Components/SearchForm';
 import ClearFilters from '@/Components/ClearFilters';
 import Sort from '@/Components/Sort';
-import EditICon from '@/Components/EditICon';
 import ViewIcon from '@/Components/ViewIcon';
 
 export default function Index({ auth, cars }) {
@@ -67,10 +66,10 @@ export default function Index({ auth, cars }) {
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                             <div className="overflow-hidden border border-gray-200 md:rounded-lg">
-                                <div className="p-2 flex justify-between">
+                                {cars.data.length > 0 && <div className="p-2 flex justify-between">
                                     <ClearFilters admin={true} data={cars} />
                                     <Sort admin={true} />
-                                </div>
+                                </div>}
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
@@ -129,7 +128,7 @@ export default function Index({ auth, cars }) {
                                         {cars?.data?.map(car => (
                                             <tr key={car.id}>
                                                 <td className="h-[100px] p-2 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                                    <img className='w-[120px] h-full' src={`${car?.images.length > 0 ? '../' + car?.images[0]?.url : 'https://placehold.co/600x400'}`} alt={car?.images[0]?.url} />
+                                                    <img className='w-[120px] h-full' src={`${car?.images.length > 0 ? `/storage/${car?.images[0].url}` : 'https://placehold.co/600x400'}`} alt={'car image'} />
                                                 </td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     {car.state} {car.id}

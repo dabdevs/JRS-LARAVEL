@@ -8,7 +8,20 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UploadController;
 use App\Http\Middleware\AdminMiddleware;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
+
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
+
+Route::get('/migrate', function () {
+    Artisan::call('migrate');
+});
+
+Route::get('/optimize', function () {
+    Artisan::call('optimize:clear');
+});
 
 Route::get('/', [GuestController::class, 'index'])->name('index');
 Route::post('/contact', [GuestController::class, 'contact'])->name('contact');
@@ -35,7 +48,7 @@ Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('li
 
 // Cars routes
 Route::prefix('dashboard')->middleware('auth')->group(function () {
-    Route::resource('cars', CarController::class);
+    Route::resource('cars', CarController::class)->except('show');
     Route::get('cars/{slug}', [CarController::class, 'show'])->name('cars.show');
     Route::post('cars/image/{imgId}/delete', [CarController::class, 'deleteImage'])->name('cars.images.delete');
     Route::post('upload-images', [UploadController::class, 'images'])->name('upload.images');

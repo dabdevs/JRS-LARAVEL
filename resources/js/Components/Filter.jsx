@@ -118,7 +118,7 @@ export default function Filter({ manufacturers }) {
 
                 <div className="mb-4">
                     <h3 className="font-semibold mb-2">Make</h3>
-                    <div className="h-[300px] pl-1 overflow-y-scroll">
+                    <div className="h-auto pl-1 overflow-y-scroll">
                         {
                             Object.keys(manufacturers)?.map((make) => (
                                 <label className="block" key={make}>
@@ -132,7 +132,7 @@ export default function Filter({ manufacturers }) {
 
                 {models.length > 0 && <div className="mb-4">
                     <h3 className="font-semibold mb-2">Model</h3>
-                    <div className="h-[150px] pl-1 overflow-y-scroll">
+                    <div className="h-auto pl-1 overflow-y-scroll">
                         {
                             models?.map(model => (
                                 <label key={model} className="block">

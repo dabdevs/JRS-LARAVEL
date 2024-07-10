@@ -8,7 +8,8 @@ const ImageUpload = ({images, url, model, modelId}) => {
         modelId: modelId
     })
 
-    const fileInputRef = useRef(null);
+    const fileInputRef = useRef(null)
+    const submitBtn = document.getElementById('car-submit-btn')
 
     if (!(url && model && modelId)) throw new Error('Model data is missing')
 
@@ -26,6 +27,13 @@ const ImageUpload = ({images, url, model, modelId}) => {
             setError('Some files were not accepted. Only JPG, JPEG, and PNG files are allowed.');
         } else {
             setError('');
+        }
+
+        if (validFiles.length > 0) {
+            // Disable submit button
+            submitBtn.disabled = true
+        } else {
+            submitBtn.disabled = false
         }
 
         setData('images', validFiles)
@@ -47,6 +55,8 @@ const ImageUpload = ({images, url, model, modelId}) => {
         if (fileInputRef.current) {
             fileInputRef.current.value = '';
         }
+
+        submitBtn.disabled = false
     }
 
     return (

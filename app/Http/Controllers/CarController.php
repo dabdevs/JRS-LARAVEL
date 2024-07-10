@@ -45,9 +45,25 @@ class CarController extends Controller
     public function store(CarRequest $request)
     {
         try {
-            $car = new Car($request->all()); 
+            $data = $request->all();
+
+            // if ($request->state === 'New') {
+            //     $data['mileage'] = null;
+            // } else {
+            //     if ($data['mileage'] === null) {
+            //         return back()->withErrors('mileage', 'Mileage field is required');
+            //     }
+            // }
+
+            $car = new Car($data); 
             $car->slug = Str::slug($car->make . "-" . $car->model . "-" . $car->year . "-" . $car->color . "-" . $car->mileage . "-" . $car->price . "-" . $car->transmission . "-" . $car->fuel_type . "-" . $car->body_type . "-" . $car->engine_size . "-" . $car->doors);
+            
+            if (Car::whereSlug($car->slug)->exists()) {
+                return back()->with('error', 'This car already exists in the database');
+            }
+
             $car->save();
+
             return redirect(route('cars.edit', $car->slug))->with('success', 'Car created successfuly.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
@@ -82,8 +98,7 @@ class CarController extends Controller
     public function edit($slug) 
     {
         $car = Car::whereSlug($slug)->with('images')->firstOrFail();
-
-
+    
         return inertia('Car/Form', [
             'car' => $car,
             'models' => Helper::getCarModels()
@@ -93,19 +108,22 @@ class CarController extends Controller
     /**
      *  Update existing car
      */
-    public function update(CarRequest $request)
+    public function update(Car $car, CarRequest $request)
     {
         try {
-            $car = Car::findOrFail($request->id);
-
-            // Write rules for CarRequest
             $car->fill($request->all());
 
             switch ($car->status) {
                 case 'Published':
+                    if ($car->images->count() === 0) {
+                        return back()->with('error', 'Cannot change the state before uploading images.');
+                    }
                     $car->date_published = now();
                     break;
                 case 'Sold':
+                    if ($car->images->count() === 0) {
+                        return back()->with('error', 'Cannot change the state before uploading images.');
+                    }
                     $car->date_sold = now();
                     break;
                 
@@ -114,7 +132,7 @@ class CarController extends Controller
                     $car->date_sold = null;
                     break;
             }
-
+         
             $car->save();
 
             return redirect()->back()->with('success', 'Car updated successfuly.');

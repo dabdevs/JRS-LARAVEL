@@ -1,11 +1,11 @@
 export default function Card({car}) {
-    const url = car?.images[0]?.url
+    const url = `/storage/${car?.images[0].url}`
 
     return (
         <div role="button" onClick={() => window.location.href = `/listing/${car.slug}`} className="bg-white p-3 rounded-lg shadow-md">
             <img
-                src={`/${url}`}
-                alt={url}
+                src={url}
+                alt={'car image'}
                 className="w-full h-48 object-cover rounded-lg mb-4"
             />
             <div className="text-center">

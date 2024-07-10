@@ -20,7 +20,7 @@ export default function DisplayCar({ car, similarCars }) {
                     <CarInfo car={car} />
                 </section>
 
-                {similarCars.length > 0 && <SimilarCars cars={similarCars} />}
+                {similarcars.data.length > 0 && <SimilarCars cars={similarCars} />}
 
             </div>
         </GuestLayout>

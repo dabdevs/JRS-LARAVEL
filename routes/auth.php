@@ -22,7 +22,7 @@ Route::middleware('guest')->group(function () {
 
     Route::get('login', function() {
         return redirect(route('admin'));
-    })->name('login');
+    });
 
     Route::post('login', [AuthenticatedSessionController::class, 'store'])->name('login');
 

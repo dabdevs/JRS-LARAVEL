@@ -9,6 +9,7 @@ import DeleteIcon from '@/Components/DeleteIcon';
 import { confirmAlert } from 'react-confirm-alert';
 import DangerButton from '@/Components/DangerButton';
 import SuccessButton from '@/Components/SuccessButton';
+import PlusIcon from '@/Components/PlusIcon';
 
 export default function Form({ auth, car, models }) {
     const { data, setData, post, put, setError, errors } = useForm(car || {
@@ -28,7 +29,7 @@ export default function Form({ auth, car, models }) {
         status: 'Unpublished',
         deleteImgId: ''
     });
-
+    
     const handleUpdate = useCallback((e) => {
         e.preventDefault();
         setError('name', '')
@@ -38,14 +39,14 @@ export default function Form({ auth, car, models }) {
             setError('name', 'Field is required')
             return
         }
-
+        
         // Send update request
-        put(route('cars.update', data.id))
+        put(route('cars.update', car.id))
     });
 
     const handleCreate = useCallback((e) => {
         e.preventDefault()
-
+       
         // Send post request
         post(route('cars.store'));
     })
@@ -148,7 +149,7 @@ export default function Form({ auth, car, models }) {
                                 <div className="flex gap-2">
                                     <input
                                         value={'New'}
-                                        onChange={(e) => setData('state', 'New')}
+                                        onChange={() => setData('state', 'New')}
                                         name="state"
                                         type='radio'
                                         id='New'
@@ -160,7 +161,7 @@ export default function Form({ auth, car, models }) {
                                 <div className="flex gap-2">
                                     <input
                                         value={'Used'}
-                                        onChange={(e) => setData('state', 'Used')}
+                                        onChange={() => setData('state', 'Used')}
                                         name="state"
                                         type='radio'
                                         id='Used'
@@ -424,10 +425,14 @@ export default function Form({ auth, car, models }) {
                             <Link href={route('cars.show', car?.slug)} className='font-bold py-2 px-6 '>Cancel</Link>
                             : <Link href={route('cars.index')} className='font-bold py-2 px-6 '>Go Back</Link>
                         }
-                        <button onClick={car ? handleUpdate : handleCreate} type='button' className='inline-flex gap-2 p-2 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+                        <button id='car-submit-btn' onClick={car ? handleUpdate : handleCreate} type='button' className='inline-flex gap-2 p-2 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
                             <SaveIcon />
                             Save
                         </button>
+                        <Link href={route('cars.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
+                            <PlusIcon />
+                            New
+                        </Link>
                     </div>
                 </div>
             </section>

@@ -19,6 +19,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        if (env('APP_ENV') === 'production') {
+            $this->app->bind('path.public', function () {
+                return base_path('public_html');
+            });
+        }
     }
 }

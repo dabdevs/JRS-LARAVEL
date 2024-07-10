@@ -21,7 +21,7 @@ class CarRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'state' => 'required|string',
             'make' => 'required|string',
             'model' => 'required|string',
@@ -30,12 +30,20 @@ class CarRequest extends FormRequest
             'body_type' => 'required|string',
             'doors' => 'required|integer',
             'transmission' => 'required|string',
-            'mileage' => 'required_if:state,Used|integer',
+            'mileage' => 'nullable|integer',
             'fuel_type' => 'required|string',
             'engine_size' => 'required|string',
             'cylinders' => 'required|integer',
             'status' => 'required|in:Published,Unpublished,Sold',
             'price' => 'required|decimal:2',
         ];
+
+        if ($this->state === 'New') {
+            $rules['mileage'] = 'nullable|integer';
+        } else {
+            $rules['mileage'] = 'required|integer';
+        }
+
+        return $rules;
     }
 }

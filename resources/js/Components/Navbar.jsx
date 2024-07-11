@@ -1,9 +1,12 @@
 import { usePage } from '@inertiajs/react'
 import { Link } from 'react-scroll'
+import { Link as InertiaLink } from '@inertiajs/react';
 import Logo from './Logo'
 import SearchForm from './SearchForm'
+import { useState } from 'react'
 
 export default function Navbar() {
+    const [showMenu, setShowMenu] = useState(false)
     const { url } = usePage()
 
     return (
@@ -57,7 +60,7 @@ export default function Navbar() {
                 </nav>
                 }
 
-                <div className="md:hidden flex items-center">
+                <div className="md:hidden flex items-center" onClick={() => setShowMenu(!showMenu)}>
                     <button className="outline-none mobile-menu-button">
                         <svg className=" w-6 h-6 text-gray-500 hover:text-primary " x-show="!showMenu" fill="none"
                             strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" viewBox="0 0 24 24"
@@ -67,18 +70,42 @@ export default function Navbar() {
                     </button>
                 </div>
 
-                <div className="hidden mobile-menu">
+                {showMenu && <div className="mobile-menu w-full absolute end-0 top-12 z-50 bg-white opacity-100 md:opacity-0 transition duration-500 ease-in-out">
                     <ul className="">
-                        <li><a href="index.html" className="block text-sm px-2 py-4 text-white bg-primary font-semibold">Home</a>
+                        <li>
+                            <InertiaLink
+                                className="block text-sm border-t px-2 py-4 text-whit font-semibold"
+                                href="/"
+                            >
+                                Home
+                            </InertiaLink>
                         </li>
-                        <li><a href="#services"
-                            className="block text-sm px-2 py-4 hover:bg-primary transition duration-300">Services</a></li>
-                        <li><a href="#about"
-                            className="block text-sm px-2 py-4 hover:bg-primary transition duration-300">About</a></li>
-                        <li><a href="#contact"
-                            className="block text-sm px-2 py-4 hover:bg-primary transition duration-300">Contact</a></li>
+                        <li>
+                            <InertiaLink
+                                className="block text-sm border-t px-2 py-4 text-whit font-semibold"
+                                href="/#services"
+                            >
+                                Services
+                            </InertiaLink>
+                        </li>
+                        <li>
+                            <InertiaLink
+                                className="block text-sm border-t px-2 py-4 text-whit font-semibold"
+                                href="/#about-us"
+                            >
+                                About Us
+                            </InertiaLink>
+                        </li>
+                        <li>
+                            <InertiaLink
+                                className="block text-sm border-t px-2 py-4 text-whit font-semibold"
+                                href="/#contact-us"
+                            >
+                                Contact Us
+                            </InertiaLink>
+                        </li>
                     </ul>
-                </div>
+                </div>}
             </div>
         </header>
     )

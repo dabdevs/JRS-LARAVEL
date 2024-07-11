@@ -11,17 +11,15 @@ export default function DisplayCar({ car, similarCars }) {
         <GuestLayout >
             <Head title={car.slug} />
 
-            <div className="bg-gray-100 text-gray-800 min-h-screen">
+            <div className="bg-gray-100 p-2 md:p-6 text-gray-800 min-h-screen">
 
-                <section className="flex-column lg:flex lg:flex-wrap p-6">
-
+                <section className="flex-column lg:flex lg:flex-wrap">
                     <Carousel images={car?.images} />
 
                     <CarInfo car={car} />
                 </section>
 
                 {similarCars.length > 0 && <SimilarCars cars={similarCars} />}
-
             </div>
         </GuestLayout>
     )

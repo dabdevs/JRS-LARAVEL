@@ -10,6 +10,7 @@ import { confirmAlert } from 'react-confirm-alert';
 import DangerButton from '@/Components/DangerButton';
 import SuccessButton from '@/Components/SuccessButton';
 import PlusIcon from '@/Components/PlusIcon';
+import { Textarea } from '@headlessui/react';
 
 export default function Form({ auth, car, models }) {
     const { data, setData, post, put, setError, errors } = useForm(car || {
@@ -27,8 +28,13 @@ export default function Form({ auth, car, models }) {
         transmission: '',
         cylinders: '',
         status: 'Unpublished',
+        description: '',
         deleteImgId: ''
     });
+
+    const showDescription = data.state !== '' && data.make !== '' && data.model !== '' && data.year !== '' &&
+        data.color !== '' && data.body_type !== '' && data.price !== '' && data.fuel_type !== '' &&
+        data.doors !== '' && data.transmission !== '' && data.cylinders !== ''
     
     const handleUpdate = useCallback((e) => {
         e.preventDefault();
@@ -134,7 +140,7 @@ export default function Form({ auth, car, models }) {
             }
         })
     }
-
+  
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -214,7 +220,7 @@ export default function Form({ auth, car, models }) {
                                 id="year"
                                 className="w-full mt-1 rounded border border-gray-400 py-1"
                             >
-                                <option value={0}>Select</option>
+                                <option value={''}>Select</option>
                                 {years.map(year => (
                                     <option key={year} value={year}>
                                         {year}
@@ -404,6 +410,11 @@ export default function Form({ auth, car, models }) {
                             <InputError message={errors.price} className="mt-2" />
                         </div>
                     </div>
+                    {showDescription && <div className="my-2">
+                        <InputLabel htmlFor="description" value="Description" />
+                        <Textarea onChange={(e) => setData('description', e.target.value)} className="w-full mt-1 rounded border border-gray-400 py-1" rows={5} name='description' id='description' value={data.description}/>
+                        <InputError message={errors.description} className="mt-2" />
+                    </div>}
 
                     {car && <div>
                         <h4 className='text-xl font-bold my-2'>Images (Up to 10) <span className="text-sm">Extensions: jpg, jpeg or png</span> </h4>

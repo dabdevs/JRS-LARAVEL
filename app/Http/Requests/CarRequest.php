@@ -22,6 +22,7 @@ class CarRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
+            'description' => 'nullable|string|max:300',
             'state' => 'required|string',
             'make' => 'required|string',
             'model' => 'required|string',

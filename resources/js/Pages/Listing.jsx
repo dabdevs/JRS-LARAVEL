@@ -5,7 +5,6 @@ import Filter from '@/Components/Filter';
 import CarsList from '@/Components/CarsList';
 
 export default function Listing({ cars, manufacturers }) {
-    console.log(cars)
     return (
         <GuestLayout>
 

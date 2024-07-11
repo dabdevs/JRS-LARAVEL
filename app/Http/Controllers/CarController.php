@@ -47,14 +47,6 @@ class CarController extends Controller
         try {
             $data = $request->all();
 
-            // if ($request->state === 'New') {
-            //     $data['mileage'] = null;
-            // } else {
-            //     if ($data['mileage'] === null) {
-            //         return back()->withErrors('mileage', 'Mileage field is required');
-            //     }
-            // }
-
             $car = new Car($data); 
             $car->slug = Str::slug($car->make . "-" . $car->model . "-" . $car->year . "-" . $car->color . "-" . $car->mileage . "-" . $car->price . "-" . $car->transmission . "-" . $car->fuel_type . "-" . $car->body_type . "-" . $car->engine_size . "-" . $car->doors);
             

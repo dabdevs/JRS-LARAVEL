@@ -16,6 +16,7 @@ class Car extends Model
      */
     protected $fillable = [
         'slug',
+        'description',
         'state',
         'make',
         'model',

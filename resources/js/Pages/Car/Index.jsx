@@ -11,11 +11,14 @@ import SearchForm from '@/Components/SearchForm';
 import ClearFilters from '@/Components/ClearFilters';
 import Sort from '@/Components/Sort';
 import ViewIcon from '@/Components/ViewIcon';
+import useUtils from '@/Hooks/useUtils';
 
 export default function Index({ auth, cars }) {
     const { data, setData, delete: destroy } = useForm({
         id: ''
     });
+
+    const {formatPrice} = useUtils()
 
     const handleDelete = (id) => {
         confirmAlert({
@@ -66,61 +69,68 @@ export default function Index({ auth, cars }) {
                     <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
                         <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                             <div className="overflow-hidden border border-gray-200 md:rounded-lg">
-                                {cars.data.length > 0 && <div className="p-2 flex justify-between">
-                                    <ClearFilters admin={true} data={cars} />
-                                    <Sort admin={true} />
-                                </div>}
+                                <div className="p-2 flex justify-between">
+                                    <div className='flex gap-2'>
+                                        {cars.total > 0 && <p className='text-lg mt-1'> {cars.total} result{cars.total > 1 && 's'}</p>}
+                                        <ClearFilters admin={true} />
+                                    </div>
+                                    {cars.data.length > 0 &&<Sort admin={true} />}
+                                </div>
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
                                         <tr>
-                                            <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500"></th>
+                                            <th scope="col" className="py-3.5 px-4 text-sm font-bold text-left rtl:text-right text-gray-500"></th>
 
-                                            <th scope="col" className="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="py-3.5 px-4 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 State
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Make
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Model
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Body Type
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Year
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Price
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Mileage
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Fuel Type
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Doors
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Transmission
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500">
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Cylinders
                                             </th>
 
-                                            <th scope="col" className="relative py-3.5 px-4">
-                                                <span className="sr-only">Actions</span>
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
+                                                Status
+                                            </th>
+
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
+                                                Actions
                                             </th>
                                         </tr>
                                     </thead>
@@ -131,7 +141,7 @@ export default function Index({ auth, cars }) {
                                                     <img className='w-[120px] h-full' src={`${car?.images.length > 0 ? `/storage/${car?.images[0].url}` : 'https://placehold.co/600x400'}`} alt={'car image'} />
                                                 </td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                                                    {car.state} {car.id}
+                                                    {car.state}
                                                 </td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     {car.make}
@@ -146,10 +156,10 @@ export default function Index({ auth, cars }) {
                                                     {car.year}
                                                 </td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                                                    {car.price}
+                                                    {formatPrice(car.price)}
                                                 </td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                                                    {car.mileage}
+                                                    {car.mileage ?? 'N/A'}
                                                 </td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     {car.fuel_type}
@@ -162,6 +172,11 @@ export default function Index({ auth, cars }) {
                                                 </td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     {car.cylinders}
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    <button disabled className={`w-24 p-2 ${car.status === 'Published' && 'bg-green-600'} ${car.status === 'Unpublished' && 'bg-primary'} ${car.status === 'Sold' && 'bg-orange-600'} rounded-md text-white`}>
+                                                        {car.status}
+                                                    </button>
                                                 </td>
                                                 {/* <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{format(new Date(car.created_at.toIso8601String()), 'MMMM dd, yyyy')}</td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{formatDistanceToNow(parseISO(car.updated_at.toIso8601String()))} ago</td> */}

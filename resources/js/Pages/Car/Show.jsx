@@ -2,8 +2,11 @@ import InputLabel from '@/Components/InputLabel';
 import { Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import EditICon from '@/Components/EditICon';
+import useUtils from '@/Hooks/useUtils';
 
 export default function Show({ auth, car }) {
+    const { formatPrice } = useUtils()
+
     return (
         <AuthenticatedLayout
             user={auth.user}
@@ -40,10 +43,10 @@ export default function Show({ auth, car }) {
                             <InputLabel htmlFor="doors" value="Doors" />
                             <p id="doors" className='text-xl'>{car.doors}</p>
                         </div>
-                        <div className="my-2">
+                        {car.mileage && <div className="my-2">
                             <InputLabel htmlFor="mileage" value="Mileage" />
                             <p id="mileage" className='text-xl'>{car.mileage}</p>
-                        </div>
+                        </div>}
                         <div className="my-2">
                             <InputLabel htmlFor="transmission" value="Transmission" />
                             <p id="transmission" className='text-xl'>{car.transmission}</p>
@@ -74,8 +77,12 @@ export default function Show({ auth, car }) {
                         </div>}
                         <div className="my-2">
                             <InputLabel htmlFor="price" value="Price" />
-                            <p id="price" className='text-xl'>${car.price}</p>
+                            <p id="price" className='text-xl'>{formatPrice(car.price)}</p>
                         </div>
+                        {car.description && <div className="my-2 col-span-6">
+                            <InputLabel htmlFor="description" value="Description" />
+                            <p id="description" className='text-xl'>{car.description}</p>
+                        </div>}
                     </div>
                     <div className="flex gap-2 justify-end">
                         <Link href={route('cars.index')} className='font-bold py-2 px-6 '>Go Back</Link>

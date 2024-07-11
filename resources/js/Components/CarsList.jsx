@@ -28,8 +28,10 @@ export default function CarsList() {
             }
 
             <div className="flex justify-between py-2 gap-2 mb-3">
-
-                <ClearFilters data={cars} />
+                <div className='flex gap-2'>
+                    <p className='text-lg mt-1'>{cars.total} result{cars.total > 1 && 's'}</p>
+                    <ClearFilters />
+                </div>
 
                 <div className='flex gap-2'>
                     {cars.data.length > 0 && <Sort />}

@@ -1,4 +1,7 @@
+import useUtils from "@/Hooks/useUtils"
+
 export default function CarInfo({car}) {
+    const {formatPrice} = useUtils()
     return (
         <div className="specs h-full w-full md:w-1/2 lg:px-10">
             <h2 className="text-2xl font-bold mb-4">{`${car.year} ${car.make} ${car.model}`}</h2>
@@ -25,7 +28,7 @@ export default function CarInfo({car}) {
                 <strong>Description:</strong>
                 <p className="mb-2">{car.description}</p>
             </div>}
-            <p className="text-5xl text-primary lg:py-5">$ {car.price}</p> 
+            <p className="text-5xl text-primary lg:py-5">{formatPrice(car.price)}</p> 
             <button className="w-full bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white border-2 hover:border-primary hover:text-primary transition duration-300">Contact Us</button>
         </div>
     )

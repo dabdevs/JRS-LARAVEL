@@ -48,7 +48,7 @@ class CarController extends Controller
             $data = $request->all();
 
             $car = new Car($data); 
-            $car->slug = Str::slug($car->make . "-" . $car->model . "-" . $car->year . "-" . $car->color . "-" . $car->mileage . "-" . $car->price . "-" . $car->transmission . "-" . $car->fuel_type . "-" . $car->body_type . "-" . $car->engine_size . "-" . $car->doors);
+            $car->slug = Helper::generateSlug($car);
             
             if (Car::whereSlug($car->slug)->exists()) {
                 return back()->with('error', 'This car already exists in the database');
@@ -124,7 +124,8 @@ class CarController extends Controller
                     $car->date_sold = null;
                     break;
             }
-         
+
+            $car->slug = Helper::generateSlug($car);
             $car->save();
 
             return redirect(route('cars.edit', $car->slug))->with('success', 'Car updated successfuly.');

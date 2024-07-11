@@ -2,7 +2,9 @@
 
 namespace App\Http;
 
+use App\Models\Car;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class Helper {
     public static function sortCars($q, $options=[])
@@ -101,5 +103,10 @@ class Helper {
 
             return $models;
         }); 
+    }
+
+    public static function generateSlug(Car $car) 
+    {
+        return Str::slug($car->make . "-" . $car->model . "-" . $car->year . "-" . $car->color . "-" . $car->mileage . "-" . $car->price . "-" . $car->transmission . "-" . $car->fuel_type . "-" . $car->body_type . "-" . $car->engine_size . "-" . $car->doors);
     }
 }

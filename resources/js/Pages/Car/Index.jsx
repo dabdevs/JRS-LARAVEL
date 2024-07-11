@@ -174,7 +174,7 @@ export default function Index({ auth, cars }) {
                                                     {car.cylinders}
                                                 </td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                                                    <button disabled className={`w-24 p-2 ${car.status === 'Published' && 'bg-green-600'} ${car.status === 'Unpublished' && 'bg-primary'} ${car.status === 'Sold' && 'bg-orange-600'} rounded-md text-white`}>
+                                                    <button disabled className={`w-24 p-1 ${car.status === 'Published' && 'bg-green-600'} ${car.status === 'Unpublished' && 'bg-primary'} ${car.status === 'Sold' && 'bg-orange-600'} rounded-md text-white`}>
                                                         {car.status}
                                                     </button>
                                                 </td>

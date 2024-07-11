@@ -70,7 +70,7 @@ export default function Navbar() {
                     </button>
                 </div>
 
-                {showMenu && <div className="mobile-menu w-full absolute end-0 top-12 z-50 bg-white opacity-100 md:opacity-0 transition duration-500 ease-in-out">
+                {showMenu && <div className="mobile-menu shadow-md w-full absolute end-0 top-12 z-50 bg-white opacity-100 md:opacity-0 transition duration-500 ease-in-out">
                     <ul className="">
                         <li>
                             <InertiaLink

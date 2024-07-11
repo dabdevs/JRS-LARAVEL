@@ -11,10 +11,10 @@ export default function CarsList() {
 
     const toggleFilter = () => {
         const filter = document.getElementById('filter')
-        if (filter.classList.contains('opacity-0')) {
-            filter.classList.remove('opacity-0')
+        if (filter.classList.contains('hidden')) {
+            filter.classList.remove('hidden','opacity-0')
         } else {
-            filter.classList.add('opacity-0')
+            filter.classList.add('hidden','opacity-0')
         }
     }
 

@@ -28,7 +28,7 @@ export default function CarInfo({car}) {
                 <strong>Description:</strong>
                 <p className="mb-2">{car.description}</p>
             </div>}
-            <p className="text-5xl text-primary lg:py-5">{formatPrice(car.price)}</p> 
+            <p className="font-bold text-3xl lg:text-4xl text-primary lg:py-5">{formatPrice(car.price)}</p> 
             <button className="w-full bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white border-2 hover:border-primary hover:text-primary transition duration-300">Contact Us</button>
         </div>
     )

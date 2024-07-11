@@ -104,7 +104,7 @@ export default function Filter({ manufacturers }) {
     }
     
     return (
-        <aside className="w-1/2 md:w-1/5 p-2 md:p-4 absolute opacity-0 md:opacity-100 transition-opacity duration-500 ease-in-out md:relative bg-white md:bg-transparent rounded-lg" id="filter">
+        <aside className="w-1/2 md:w-1/5 p-2 md:p-4 absolute hidden opacity-0 md:opacity-100 transition-opacity duration-500 ease-in-out md:relative bg-white md:bg-transparent rounded-lg" id="filter">
             <form onSubmit={handleSubmit}>
                 <h2 className="text-lg font-bold mb-4">Filters</h2>
 

@@ -135,7 +135,7 @@ class CarController extends Controller
          
             $car->save();
 
-            return redirect()->back()->with('success', 'Car updated successfuly.');
+            return redirect(route('cars.edit', $car->slug))->with('success', 'Car updated successfuly.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -172,16 +172,24 @@ class CarController extends Controller
      */
     public function deleteImage(Request $request, $imgId)
     {
-        $car = Car::findOrFail($request->id);
-        $image = $car->images()->findOrFail($imgId);
+        try {
+            $car = Car::findOrFail($request->id);
+            $image = $car->images()->findOrFail($imgId);
 
-        // Delete the image file from storage
-        Storage::delete('public/' . $image->url);
+            // Delete the image file from storage
+            Storage::delete('public/' . $image->url);
 
-        // Delete the image record from the database
-        $image->delete();
+            // Delete the image record from the database
+            $image->delete();
 
-        return redirect()->back()->with('success', 'Image deleted successfully.');
-        dd($request->all(), $imgId);
+            if ($car->images()->count() === 0) {
+                $car->status = 'Unpublished';
+                $car->save();
+            }
+
+            return redirect(route('cars.edit', $car->slug))->with('success', 'Image deleted successfully.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('success', 'Image deleted successfully.');
+        }
     }
 }

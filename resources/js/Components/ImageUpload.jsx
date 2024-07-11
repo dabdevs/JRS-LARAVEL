@@ -2,14 +2,13 @@ import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
 
 const ImageUpload = ({images, url, model, modelId}) => {
-    const {data, setData, error, setError, post} = useForm({
+    const {data, setData, setError, post} = useForm({
         images: images || [],
         model: model,
         modelId: modelId
     })
 
     const fileInputRef = useRef(null)
-    const submitBtn = document.getElementById('car-submit-btn')
 
     if (!(url && model && modelId)) throw new Error('Model data is missing')
 
@@ -29,13 +28,6 @@ const ImageUpload = ({images, url, model, modelId}) => {
             setError('');
         }
 
-        if (validFiles.length > 0) {
-            // Disable submit button
-            submitBtn.disabled = true
-        } else {
-            submitBtn.disabled = false
-        }
-
         setData('images', validFiles)
     };
 
@@ -53,11 +45,10 @@ const ImageUpload = ({images, url, model, modelId}) => {
         })
 
         if (fileInputRef.current) {
-            fileInputRef.current.value = '';
+            fileInputRef.current.value = null;
         }
 
         setData('images', [])
-        submitBtn.disabled = false
     }
 
     return (

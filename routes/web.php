@@ -15,6 +15,10 @@ Route::get('/linkstorage', function () {
     Artisan::call('storage:link');
 });
 
+Route::get('/production-linkstorage', function () {
+    Artisan::call('storage:custom-link');
+});
+
 Route::get('/migrate', function () {
     Artisan::call('migrate');
 });

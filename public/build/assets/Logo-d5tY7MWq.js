@@ -1,1 +1,0 @@
-import{j as t}from"./app-D6eEK87w.js";function r(){return t.jsx("a",{href:"/",className:"text-xl font-bold text-primary",children:t.jsx("img",{width:"130",src:"/img/logo.png",alt:""})})}export{r as L};

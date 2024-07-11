@@ -25,7 +25,7 @@ class Helper {
                     break;
                 case 'newest':
                     $field = "date_published";
-                    $order = "ASC";
+                    $order = "DESC";
                     break;
             }
         }

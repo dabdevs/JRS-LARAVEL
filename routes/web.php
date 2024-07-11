@@ -27,6 +27,10 @@ Route::get('/optimize', function () {
     Artisan::call('optimize:clear');
 });
 
+Route::get('/queue', function () {
+    Artisan::call('queue:work');
+});
+
 Route::get('/', [GuestController::class, 'index'])->name('index');
 Route::post('/contact', [GuestController::class, 'contact'])->name('contact');
 

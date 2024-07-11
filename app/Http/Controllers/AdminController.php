@@ -9,6 +9,7 @@ class AdminController extends Controller
 {
     public function dashboard()
     {
-        return inertia('Dashboard');
+        return redirect(route('cars.index'));
+        // return inertia('Dashboard');
     }
 }

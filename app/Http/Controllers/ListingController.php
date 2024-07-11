@@ -40,7 +40,7 @@ class ListingController extends Controller
         }
 
         $filters = request()->all();
-        // dd($filters["body_type"]);
+      
         if (!empty($filters["state"])) $query->whereIn('state', $filters["state"]);
         if (!empty($filters["make"])) $query->whereIn('make', $filters["make"]);
         if (!empty($filters["model"])) $query->whereIn('model', $filters["model"]);
@@ -90,8 +90,7 @@ class ListingController extends Controller
             $query->select(['id', 'url', 'car_id']);
         }])->first();
 
-        $similarCars =
-            Car::where('id', '<>', $car->id)
+        $similarCars = Car::where('id', '<>', $car->id)
             ->where(function ($query) use ($car) {
                 $query->where([
                     'make' => $car->make,

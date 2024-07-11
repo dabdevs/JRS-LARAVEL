@@ -35,7 +35,6 @@ class GuestController extends Controller
             $contact = Contact::create($request->all());
 
             // event(new NewContact($contact));
-            // Mail::to($contact->email)->send(new NewContactEmail($contact));
 
             $contact->notify(new EmailReceived($contact));
             BusinessInfo::firstOrFail()->notify(new NewContactReceived($contact));

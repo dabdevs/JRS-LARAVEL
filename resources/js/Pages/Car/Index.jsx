@@ -51,10 +51,8 @@ export default function Index({ auth, cars }) {
         })
     }
 
-    return (
-        <AuthenticatedLayout
-            user={auth.user}
-        >
+    function Table({sidebarExpanded}) {
+        return (
             <section className="w-full px-4 mx-auto">
                 <div className="flex justify-between">
                     <div className='w-1/3'>
@@ -75,7 +73,7 @@ export default function Index({ auth, cars }) {
                                         {cars.total > 0 && <p className='text-lg mt-1'> {cars.total} result{cars.total > 1 && 's'}</p>}
                                         <ClearFilters admin={true} />
                                     </div>
-                                    {cars.data.length > 0 &&<Sort admin={true} />}
+                                    {cars.data.length > 0 && <Sort admin={true} />}
                                 </div>
                                 <table className="min-w-full divide-y divide-gray-200">
                                     <thead className="bg-gray-50">
@@ -110,9 +108,9 @@ export default function Index({ auth, cars }) {
                                                 Mileage
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
+                                            {!sidebarExpanded && <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Fuel Type
-                                            </th>
+                                            </th>}
 
                                             <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Doors
@@ -122,9 +120,9 @@ export default function Index({ auth, cars }) {
                                                 Transmission
                                             </th>
 
-                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
+                                            {!sidebarExpanded && <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Cylinders
-                                            </th>
+                                            </th>}
 
                                             <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Status
@@ -166,18 +164,18 @@ export default function Index({ auth, cars }) {
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     {car.mileage ?? 'N/A'}
                                                 </td>
-                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                {!sidebarExpanded && <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     {car.fuel_type}
-                                                </td>
+                                                </td>}
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     {car.doors}
                                                 </td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     {car.transmission}
                                                 </td>
-                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                {!sidebarExpanded && <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     {car.cylinders}
-                                                </td>
+                                                </td>}
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                     <button disabled className={`w-24 p-1 ${car.status === 'Published' && 'bg-green-600'} ${car.status === 'Unpublished' && 'bg-primary'} ${car.status === 'Sold' && 'bg-orange-600'} rounded-md text-white`}>
                                                         {car.status}
@@ -215,6 +213,14 @@ export default function Index({ auth, cars }) {
                     </div>
                 </div>
             </section>
+        )
+    }
+
+    return (
+        <AuthenticatedLayout
+            user={auth.user}
+        >
+            <Table />
         </AuthenticatedLayout>
     )
 }

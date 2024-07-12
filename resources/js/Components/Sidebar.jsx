@@ -5,7 +5,7 @@ import { useState } from 'react';
 
 export default function Sidebar() {
     const { can } = usePermissions()
-    const [expanded, setExpanded] = useState(false);
+    const [expanded, setExpanded] = useState(true);
 
     const handleExpand = () => {
         setToggled(!expanded)

@@ -145,7 +145,7 @@ export default function Form({ auth, car, models }) {
         <AuthenticatedLayout
             user={auth.user}
         >
-            <section className="px-4 container mx-auto">
+            <section className="px-4 mx-auto">
                 <div className="p-4 rounded-md shadow-sm bg-white text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <h1 className="text-2xl font-semibold mb-4">{car ? `${car?.make} ${car?.model}` : 'New Car'}</h1>
                     <div className="my-2 w-full grid grid-cols-6 gap-4">

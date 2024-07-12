@@ -22,8 +22,8 @@ export default function AuthenticatedLayout({ user, permissions, header, childre
                 <Sidebar user={user} />
 
                 <div className='w-full'>
-                    <nav className="border-b border-gray-100">
-                        <div className="max-w-8xl mx-auto sm:px-6 lg:px-4">
+                    <nav>
+                        <div className="mx-auto sm:px-6 lg:px-4">
                             <div className="flex justify-between h-16">
                                 <div className="flex">
                                     <div className="shrink-0 flex items-center">
@@ -120,8 +120,11 @@ export default function AuthenticatedLayout({ user, permissions, header, childre
                     </nav>
 
                     <FlashMessage />
+
+                    <div className="py-5">
+                        {children}
+                    </div>
                     
-                    {children}
                 </div>
             </main>
         </div>

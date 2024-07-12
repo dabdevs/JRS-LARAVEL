@@ -12,6 +12,7 @@ import ClearFilters from '@/Components/ClearFilters';
 import Sort from '@/Components/Sort';
 import ViewIcon from '@/Components/ViewIcon';
 import useUtils from '@/Hooks/useUtils';
+import { format } from 'date-fns';
 
 export default function Index({ auth, cars }) {
     const { data, setData, delete: destroy } = useForm({
@@ -54,7 +55,7 @@ export default function Index({ auth, cars }) {
         <AuthenticatedLayout
             user={auth.user}
         >
-            <section className="w-full px-4 container mx-auto">
+            <section className="w-full px-4 mx-auto">
                 <div className="flex justify-between">
                     <div className='w-1/3'>
                         <SearchForm admin={true} />
@@ -130,13 +131,17 @@ export default function Index({ auth, cars }) {
                                             </th>
 
                                             <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
+                                                Date Published
+                                            </th>
+
+                                            <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                                 Actions
                                             </th>
                                         </tr>
                                     </thead>
                                     <tbody className="bg-white divide-y divide-gray-200">
                                         {cars?.data?.map(car => (
-                                            <tr key={car.id}>
+                                            <tr key={car.id} role='button' onClick={() => window.open(`cars/${car.slug}`, '_self')}>
                                                 <td className="h-[100px] p-2 text-sm font-medium text-gray-700 whitespace-nowrap">
                                                     <img className='w-[120px] h-full' src={`${car?.images.length > 0 ? `/storage/${car?.images[0].url}` : 'https://placehold.co/600x400'}`} alt={'car image'} />
                                                 </td>
@@ -177,6 +182,9 @@ export default function Index({ auth, cars }) {
                                                     <button disabled className={`w-24 p-1 ${car.status === 'Published' && 'bg-green-600'} ${car.status === 'Unpublished' && 'bg-primary'} ${car.status === 'Sold' && 'bg-orange-600'} rounded-md text-white`}>
                                                         {car.status}
                                                     </button>
+                                                </td>
+                                                <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                                                    {format(new Date(car.date_published), 'MM-dd-yyyy')}
                                                 </td>
                                                 {/* <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{format(new Date(car.created_at.toIso8601String()), 'MMMM dd, yyyy')}</td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{formatDistanceToNow(parseISO(car.updated_at.toIso8601String()))} ago</td> */}

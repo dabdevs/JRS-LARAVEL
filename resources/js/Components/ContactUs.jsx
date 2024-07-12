@@ -5,7 +5,7 @@ import { useState } from 'react';
 export default function ContactUs() {
     const {address, phone, email} = useBusinessInfo()
     const [success, setSuccess] = useState(false)
-    const { data, setData, post, reset } = useForm({
+    const { data, setData, post, processing, reset } = useForm({
         name: '',
         email: '',
         message: '',
@@ -77,11 +77,13 @@ export default function ContactUs() {
                                     name="message"
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-0"
                                     rows="4" placeholder="Your Message"></textarea>
-
+                                {processing && 'Sending...'}
                                 {success && <p className='font-bold text-green-600'>Message sent successfuly!</p>}
                             </div>
                             <div>
-                                <button type="submit"
+                                <button 
+                                    disabled={processing}
+                                    type="submit"
                                     className="w-full bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-primary border-2 hover:border-primary transition duration-300">
                                     Send Message
                                 </button>

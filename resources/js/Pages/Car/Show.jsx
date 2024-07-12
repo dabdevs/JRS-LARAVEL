@@ -3,6 +3,7 @@ import { Link } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import EditICon from '@/Components/EditICon';
 import useUtils from '@/Hooks/useUtils';
+import { format } from 'date-fns';
 
 export default function Show({ auth, car }) {
     const { formatPrice } = useUtils()
@@ -11,7 +12,7 @@ export default function Show({ auth, car }) {
         <AuthenticatedLayout
             user={auth.user}
         >
-            <section className="px-4 container mx-auto">
+            <section className="px-4 mx-auto">
                 <div className="p-4 rounded-md shadow-sm bg-white text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <h1 className="text-2xl font-semibold mb-4">{car.make} {car.model}</h1>
                     <div className="my-2 w-full grid grid-cols-6 gap-4">
@@ -67,13 +68,13 @@ export default function Show({ auth, car }) {
                             <InputLabel htmlFor="status" value="Status" />
                             <p id="status" className='text-xl'>{car.status}</p>
                         </div>
-                        {car.status === 'Published' && <div className="my-2 col-span-2">
+                        {car.status === 'Published' && <div className="my-2">
                             <InputLabel htmlFor="date_published" value="Date Published" />
-                            <p id="date_published" className='text-xl'>{car.date_published}</p>
+                            <p id="date_published" className='text-xl'>{format(new Date(car.date_published), 'MM-dd-yyyy')}</p>
                         </div>}
-                        {car.status === 'Sold' && <div className="my-2 col-span-2">
+                        {car.status === 'Sold' && <div className="my-2">
                             <InputLabel htmlFor="date_sold" value="Date Sold" />
-                            <p id="date_sold" className='text-xl'>{car.date_published}</p>
+                            <p id="date_sold" className='text-xl'>{format(new Date(car.date_sold), 'MM-dd-yyyy')}</p>
                         </div>}
                         <div className="my-2">
                             <InputLabel htmlFor="price" value="Price" />

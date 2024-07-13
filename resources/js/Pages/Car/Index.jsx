@@ -128,7 +128,7 @@ export default function Index({ auth, cars }) {
                                         </th>
 
                                         <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                                            Date Published
+                                            Date Created
                                         </th>
 
                                         <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
@@ -181,7 +181,7 @@ export default function Index({ auth, cars }) {
                                                 </button>
                                             </td>
                                             <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                                                {car.date_published ? format(new Date(car.date_published), 'MM-dd-yyyy') : 'N/A'}
+                                                {car.created_at ? format(new Date(car.created_at), 'MM-dd-yyyy HH:mm:ss') : 'N/A'}
                                             </td>
                                             {/* <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{format(new Date(car.created_at.toIso8601String()), 'MMMM dd, yyyy')}</td>
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{formatDistanceToNow(parseISO(car.updated_at.toIso8601String()))} ago</td> */}

@@ -112,10 +112,6 @@ export default function Index({ auth, cars }) {
                                         </th>}
 
                                         <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                                            Doors
-                                        </th>
-
-                                        <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                                             Transmission
                                         </th>
 
@@ -166,9 +162,6 @@ export default function Index({ auth, cars }) {
                                             {!sidebarExpanded && <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                 {car.fuel_type}
                                             </td>}
-                                            <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                                                {car.doors}
-                                            </td>
                                             <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                                                 {car.transmission}
                                             </td>

@@ -13,7 +13,6 @@ class UploadController extends Controller
      */
     public function images(ImageUploadRequest $request)
     {
-        // dd($request->all(), $request->file('images'));
         try {
             $car = Car::findOrFail($request->modelId);
 

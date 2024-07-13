@@ -2,7 +2,7 @@ import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
 
 const ImageUpload = ({images, url, model, modelId}) => {
-    const {data, setData, setError, post} = useForm({
+    const {data, setData, setError, processing, post} = useForm({
         images: images || [],
         model: model,
         modelId: modelId
@@ -33,6 +33,9 @@ const ImageUpload = ({images, url, model, modelId}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        if (data.images.length === 0) return 
+        
         const formData = new FormData();
         for (let i = 0; i < data.images.length; i++) {
             formData.append('images[]', data.images[i])
@@ -55,7 +58,7 @@ const ImageUpload = ({images, url, model, modelId}) => {
         <form onSubmit={handleSubmit}>
             <div className="gap-2 flex w-80 align-middle">
                 <input ref={fileInputRef} type="file" accept="image/jpeg, image/png, image/jpg" multiple onChange={handleImageChange} />
-                <button type="submit" className='bg-white text-primary border-primary border-2 font-bold px-2 h-[30px] my-auto rounded-md'>Upload</button>
+                <button type="submit" className='bg-white text-primary border-primary border-2 font-bold px-2 h-[30px] my-auto rounded-md'>{processing ? 'Uploading...' : 'Upload'}</button>
             </div>
         </form>
     );

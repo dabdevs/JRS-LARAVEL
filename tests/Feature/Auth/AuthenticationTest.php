@@ -2,9 +2,17 @@
 
 use App\Models\User;
 
-test('login screen can be rendered', function () {
-    $response = $this->get('/login');
+use Illuminate\Support\Facades\Artisan;
 
+beforeEach(function () {
+    Artisan::call('migrate:fresh');
+    Artisan::call('db:seed'); 
+});
+
+test('login screen can be rendered', function () {
+    $response = $this->get('/admin');
+    
+    // dd($response->content());
     $response->assertStatus(200);
 });
 
@@ -13,7 +21,7 @@ test('users can authenticate using the login screen', function () {
 
     $response = $this->post('/login', [
         'email' => $user->email,
-        'password' => 'password',
+        'password' => '1234',
     ]);
 
     $this->assertAuthenticated();

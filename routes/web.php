@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UploadController;
@@ -34,9 +35,6 @@ Route::get('/queue', function () {
 Route::get('/', [GuestController::class, 'index'])->name('index');
 Route::post('/contact', [GuestController::class, 'contact'])->name('contact');
 
-// Dashboard routes
-Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
-
 // Auth routes
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -55,10 +53,18 @@ Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('li
 // Route::post('/roles/{roleId}/remove', [RoleController::class, 'removePermission'])->name('roles.permissions.remove');
 
 // Cars routes
-Route::prefix('dashboard')->middleware('auth')->group(function () {
+Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () { // Dashboard routes
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    
+    // Car routes
     Route::resource('cars', CarController::class)->except('show');
     Route::get('cars/{slug}', [CarController::class, 'show'])->name('cars.show');
     Route::post('cars/image/{imgId}/delete', [CarController::class, 'deleteImage'])->name('cars.images.delete');
+
+    // Loan Application routes
+    Route::resource('loan-applications', LoanApplicationController::class);
+    
+    // Upload images
     Route::post('upload-images', [UploadController::class, 'images'])->name('upload.images');
 })->middleware(AdminMiddleware::class);
 

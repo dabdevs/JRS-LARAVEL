@@ -8,10 +8,8 @@ import { format } from 'date-fns';
 export default function Show({ auth, car }) {
     const { formatPrice } = useUtils()
 
-    return (
-        <AuthenticatedLayout
-            user={auth.user}
-        >
+    function Content() {
+        return (
             <section className="px-4 mx-auto">
                 <div className="p-4 rounded-md shadow-sm bg-white text-center sm:ml-4 sm:mt-0 sm:text-left">
                     <h1 className="text-2xl font-semibold mb-4">{car.make} {car.model}</h1>
@@ -44,10 +42,10 @@ export default function Show({ auth, car }) {
                             <InputLabel htmlFor="doors" value="Doors" />
                             <p id="doors" className='text-xl'>{car.doors}</p>
                         </div>
-                        {car.mileage && <div className="my-2">
+                        <div className="my-2">
                             <InputLabel htmlFor="mileage" value="Mileage" />
-                            <p id="mileage" className='text-xl'>{car.mileage}</p>
-                        </div>}
+                            <p id="mileage" className='text-xl'>{car.mileage ?? 'N/A'}</p>
+                        </div>
                         <div className="my-2">
                             <InputLabel htmlFor="transmission" value="Transmission" />
                             <p id="transmission" className='text-xl'>{car.transmission}</p>
@@ -66,19 +64,27 @@ export default function Show({ auth, car }) {
                         </div>
                         <div className="my-2">
                             <InputLabel htmlFor="status" value="Status" />
-                            <p id="status" className='text-xl'>{car.status}</p>
+                            <p id="status" className={`text-xl ${car.status === 'Published' && 'text-green-600'} ${car.status === 'Unpublished' && 'text-primary'} ${car.status === 'Sold' && 'text-orange-600'}`}>{car.status}</p>
                         </div>
-                        {car.status === 'Published' && <div className="my-2">
-                            <InputLabel htmlFor="date_published" value="Date Published" />
-                            <p id="date_published" className='text-xl'>{format(new Date(car.date_published), 'MM-dd-yyyy')}</p>
-                        </div>}
-                        {car.status === 'Sold' && <div className="my-2">
+                        {car.date_sold && <div className="my-2">
                             <InputLabel htmlFor="date_sold" value="Date Sold" />
                             <p id="date_sold" className='text-xl'>{format(new Date(car.date_sold), 'MM-dd-yyyy')}</p>
+                        </div>}
+                        {car.date_published && <div className="my-2">
+                            <InputLabel htmlFor="date_published" value="Date Published" />
+                            <p id="date_published" className='text-xl'>{format(new Date(car.date_published), 'MM-dd-yyyy')}</p>
                         </div>}
                         <div className="my-2">
                             <InputLabel htmlFor="price" value="Price" />
                             <p id="price" className='text-xl'>{formatPrice(car.price)}</p>
+                        </div>
+                        <div className="my-2">
+                            <InputLabel htmlFor="created_at" value="Date Created" />
+                            <p id="created_at" className='text-xl'>{format(new Date(car.created_at), 'MM-dd-yyyy HH:mm:ss')}</p>
+                        </div>
+                        <div className="my-2">
+                            <InputLabel htmlFor="last_updated" value="Last Updated" />
+                            <p id="last_updated" className='text-xl'>{(car.updated_at && format(new Date(), 'MM-dd-yyyy HH:mm:ss')) ?? 'N/A'}</p>
                         </div>
                         {car.description && <div className="my-2 col-span-6">
                             <InputLabel htmlFor="description" value="Description" />
@@ -94,6 +100,14 @@ export default function Show({ auth, car }) {
                     </div>
                 </div>
             </section>
+        )
+    }
+
+    return (
+        <AuthenticatedLayout
+            user={auth.user}
+        >
+            <Content />
         </AuthenticatedLayout>
     )
 }

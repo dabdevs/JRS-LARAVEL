@@ -67,7 +67,7 @@ class CarController extends Controller
      */
     public function create()
     {
-        return inertia('Car/Form', [
+        return inertia('Car/Create', [
             'models' => Helper::getCarModels()
         ]);
     }
@@ -91,7 +91,7 @@ class CarController extends Controller
     {
         $car = Car::whereSlug($slug)->with('images')->firstOrFail();
     
-        return inertia('Car/Form', [
+        return inertia('Car/Edit', [
             'car' => $car,
             'models' => Helper::getCarModels()
         ]);
@@ -121,7 +121,6 @@ class CarController extends Controller
                 
                 default:
                     $car->date_published = null;
-                    $car->date_sold = null;
                     break;
             }
 

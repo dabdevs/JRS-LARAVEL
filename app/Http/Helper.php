@@ -107,6 +107,6 @@ class Helper {
 
     public static function generateSlug(Car $car) 
     {
-        return Str::slug($car->make . "-" . $car->model . "-" . $car->year . "-" . $car->color . "-" . $car->mileage . "-" . $car->price . "-" . $car->transmission . "-" . $car->fuel_type . "-" . $car->body_type . "-" . $car->engine_size . "-" . $car->doors);
+        return Str::slug($car->status . "-" . $car->make . "-" . $car->model . "-" . $car->year . "-" . $car->color . "-" . $car->price . "-" . $car->transmission . "-" . $car->fuel_type . "-" . $car->body_type . "-" . $car->engine_size . "-" . $car->doors . "-" . now());
     }
 }

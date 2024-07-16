@@ -24,7 +24,7 @@ class LoanApplicationController extends Controller
      */
     public function create()
     {
-        //
+        return inertia('LoanApplication/Create');
     }
 
     /**

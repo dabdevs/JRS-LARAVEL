@@ -1,7 +1,14 @@
 import React from 'react'
+import Form from './Form'
+import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-export default function Create() {
+export default function Create({auth}) {
+  console.log(auth)
   return (
-    <div>Create</div>
+    <AuthenticatedLayout
+      user={auth.user}
+    >
+      <Form />
+    </AuthenticatedLayout>
   )
 }

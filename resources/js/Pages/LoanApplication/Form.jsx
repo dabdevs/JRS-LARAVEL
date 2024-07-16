@@ -235,7 +235,8 @@ export default function Form({ application, states }) {
                         </div>
                         <div>
                             <label htmlFor="current_residence_type" className="block font-medium text-sm text-gray-700">Current Residence Type*</label>
-                            <select onChange={(e) => setData('current_residence_type', e.target.value)} id="current_residence_type" name="current_residence_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                            <select value={data.current_residence_type} onChange={(e) => setData('current_residence_type', e.target.value)} id="current_residence_type" name="current_residence_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                <option value="">Select</option>
                                 <option value="Own">Own</option>
                                 <option value="Rent">Rent</option>
                                 <option value="Other">Other</option>
@@ -251,7 +252,8 @@ export default function Form({ application, states }) {
                         <p className='col-span-5 my-2 text-2xl text-gray-500 text-bold'>EMPLOYMENT</p>
                         <div>
                             <label htmlFor="employment_type" className="block font-medium text-sm text-gray-700">Employment Type*</label>
-                            <select onChange={(e) => setData('employment_type', e.target.value)} id="employment_type" name="employment_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                            <select value={data.employment_type} onChange={(e) => setData('employment_type', e.target.value)} id="employment_type" name="employment_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                <option value="">Select</option>
                                 <option value="Full-time">Full-time</option>
                                 <option value="Part-time">Part-time</option>
                                 <option value="Retired">Retired</option>
@@ -273,12 +275,12 @@ export default function Form({ application, states }) {
                             <input onChange={(e) => setData('work_phone', e.target.value)} type="text" id="work_phone" name="work_phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                         </div>
                         <div>
-                            <label htmlFor="employment_length" className="block font-medium text-sm text-gray-700">Employment Length (months)*</label>
-                            <input onChange={(e) => setData('employment_length', e.target.value)} type="number" id="employment_length" name="employment_length" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <label htmlFor="time_at_employment" className="block font-medium text-sm text-gray-700">Employment Length (months)*</label>
+                            <input onChange={(e) => setData('time_at_employment', e.target.value)} type="number" id="time_at_employment" name="time_at_employment" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                         </div>
                         <div>
-                            <label htmlFor="monthly_income" className="block font-medium text-sm text-gray-700">Monthly Income*</label>
-                            <input onChange={(e) => setData('monthly_income', e.target.value)} type="number" id="monthly_income" name="monthly_income" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" step="0.01" />
+                            <label htmlFor="gross_monthly_income" className="block font-medium text-sm text-gray-700">Monthly Income*</label>
+                            <input onChange={(e) => setData('gross_monthly_income', e.target.value)} type="number" id="gross_monthly_income" name="gross_monthly_income" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" step="0.01" />
                         </div>
                         <div className='col-span-4'>
                             <label htmlFor="employer_address_line_1" className="block font-medium text-sm text-gray-700">Employer Address Line 1*</label>
@@ -288,17 +290,21 @@ export default function Form({ application, states }) {
                             <label htmlFor="employer_address_line_2" className="block font-medium text-sm text-gray-700">Employer Address Line 2*</label>
                             <input onChange={(e) => setData('employer_address_line_2', e.target.value)} type="text" id="employer_address_line_2" name="employer_address_line_2" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"/>
                         </div>
-                        <div className='col-span-2'>
-                            <label htmlFor="city" className="block font-medium text-sm text-gray-700">Employer City*</label>
-                            <input onChange={(e) => setData('city', e.target.value)} type="text" id="city" name="city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"/>
+                        <div>
+                            <label htmlFor="employer_apt_unit" className="block font-medium text-sm text-gray-700">Employer Apt Unit</label>
+                            <input onChange={(e) => setData('employer_apt_unit', e.target.value)} type="text" id="employer_apt_unit" name="employer_apt_unit" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"/>
                         </div>
                         <div className='col-span-2'>
-                            <label htmlFor="state" className="block font-medium text-sm text-gray-700">Employer State*</label>
-                            <input onChange={(e) => setData('state', e.target.value)} type="text" id="state" name="state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"/>
+                            <label htmlFor="employer_city" className="block font-medium text-sm text-gray-700">Employer City*</label>
+                            <input onChange={(e) => setData('employer_city', e.target.value)} type="text" id="employer_city" name="employer_city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"/>
+                        </div>
+                        <div className='col-span-2'>
+                            <label htmlFor="employer_state" className="block font-medium text-sm text-gray-700">Employer State*</label>
+                            <input onChange={(e) => setData('employer_state', e.target.value)} type="text" id="employer_state" name="employer_state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"/>
                         </div>
                         <div>
-                            <label htmlFor="zip_code" className="block font-medium text-sm text-gray-700">Employer Zip Code*</label>
-                            <input onChange={(e) => setData('zip_code', e.target.value)} type="text" id="zip_code" name="zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"/>
+                            <label htmlFor="employer_zip_code" className="block font-medium text-sm text-gray-700">Employer Zip Code*</label>
+                            <input onChange={(e) => setData('employer_zip_code', e.target.value)} type="text" id="employer_zip_code" name="employer_zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"/>
                         </div>
                     </div>
 

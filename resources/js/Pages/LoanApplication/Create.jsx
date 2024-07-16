@@ -3,7 +3,6 @@ import Form from './Form'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
 export default function Create({auth}) {
-  console.log(auth)
   return (
     <AuthenticatedLayout
       user={auth.user}

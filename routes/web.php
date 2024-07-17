@@ -57,8 +57,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
     
     // Car routes
-    Route::resource('cars', CarController::class)->except('show');
-    Route::get('cars/{slug}', [CarController::class, 'show'])->name('cars.show');
+    Route::resource('cars', CarController::class);
+    // Route::get('cars/{slug}', [CarController::class, 'show'])->name('cars.show');
     Route::post('cars/image/{imgId}/delete', [CarController::class, 'deleteImage'])->name('cars.images.delete');
 
     // Loan Application routes

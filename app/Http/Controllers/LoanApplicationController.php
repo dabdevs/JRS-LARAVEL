@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoanApplicationRequest;
 use App\Models\LoanApplication;
 use Illuminate\Http\Request;
 
@@ -14,7 +15,7 @@ class LoanApplicationController extends Controller
     {
         $applications = LoanApplication::all();
 
-        return inertia('LoanApplication/Show', [
+        return inertia('LoanApplication/Index', [
             'applications' => $applications
         ]);
     }
@@ -30,16 +31,24 @@ class LoanApplicationController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(LoanApplicationRequest $request)
     {
-        dd($request->all());
+        try {
+            $application = LoanApplication::create($request->all());
+            
+            return redirect(route('loan-applications.edit', $application->id));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(LoanApplication $application)
+    public function show($id)
     {
+        $application = LoanApplication::findOrFail($id);
+
         return inertia('LoanApplication/Show', [
             'application' => $application
         ]);
@@ -48,9 +57,11 @@ class LoanApplicationController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(LoanApplication $application)
+    public function edit($id)
     {
-        return inertia('LoanApplication/Form', [
+        $application = LoanApplication::findOrFail($id);
+
+        return inertia('LoanApplication/Edit', [
             'application' => $application
         ]);
     }
@@ -58,9 +69,16 @@ class LoanApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update($id, LoanApplicationRequest $request)
     {
-        //
+        try {
+            $application = LoanApplication::findOrFail($id);
+            $application->update($request->all());
+
+            return redirect(route('loan-applications.edit', $application->id))->with('success', 'Application updated successfuly.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 
     /**

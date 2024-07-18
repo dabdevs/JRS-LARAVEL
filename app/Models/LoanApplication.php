@@ -11,22 +11,22 @@ class LoanApplication extends Model
 
     protected $fillable = [
         'first_name',
-        'middle_name', // nullable field, so included even though optional
+        'middle_name',
         'last_name',
-        'ssn_itin', // unique field, but still needs to be fillable
+        'ssn_itin', 
         'date_of_birth',
 
-        'driver_license_number', // nullable field, so included even though optional
+        'driver_license_number',
         'phone',
-        'mobile_phone', // nullable field, so included even though optional
+        'mobile_phone',
 
-        'email', // unique field, but still needs to be fillable
+        'email', 
 
         'address_line_1',
-        'address_line_2', // nullable field, so included even though optional
-        'apt_unit', // nullable field, so included even though optional
+        'address_line_2',
+        'apt_unit',
         'city',
-        'county', // nullable field, so included even though optional
+        'county',
         'state',
         'zip_code',
         'time_at_current_address',
@@ -38,18 +38,19 @@ class LoanApplication extends Model
         'employer_name',
         'occupation_rank',
         'work_phone',
-        'work_phone_extension', // nullable field, so included even though optional
+        'work_phone_extension',
         'time_at_employment',
 
         'employer_address_line_1',
-        'employer_address_line_2', // nullable field, so included even though optional
-        'employer_apt_unit', // nullable field, so included even though optional
+        'employer_address_line_2',
+        'employer_apt_unit',
         'employer_city',
         'employer_state',
         'employer_zip_code',
 
         'gross_monthly_income',
-        'other_monthly_income', // nullable field, so included even though optional
-        'other_monthly_income_description', // nullable field, so included even though optional
+        'other_monthly_income',
+        'other_monthly_income_description',
+        'status'
     ];
 }

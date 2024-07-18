@@ -78,53 +78,32 @@ export default function Index({ auth, applications }) {
                 <thead className="bg-gray-50">
                   <tr>
                     <th scope="col" className="py-3.5 px-4 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      State
+                      Name
                     </th>
-
                     <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      Make
+                      Email
                     </th>
-
                     <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      Model
+                      SSN/ITIN
                     </th>
-
                     <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      Body Type
+                      City
                     </th>
-
                     <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      Year
+                      Phone
                     </th>
-
                     <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      Price
+                      Monthly Income
                     </th>
-
-                    <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      Mileage
-                    </th>
-
                     {!sidebarExpanded && <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      Fuel Type
+                      Employment Type
                     </th>}
-
-                    <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      Transmission
-                    </th>
-
-                    {!sidebarExpanded && <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      Cylinders
-                    </th>}
-
                     <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                       Status
                     </th>
-
                     <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                       Date Created
                     </th>
-
                     <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                       Actions
                     </th>
@@ -134,34 +113,25 @@ export default function Index({ auth, applications }) {
                   {applications?.data?.map(application => (
                     <tr key={application.id}>
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {application.state}
+                        {application.first_name} {application.last_name}
                       </td>
                       <td role='button' onClick={() => window.open(`applications/${application.slug}`, '_self')} className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {application.make}
+                        {application.email}
                       </td>
                       <td role='button' onClick={() => window.open(`applications/${application.slug}`, '_self')} className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {application.model}
+                        {application.ssn_itin}
                       </td>
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {application.body_type}
+                        {application.city}
                       </td>
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {application.year}
+                        {application.phone}
                       </td>
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {formatPrice(application.price)}
-                      </td>
-                      <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {application.mileage ?? 'N/A'}
+                        {formatPrice(application.gross_monthly_income)}
                       </td>
                       {!sidebarExpanded && <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {application.fuel_type}
-                      </td>}
-                      <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {application.transmission}
-                      </td>
-                      {!sidebarExpanded && <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {application.cylinders}
+                        {application.employment_type}
                       </td>}
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                         <button disabled className={`w-24 p-1 ${application.status === 'Published' && 'bg-green-600'} ${application.status === 'Unpublished' && 'bg-primary'} ${application.status === 'Sold' && 'bg-orange-600'} rounded-md text-white`}>

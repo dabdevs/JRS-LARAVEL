@@ -53,6 +53,8 @@ return new class extends Migration
             $table->decimal('gross_monthly_income', 10, 2);
             $table->decimal('other_monthly_income', 10, 2)->nullable();
             $table->string('other_monthly_income_description')->nullable();
+
+            $table->enum('status', ['Pending', 'Approved', 'Denied'])->default('Pending');
             
             $table->timestamps();
         });

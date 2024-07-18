@@ -11,12 +11,25 @@ class LoanApplicationController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $applications = LoanApplication::all();
+        $query = LoanApplication::query();
+            // ->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
+
+
+        // Search
+        // if ($request->has('search')) {
+        //     $query->where('slug', 'like', '%' . $request->input('search') . '%');
+        // }
+
+        // $query = Helper::sortCars($query);
+
+        // Pagination
+        $applications = $query->paginate(5); 
 
         return inertia('LoanApplication/Index', [
-            'applications' => $applications
+            'applications' => $applications,
+            'filters' => $request->only(['search', 'sort', 'direction']),
         ]);
     }
 

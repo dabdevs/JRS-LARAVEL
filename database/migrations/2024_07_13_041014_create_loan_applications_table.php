@@ -16,14 +16,13 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
-            $table->string('ssn_itin')->unique();
+            $table->string('ssn_itin');
             $table->date('date_of_birth');
 
             $table->string('driver_license_number')->nullable();
             $table->string('phone');
             $table->string('mobile_phone')->nullable();
-
-            $table->string('email')->unique();
+            $table->string('email');
 
             $table->string('address_line_1');
             $table->string('address_line_2')->nullable();

@@ -62,7 +62,7 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     Route::post('cars/image/{imgId}/delete', [CarController::class, 'deleteImage'])->name('cars.images.delete');
 
     // Loan Application routes
-    Route::resource('loan-applications', LoanApplicationController::class);
+    Route::resource('applications', LoanApplicationController::class);
     
     // Upload images
     Route::post('upload-images', [UploadController::class, 'images'])->name('upload.images');

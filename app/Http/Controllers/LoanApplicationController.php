@@ -14,7 +14,7 @@ class LoanApplicationController extends Controller
     public function index(Request $request)
     {
         $query = LoanApplication::query();
-            // ->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
+        // ->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
 
 
         // Search
@@ -22,10 +22,10 @@ class LoanApplicationController extends Controller
         //     $query->where('slug', 'like', '%' . $request->input('search') . '%');
         // }
 
-        // $query = Helper::sortCars($query);
+        // $query = Helper::sortApplications($query);
 
         // Pagination
-        $applications = $query->paginate(5); 
+        $applications = $query->paginate(10);
 
         return inertia('LoanApplication/Index', [
             'applications' => $applications,
@@ -48,8 +48,8 @@ class LoanApplicationController extends Controller
     {
         try {
             $application = LoanApplication::create($request->all());
-            
-            return redirect(route('loan-applications.edit', $application->id));
+
+            return redirect(route('applications.edit', $application->id));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -88,7 +88,7 @@ class LoanApplicationController extends Controller
             $application = LoanApplication::findOrFail($id);
             $application->update($request->all());
 
-            return redirect(route('loan-applications.edit', $application->id))->with('success', 'Application updated successfuly.');
+            return redirect(route('applications.edit', $application->id))->with('success', 'Application updated successfuly.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -99,6 +99,12 @@ class LoanApplicationController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try {
+            LoanApplication::findOrFail($id)->delete();
+
+            return redirect()->back()->with('success', 'Application deleted successfuly.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
     }
 }

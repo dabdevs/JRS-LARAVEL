@@ -65,13 +65,13 @@ export default function Form({ application }) {
     const handleUpdate = useCallback((e) => {
         e.preventDefault()
 
-        put(route('loan-applications.update', application.id))
+        put(route('applications.update', application.id))
     });
 
     const handleCreate = useCallback((e) => {
         e.preventDefault()
 
-        post(route('loan-applications.store'));
+        post(route('applications.store'));
     })
 
     console.log(application, data, errors)
@@ -270,14 +270,14 @@ export default function Form({ application }) {
 
                     <div className="flex gap-2 justify-end my-2">
                         {application ?
-                            <Link href={route('loan-applications.show', application?.id)} className='font-bold py-2 px-6 '>Cancel</Link>
-                            : <Link href={route('loan-applications.index')} className='font-bold py-2 px-6 '>Go Back</Link>
+                            <Link href={route('applications.show', application?.id)} className='font-bold py-2 px-6 '>Cancel</Link>
+                            : <Link href={route('applications.index')} className='font-bold py-2 px-6 '>Go Back</Link>
                         }
                         <button id='application-submit-btn' onClick={application ? handleUpdate : handleCreate} type='button' className='inline-flex gap-2 p-2 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
                             <SaveIcon />
                             Save
                         </button>
-                        <Link href={route('loan-applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
+                        <Link href={route('applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
                             <PlusIcon />
                             New
                         </Link>

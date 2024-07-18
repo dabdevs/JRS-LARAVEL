@@ -18,7 +18,7 @@ export default function Index({ auth, applications }) {
   const { setData, delete: destroy } = useForm({
     id: ''
   });
- 
+
   const { formatPrice } = useUtils()
 
   const handleDelete = (id) => {
@@ -58,7 +58,7 @@ export default function Index({ auth, applications }) {
           <div className='w-1/3'>
             <SearchForm admin={true} />
           </div>
-          <Link href={route('loan-applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
+          <Link href={route('applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
             <PlusIcon />
             New
           </Link>
@@ -128,13 +128,13 @@ export default function Index({ auth, applications }) {
                         {application.phone}
                       </td>
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {formatPrice(application.gross_monthly_income)}
+                        <b>{formatPrice(application.gross_monthly_income)}</b>
                       </td>
                       {!sidebarExpanded && <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                         {application.employment_type}
                       </td>}
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        <button disabled className={`w-24 p-1 ${application.status === 'Published' && 'bg-green-600'} ${application.status === 'Unpublished' && 'bg-primary'} ${application.status === 'Sold' && 'bg-orange-600'} rounded-md text-white`}>
+                        <button disabled className={`w-24 p-1 ${application.status === 'Approved' && 'bg-green-600'} ${application.status === 'Denied' && 'bg-primary'} ${application.status === 'Pending' && 'bg-orange-600'} rounded-md text-white`}>
                           {application.status}
                         </button>
                       </td>
@@ -145,7 +145,7 @@ export default function Index({ auth, applications }) {
                                                 <td className="p-2 text-sm text-gray-500 whitespace-nowrap">{formatDistanceToNow(parseISO(application.updated_at.toIso8601String()))} ago</td> */}
                       <td className="p-2 text-sm whitespace-nowrap">
                         <div className="flex items-center gap-x-3">
-                          <Link href={route('loan-applications.show', application.id)} className='inline-flex px-2 py-1 items-center bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+                          <Link href={route('applications.show', application.id)} className='inline-flex px-2 py-1 items-center bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
                             <ViewIcon />
                           </Link>
                           <DeleteButton onClick={() => handleDelete(application.id)} className='btn-sm' />

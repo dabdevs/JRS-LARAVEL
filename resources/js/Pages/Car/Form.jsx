@@ -38,6 +38,8 @@ export default function Form({car, models}) {
     
     const { data, setData, post, put, setError, errors } = useForm(initialState);
 
+    const maxImages = 25
+
     const showDescription = data.state !== '' && data.make !== '' && data.model !== '' && data.year !== '' &&
         data.color !== '' && data.body_type !== '' && data.price !== '' && data.fuel_type !== '' &&
         data.doors !== '' && data.transmission !== '' && data.cylinders !== ''
@@ -62,12 +64,6 @@ export default function Form({car, models}) {
         // Send post request
         post(route('cars.store'));
     })
-
-    const handleKeyDown = (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-        }
-    }
 
     // Options for year Select element
     const startYear = 1980;
@@ -146,7 +142,7 @@ export default function Form({car, models}) {
             }
         })
     }
-
+    console.log(data.price)
     return (
         <section className="px-4 mx-auto">
             <div className="p-4 rounded-md shadow-sm bg-white text-center sm:ml-4 sm:mt-0 sm:text-left">
@@ -407,7 +403,8 @@ export default function Form({car, models}) {
                             name="price"
                             id="price"
                             type='number'
-                            placeholder='ex: 4750.99'
+                            min="100"
+                            placeholder='Ex.: 1999.99'
                             className="w-full mt-1 rounded border border-gray-400 py-1"
                         />
                         <InputError message={errors.price} className="mt-2" />
@@ -420,7 +417,7 @@ export default function Form({car, models}) {
                 </div>}
 
                 {car && <div>
-                    <h4 className='text-xl font-bold my-2'>Images (Up to 10) <span className="text-sm">Extensions: jpg, jpeg or png</span> </h4>
+                    <h4 className='text-xl font-bold my-2'>Images (Up to 25) <span className="text-sm">Extensions: jpg, jpeg or png</span> </h4>
 
                     {car.images?.length > 0 && <div className='grid grid-cols-5 gap-2 mb-3'>
                         {car?.images?.map(img => (
@@ -431,7 +428,7 @@ export default function Form({car, models}) {
                         ))}
                     </div>}
 
-                    {car && car.images?.length < 10 && <ImageUpload model={'Car'} modelId={car.id} url={route('upload.images')} images={car.images} />}
+                    {car && car.images?.length < maxImages && <ImageUpload maxImages={maxImages} model={'Car'} modelId={car.id} url={route('upload.images')} images={car.images} />}
                 </div>}
 
                 <div className="flex gap-2 justify-end">

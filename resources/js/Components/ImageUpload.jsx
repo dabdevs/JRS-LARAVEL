@@ -1,8 +1,9 @@
 import { useForm } from '@inertiajs/react';
 import { useRef } from 'react';
+import InputError from '@/Components/InputError';
 
-const ImageUpload = ({images, url, model, modelId}) => {
-    const {data, setData, setError, processing, post} = useForm({
+const ImageUpload = ({images, url, model, modelId, maxImages}) => {
+    const {data, setData, setError, errors, processing, post} = useForm({
         images: images || [],
         model: model,
         modelId: modelId
@@ -23,7 +24,15 @@ const ImageUpload = ({images, url, model, modelId}) => {
         })
 
         if (validFiles.length !== files.length) {
-            setError('Some files were not accepted. Only JPG, JPEG, and PNG files are allowed.');
+            setError('images', 'Some files were not accepted. Only JPG, JPEG, and PNG files are allowed.');
+            return
+        } else {
+            setError('');
+        }
+
+        if (validFiles.length > maxImages) {
+            setError('images', `Upload up to ${maxImages} images`);
+            return
         } else {
             setError('');
         }
@@ -57,9 +66,10 @@ const ImageUpload = ({images, url, model, modelId}) => {
     return (
         <form onSubmit={handleSubmit}>
             <div className="gap-2 flex w-80 align-middle">
-                <input ref={fileInputRef} type="file" accept="image/jpeg, image/png, image/jpg" multiple onChange={handleImageChange} />
+                <input ref={fileInputRef} type="file" accept="image/jpeg, image/png, image/jpg" multiple onChange={handleImageChange} max={2} />
                 <button type="submit" className='bg-white text-primary border-primary border-2 font-bold px-2 h-[30px] my-auto rounded-md'>{processing ? 'Uploading...' : 'Upload'}</button>
             </div>
+            <InputError message={errors.images} className="mt-2" />
         </form>
     );
 };

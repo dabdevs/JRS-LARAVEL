@@ -128,7 +128,7 @@ export default function Index({ auth, applications }) {
                         {application.phone}
                       </td>
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        <b>{formatPrice(application.gross_monthly_income)}</b>
+                        <b>{formatPrice(application.income1)}</b>
                       </td>
                       {!sidebarExpanded && <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                         {application.employment_type}

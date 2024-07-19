@@ -16,13 +16,11 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('middle_name')->nullable();
             $table->string('last_name');
+            $table->string('email');
             $table->string('ssn_itin');
             $table->date('date_of_birth');
-
             $table->string('driver_license_number')->nullable();
             $table->string('phone');
-            $table->string('mobile_phone')->nullable();
-            $table->string('email');
 
             $table->string('address_line_1');
             $table->string('address_line_2')->nullable();
@@ -33,36 +31,32 @@ return new class extends Migration
             $table->string('zip_code');
             $table->integer('time_at_current_address');
             $table->enum('current_residence_type', ['Own', 'Rent', 'Other']);
-
             $table->decimal('rent_mortgage_payment', 10, 2);
 
-            $table->enum('employment_type', ['Employed Full-time', 'Employed Part-time', 'Retired', 'Military', 'Self-Employed', 'Other']);
-            $table->string('employer_name');
-            $table->string('occupation_rank');
-            $table->string('work_phone');
-            $table->string('work_phone_extension')->nullable();
-            $table->integer('time_at_employment');
+            $table->enum('employment1_type', ['Employed Full-time', 'Employed Part-time', 'Retired', 'Military', 'Self-Employed', 'Other']);
+            $table->string('employment1_rank');
+            $table->string('employer1_name');
+            $table->string('employer1_phone');
+            $table->integer('time_at_employment1');
+            $table->integer('income1_type');
+            $table->decimal('income1', 10, 2);
+            $table->string('employer1_address');
+            $table->string('employer1_city');
+            $table->string('employer1_state');
+            $table->string('employer1_zip_code');
 
-            $table->string('employer_address_line_1');
-            $table->string('employer_address_line_2')->nullable();
-            $table->string('employer_apt_unit')->nullable();
-            $table->string('employer_city');
-            $table->string('employer_state');
-            $table->string('employer_zip_code');
-
-            $table->string('second_occupation_rank')->nullable();
-            $table->string('second_employer_name')->nullable();
-            $table->string('second_work_phone')->nullable();
-            $table->string('second_employer_address_line_1')->nullable();
-            $table->string('second_employer_address_line_2')->nullable();
-            $table->string('second_employer_apt_unit')->nullable();
-            $table->string('second_employer_city')->nullable();
-            $table->string('second_employer_state')->nullable();
-            $table->string('second_employer_zip_code')->nullable();
-
-            $table->decimal('gross_monthly_income', 10, 2);
-            $table->decimal('second_monthly_income', 10, 2)->nullable();
-            $table->string('second_monthly_income_description')->nullable();
+            $table->enum('employment2_type', ['Employed Full-time', 'Employed Part-time', 'Retired', 'Military', 'Self-Employed', 'Other'])->nullable();
+            $table->string('employer2_name')->nullable();
+            $table->string('employment2_rank')->nullable();
+            $table->string('employer2_phone')->nullable();
+            $table->integer('time_at_employment2')->nullable();
+            $table->integer('income2_type')->nullable();
+            $table->decimal('income2', 10, 2)->nullable();
+            $table->string('employer2_address')->nullable();
+            $table->string('employer2_city')->nullable();
+            $table->string('employer2_state')->nullable();
+            $table->string('employer2_zip_code')->nullable();
+            $table->string('income2_description')->nullable();
 
             $table->enum('status', ['Pending', 'Approved', 'Denied'])->default('Pending');
             $table->dateTime('date_approved')->nullable();

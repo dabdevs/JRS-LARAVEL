@@ -45,7 +45,6 @@ class LoanApplicationRequest extends FormRequest
             'employer_name' => 'required|string|max:150',
             'occupation_rank' => 'required|string|max:100',
             'work_phone' => 'required|string|max:50',
-            'work_phone_extension' => 'nullable|string|max:50',
             'time_at_employment' => 'required|integer|min:0',
             'employer_address_line_1' => 'required|string|max:255',
             'employer_address_line_2' => 'nullable|string|max:255',

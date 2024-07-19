@@ -13,14 +13,14 @@ class LoanApplication extends Model
         'first_name',
         'middle_name',
         'last_name',
-        'ssn_itin', 
+        'ssn_itin',
         'date_of_birth',
 
         'driver_license_number',
         'phone',
         'mobile_phone',
 
-        'email', 
+        'email',
 
         'address_line_1',
         'address_line_2',
@@ -47,10 +47,21 @@ class LoanApplication extends Model
         'employer_city',
         'employer_state',
         'employer_zip_code',
-
         'gross_monthly_income',
-        'other_monthly_income',
-        'other_monthly_income_description',
-        'status'
+
+        'second_occupation_rank',
+        'second_employer_name',
+        'second_work_phone',
+        'second_employer_address_line_1',
+        'second_employer_address_line_2',
+        'second_employer_apt_unit',
+        'second_employer_state',
+        'second_employer_zip_code',
+
+        'second_monthly_income',
+        'second_monthly_income_description',
+        'status',
+        'date_approved',
+        'date_denied',
     ];
 }

@@ -199,7 +199,7 @@ export default function Index({ auth, cars }) {
                         </div>
                     </div>
 
-                    {cars?.data?.length > 0 && <div className="py-2">
+                    {cars?.data?.length > 0 && <div className="py-2 w-full overflow-scroll">
                         <Pagination links={cars.links} />
                     </div>}
                 </div>

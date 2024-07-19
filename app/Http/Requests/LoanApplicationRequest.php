@@ -54,8 +54,19 @@ class LoanApplicationRequest extends FormRequest
             'employer_state' => 'required|string|max:150',
             'employer_zip_code' => 'required|string|max:50',
             'gross_monthly_income' => 'required|numeric|min:100',
-            'other_monthly_income' => 'nullable|numeric|min:100',
-            'other_monthly_income_description' => 'nullable|string|max:255',
+
+
+            'second_occupation_rank' => 'required|string|max:100',
+            'second_employer_name' => 'required|string|max:150',
+            'second_work_phone' => 'required|string|max:150',
+            'second_employer_address_line_1' => 'required|string|max:150',
+            'second_employer_address_line_2' => 'required|string|max:150',
+            'second_employer_apt_unit' => 'required|string|max:50',
+            'second_employer_state' => 'required|string|max:100',
+            'second_employer_zip_code' => 'required|string|max:50',
+
+            'second_monthly_income' => 'nullable|numeric|min:100',
+            'second_monthly_income_description' => 'nullable|string|max:255',
         ];
     }
 }

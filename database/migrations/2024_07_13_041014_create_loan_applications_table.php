@@ -50,12 +50,24 @@ return new class extends Migration
             $table->string('employer_state');
             $table->string('employer_zip_code');
 
+            $table->string('second_occupation_rank')->nullable();
+            $table->string('second_employer_name')->nullable();
+            $table->string('second_work_phone')->nullable();
+            $table->string('second_employer_address_line_1')->nullable();
+            $table->string('second_employer_address_line_2')->nullable();
+            $table->string('second_employer_apt_unit')->nullable();
+            $table->string('second_employer_city')->nullable();
+            $table->string('second_employer_state')->nullable();
+            $table->string('second_employer_zip_code')->nullable();
+
             $table->decimal('gross_monthly_income', 10, 2);
-            $table->decimal('other_monthly_income', 10, 2)->nullable();
-            $table->string('other_monthly_income_description')->nullable();
+            $table->decimal('second_monthly_income', 10, 2)->nullable();
+            $table->string('second_monthly_income_description')->nullable();
 
             $table->enum('status', ['Pending', 'Approved', 'Denied'])->default('Pending');
-            
+            $table->dateTime('date_approved')->nullable();
+            $table->dateTime('date_denied')->nullable();
+
             $table->timestamps();
         });
     }

@@ -31,6 +31,8 @@ export default function Form({ application }) {
         city: '',
         county: '',
         state: '',
+        date_approved: '',
+        date_denied: '',
         zip_code: '',
         time_at_current_address: '',
         current_residence_type: '',
@@ -48,8 +50,16 @@ export default function Form({ application }) {
         employer_state: '',
         employer_zip_code: '',
         gross_monthly_income: '',
-        other_monthly_income: '',
-        other_monthly_income_description: ''
+
+        second_occupation_rank: '',
+        second_employer_address_line_1: '',
+        second_employer_address_line_2: '',
+        second_employer_apt_unit: '',
+        second_employer_city: '',
+        second_employer_state: '',
+        second_employer_zip_code: '',
+        second_monthly_income: '',
+        second_monthly_income_description: ''
     });
 
     const personalInfoCheck = data.first_name !== '' && data.last_name !== '' && data.date_of_birth !== '' &&
@@ -262,9 +272,9 @@ export default function Form({ application }) {
                     </div>
 
                         <div className="mt-6">
-                            <label htmlFor="other_monthly_income_description" className="block font-medium text-sm text-gray-700">Additional Information</label>
-                            <textarea value={data.other_monthly_income_description} onChange={(e) => setData('other_monthly_income_description', e.target.value)} id="other_monthly_income_description" name="other_monthly_income_description" rows="4" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"></textarea>
-                            <InputError message={errors.other_monthly_income_description} className="mt-2" />
+                            <label htmlFor="second_monthly_income_description" className="block font-medium text-sm text-gray-700">Additional Information</label>
+                            <textarea value={data.second_monthly_income_description} onChange={(e) => setData('second_monthly_income_description', e.target.value)} id="second_monthly_income_description" name="second_monthly_income_description" rows="4" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"></textarea>
+                            <InputError message={errors.second_monthly_income_description} className="mt-2" />
                         </div>
                     </>}
 

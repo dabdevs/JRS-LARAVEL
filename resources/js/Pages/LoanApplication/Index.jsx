@@ -115,10 +115,10 @@ export default function Index({ auth, applications }) {
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                         {application.first_name} {application.last_name}
                       </td>
-                      <td role='button' onClick={() => window.open(`applications/${application.slug}`, '_self')} className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                      <td role='button' onClick={() => window.open(`applications/${application.id}`, '_self')} className="p-2 text-sm text-gray-500 whitespace-nowrap">
                         {application.email}
                       </td>
-                      <td role='button' onClick={() => window.open(`applications/${application.slug}`, '_self')} className="p-2 text-sm text-gray-500 whitespace-nowrap">
+                      <td role='button' onClick={() => window.open(`applications/${application.id}`, '_self')} className="p-2 text-sm text-gray-500 whitespace-nowrap">
                         {application.ssn_itin}
                       </td>
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">

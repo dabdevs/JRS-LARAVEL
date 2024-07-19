@@ -4,9 +4,11 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import EditICon from '@/Components/EditICon';
 import useUtils from '@/Hooks/useUtils';
 import { format } from 'date-fns';
+import usePermissions from '@/Components/hooks/usePermissions';
 
 export default function Show({ auth, application }) {
   const { formatPrice } = useUtils()
+  const { can } = usePermissions()
 
   function Content() {
     return (
@@ -201,10 +203,10 @@ export default function Show({ auth, application }) {
           </div>
           <div className="flex gap-2 justify-end">
             <Link href={route('applications.index')} className='font-bold py-2 px-6 '>Go Back</Link>
-            <Link href={route('applications.edit', application.id)} className='inline-flex gap-2 px-2 py-1 items-center bg-primary border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+            {can('edit applications') && <Link href={route('applications.edit', application.id)} className='inline-flex gap-2 px-2 py-1 items-center bg-primary border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
               <EditICon />
               Edit
-            </Link>
+            </Link>}
           </div>
         </div>
       </section>

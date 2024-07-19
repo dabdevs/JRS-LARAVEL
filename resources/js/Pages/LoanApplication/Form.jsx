@@ -3,6 +3,7 @@ import InputError from '@/Components/InputError';
 import { Link, useForm } from '@inertiajs/react';
 import SaveIcon from '@/Components/SaveIcon';
 import PlusIcon from '@/Components/PlusIcon';
+import usePermissions from '@/Components/hooks/usePermissions';
 
 export default function Form({ application }) {
     const { data, setData, post, put, setError, errors } = useForm(application || {
@@ -52,6 +53,8 @@ export default function Form({ application }) {
         date_denied: '',
     });
 
+    const { can } = usePermissions()
+
     const personalInfoCheck = data.first_name !== '' && data.last_name !== '' && data.date_of_birth !== '' &&
         data.ssn_itin !== '' && data.phone !== '' && data.email !== ''
 
@@ -85,8 +88,6 @@ export default function Form({ application }) {
         const type = e.target.type
         setData(name, '')
 
-        console.log(name, value, required, type)
-
         if (type === "number" && value === '') {
             e.target.value = ''
             return
@@ -110,8 +111,6 @@ export default function Form({ application }) {
         const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
         return re.test(String(email).toLowerCase());
     }
-
-    console.log(application, data, errors)
 
     return (
         <section className="px-4 mx-auto">
@@ -385,14 +384,15 @@ export default function Form({ application }) {
                             <Link href={route('applications.show', application?.id)} className='font-bold py-2 px-6 '>Cancel</Link>
                             : <Link href={route('applications.index')} className='font-bold py-2 px-6 '>Go Back</Link>
                         }
-                        <button id='application-submit-btn' onClick={application ? handleUpdate : handleCreate} type='button' className='inline-flex gap-2 p-2 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+
+                        {can('create applications') && can('edit applications') && <button id='application-submit-btn' onClick={application ? handleUpdate : handleCreate} type='button' className='inline-flex gap-2 p-2 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
                             <SaveIcon />
                             Save
-                        </button>
-                        <Link href={route('applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
+                        </button>}
+                        {can('create applications') && <Link href={route('applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
                             <PlusIcon />
                             New
-                        </Link>
+                        </Link>}
                     </div>
                 </form>
             </div>

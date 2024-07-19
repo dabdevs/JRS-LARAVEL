@@ -13,11 +13,13 @@ import Sort from '@/Components/Sort';
 import ViewIcon from '@/Components/ViewIcon';
 import useUtils from '@/Hooks/useUtils';
 import { format } from 'date-fns';
+import usePermissions from '@/Components/hooks/usePermissions';
 
 export default function Index({ auth, applications }) {
   const { setData, delete: destroy } = useForm({
     id: ''
   });
+  const { can } = usePermissions()
 
   const { formatPrice } = useUtils()
 
@@ -58,10 +60,10 @@ export default function Index({ auth, applications }) {
           <div className='w-1/3'>
             <SearchForm admin={true} />
           </div>
-          <Link href={route('applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
+          {can('create applications') && <Link href={route('applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
             <PlusIcon />
             New
-          </Link>
+          </Link>}
         </div>
 
         <div className="w-full">

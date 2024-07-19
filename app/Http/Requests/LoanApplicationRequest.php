@@ -68,4 +68,52 @@ class LoanApplicationRequest extends FormRequest
             'date_denied' => 'nullable|date',
         ];
     }
+
+    public function attributes()
+    {
+        return [
+            'first_name' => 'First Name',
+            'middle_name' => 'Middle Name',
+            'last_name' => 'Last Name',
+            'email' => 'Email Address',
+            'ssn_itin' => 'SSN',
+            'date_of_birth' => 'Date of Birth',
+            'driver_license_number' => "Driver's license #",
+            'phone' => 'Phone',
+            'address_line_1' => 'Address Line 1',
+            'address_line_2' => 'Address Line 2',
+            'apt_unit' => 'Apt Unit',
+            'city' => 'City',
+            'county' => 'County',
+            'state' => 'State',
+            'zip_code' => 'Zip Code',
+            'time_at_current_address' => 'Time at current address',
+            'current_residence_type' => 'Current residence type',
+            'rent_mortgage_payment' => 'Rent mortgage payment',
+            'employment1_type' => 'Employment type',
+            'employment1_rank' => 'Employment rank',
+            'employer1_name' => "Employer name",
+            'employer1_phone' => "Employer phone",
+            'time_at_employment1' => 'Time at employment',
+            'income1_type' => 'Income type',
+            'income1' => 'Income',
+            'employer1_address' => "Employer address",
+            'employer1_city' => "Employer city",
+            'employer1_state' => "Employer state",
+            'employer1_zip_code' => 'Employer zip code',
+            'employment2_type' => 'Employment type',
+            'employer2_name' => 'Employer name',
+            'employment2_rank' => 'Employment rank',
+            'employer2_phone' => 'Employer phone',
+            'time_at_employment2' => 'Time at employment',
+            'income2_type' => 'Income type',
+            'income2' => 'Income',
+            'employer2_address' => 'Employer address',
+            'employer2_city' => 'Employer city',
+            'employer2_state' => 'Employer state',
+            'employer2_zip_code' => 'Employer zip code',
+            'income2_description' => 'Income description',
+            'status' => 'Status'
+        ];
+    }
 }

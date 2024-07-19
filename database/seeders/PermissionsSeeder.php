@@ -36,6 +36,14 @@ class PermissionsSeeder extends Seeder
         Permission::create(['name' => 'reply contacts']);
         Permission::create(['name' => 'delete contacts']);
 
+        // Create loan applications permissions
+        Permission::create(['name' => 'create applications']);
+        Permission::create(['name' => 'read applications']);
+        Permission::create(['name' => 'edit applications']);
+        Permission::create(['name' => 'delete applications']);
+        Permission::create(['name' => 'approve applications']);
+        Permission::create(['name' => 'deny applications']);
+
         // create admin role 
         $admin = Role::create(['name' => 'admin']);
 
@@ -57,6 +65,14 @@ class PermissionsSeeder extends Seeder
         $admin->givePermissionTo('read contacts');
         $admin->givePermissionTo('reply contacts');
         $admin->givePermissionTo('delete contacts');
+
+        // Assign loan applications permissions to admin
+        $admin->givePermissionTo('create applications');
+        $admin->givePermissionTo('read applications');
+        $admin->givePermissionTo('edit applications');
+        $admin->givePermissionTo('delete applications');
+        $admin->givePermissionTo('approve applications');
+        $admin->givePermissionTo('deny applications');
 
         // create admin user
         $adminUser = \App\Models\User::factory()->create([

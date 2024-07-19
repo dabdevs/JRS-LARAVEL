@@ -145,11 +145,11 @@ export default function Show({ auth, application }) {
             <p className='col-span-6 my-2 text-2xl text-gray-500 text-bold'>SECOND EMPLOYMENT</p>
             <div className="my-2">
               <InputLabel htmlFor="second_employer_name" value="Employer" />
-              <p id="second_employer_name" className='text-xl'>{application.second_employer_name}</p>
+              <p id="second_employer_name" className='text-xl'>{application.second_employer_name ?? 'N/A'}</p>
             </div>
             <div className="my-2 col-span-2">
               <InputLabel htmlFor="second_occupation_rank" value="Occupation Rank" />
-              <p id="second_occupation_rank" className='text-xl'>{application.second_occupation_rank}</p>
+              <p id="second_occupation_rank" className='text-xl'>{application.second_occupation_rank ?? 'N/A'}</p>
             </div>
             <div className="my-2">
               <InputLabel htmlFor="second_work_phone" value="Work Phone" />
@@ -183,16 +183,25 @@ export default function Show({ auth, application }) {
               <InputLabel htmlFor="second_monthly_income" value="Monthly Income" />
               <p id="second_monthly_income" className='text-xl'>{formatPrice(application.second_monthly_income) ?? 'N/A'}</p>
             </div>
+            <div className="my-2 col-span-6">
+              <InputLabel htmlFor="second_monthly_income_description" value="Monthly Income Description" />
+              <p id="second_monthly_income_description" className='text-xl'>{application.second_monthly_income_description ?? 'N/A'}</p>
+            </div>
           </div>
 
           <div className='my-2 w-full grid grid-cols-6 gap-4'>
+            <p className='col-span-6 my-2 text-2xl text-gray-500 text-bold'>APPLICATION INFORMATION</p>
             <div className="my-2">
               <InputLabel htmlFor="status" value="Status" />
               <p id="status" className={`text-xl ${application.status === 'Approved' && 'text-green-600'} ${application.status === 'Denied' && 'text-primary'} ${application.status === 'Pending' && 'text-orange-600'}`}>{application.status}</p>
             </div>
-            {application.date_published && <div className="my-2">
-              <InputLabel htmlFor="date_published" value="Date Published" />
-              <p id="date_published" className='text-xl'>{format(new Date(application.date_published), 'MM-dd-yyyy')}</p>
+            {application.date_approved && <div className="my-2">
+              <InputLabel htmlFor="date_approved" value="Date Approved" />
+              <p id="date_approved" className='text-xl'>{format(new Date(application.date_approved), 'MM-dd-yyyy')}</p>
+            </div>}
+            {application.date_denied && <div className="my-2">
+              <InputLabel htmlFor="date_denied" value="Date Denied" />
+              <p id="date_denied" className='text-xl'>{format(new Date(application.date_denied), 'MM-dd-yyyy')}</p>
             </div>}
             <div className="my-2">
               <InputLabel htmlFor="created_at" value="Date Created" />
@@ -202,10 +211,6 @@ export default function Show({ auth, application }) {
               <InputLabel htmlFor="last_updated" value="Last Updated" />
               <p id="last_updated" className='text-xl'>{(application.updated_at && format(new Date(), 'MM-dd-yyyy HH:mm:ss')) ?? 'N/A'}</p>
             </div>
-            {application.description && <div className="my-2 col-span-6">
-              <InputLabel htmlFor="description" value="Description" />
-              <p id="description" className='text-xl'>{application.description}</p>
-            </div>}
           </div>
           <div className="flex gap-2 justify-end">
             <Link href={route('applications.index')} className='font-bold py-2 px-6 '>Go Back</Link>

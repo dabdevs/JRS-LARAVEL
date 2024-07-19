@@ -38,7 +38,7 @@ return new class extends Migration
             $table->string('employer1_name');
             $table->string('employer1_phone');
             $table->integer('time_at_employment1');
-            $table->integer('income1_type');
+            $table->string('income1_type');
             $table->decimal('income1', 10, 2);
             $table->string('employer1_address');
             $table->string('employer1_city');
@@ -50,7 +50,7 @@ return new class extends Migration
             $table->string('employment2_rank')->nullable();
             $table->string('employer2_phone')->nullable();
             $table->integer('time_at_employment2')->nullable();
-            $table->integer('income2_type')->nullable();
+            $table->string('income2_type')->nullable();
             $table->decimal('income2', 10, 2)->nullable();
             $table->string('employer2_address')->nullable();
             $table->string('employer2_city')->nullable();

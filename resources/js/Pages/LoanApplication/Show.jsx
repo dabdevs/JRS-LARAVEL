@@ -129,7 +129,7 @@ export default function Show({ auth, application }) {
           </div>
 
           <div className='mb-2 w-full grid grid-cols-6 gap-4'>
-            <p className='col-span-6 mt-2 text-2xl border-b-2 py-2 text-gray-500 text-bold'>SECOND EMPLOYMENT</p>
+            <p className='col-span-6 mt-2 text-2xl border-b-2 py-2 text-gray-500 text-bold'>EMPLOYMENT 2</p>
             <div className="mb-2">
               <InputLabel htmlFor="employment2_type" value="Employment Type" />
               <p id="employment2_type" className='text-xl'>{application.employment2_type ?? 'N/A'}</p>

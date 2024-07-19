@@ -70,7 +70,7 @@ export default function Index({ auth, cars }) {
                             <div className="p-2 flex justify-between">
                                 <div className='flex gap-2'>
                                     {cars.total > 0 && <p className='text-lg mt-1'> {cars.total} result{cars.total > 1 && 's'}</p>}
-                                    <ClearFilters admin={true} />
+                                    <ClearFilters url={'/dashboard/cars'} />
                                 </div>
                                 {cars.data.length > 0 && <Sort admin={true} />}
                             </div>

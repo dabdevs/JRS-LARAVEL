@@ -26,7 +26,7 @@ class LoanApplicationRequest extends FormRequest
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'ssn_itin' => 'required|string|max:9',
+            'ssn_itin' => 'required|string|max:15',
             'date_of_birth' => 'required|date',
             'driver_license_number' => 'nullable|string|max:50',
             'phone' => 'required|string|max:255',

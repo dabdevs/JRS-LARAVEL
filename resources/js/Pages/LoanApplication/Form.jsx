@@ -1,17 +1,8 @@
 import React, { useCallback } from 'react'
-import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import { Link, useForm } from '@inertiajs/react';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import SaveIcon from '@/Components/SaveIcon';
-import ImageUpload from '@/Components/ImageUpload';
-import DeleteIcon from '@/Components/DeleteIcon';
-import { confirmAlert } from 'react-confirm-alert';
-import DangerButton from '@/Components/DangerButton';
-import SuccessButton from '@/Components/SuccessButton';
 import PlusIcon from '@/Components/PlusIcon';
-import { format } from 'date-fns';
-import { Textarea } from '@headlessui/react';
 
 export default function Form({ application }) {
     const { data, setData, post, put, setError, errors } = useForm(application || {
@@ -87,6 +78,39 @@ export default function Form({ application }) {
         post(route('applications.store'));
     })
 
+    const handleChange = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+        const required = e.target.required
+        const type = e.target.type
+        setData(name, '')
+
+        console.log(name, value, required, type)
+
+        if (type === "number" && value === '') {
+            e.target.value = ''
+            return
+        }
+
+        if (required && value === '') {
+            setError(name, `${name} is required`)
+            return
+        } 
+
+        if (type === "email" && !validateEmail(value)) {
+            setError(name, `${value} is not a valid email`)
+            return
+        }
+
+        setError(name, '')
+        setData(name, value)
+    }
+
+    function validateEmail(email) {
+        const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        return re.test(String(email).toLowerCase());
+    }
+
     console.log(application, data, errors)
 
     return (
@@ -98,42 +122,42 @@ export default function Form({ application }) {
                         <p className='col-span-6 my-2 text-2xl text-gray-500 text-bold border-b-2 py-2'>PERSONAL INFORMATION</p>
                         <div className='col-span-2'>
                             <label htmlFor="first_name" className="block font-medium text-sm text-gray-700">First Name*</label>
-                            <input value={data.first_name || undefined} onChange={(e) => setData('first_name', e.target.value)} type="text" id="first_name" name="first_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.first_name} onInput={handleChange} type="text" id="first_name" name="first_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.first_name} className="mt-2" />
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="middle_name" className="block font-medium text-sm text-gray-700">Middle Name</label>
-                            <input value={data.middle_name || undefined} onChange={(e) => setData('middle_name', e.target.value)} type="text" id="middle_name" name="middle_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.middle_name} onInput={handleChange} type="text" id="middle_name" name="middle_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.middle_name} className="mt-2" />
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="last_name" className="block font-medium text-sm text-gray-700">Last Name*</label>
-                            <input value={data.last_name || undefined} onChange={(e) => setData('last_name', e.target.value)} type="text" id="last_name" name="last_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.last_name} onInput={handleChange} type="text" id="last_name" name="last_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.last_name} className="mt-2" />
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="ssn_itin" className="block font-medium text-sm text-gray-700">SSN/ITIN*</label>
-                            <input value={data.ssn_itin || undefined} onChange={(e) => setData('ssn_itin', e.target.value)} type="text" id="ssn_itin" name="ssn_itin" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.ssn_itin} onInput={handleChange} type="text" id="ssn_itin" name="ssn_itin" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.ssn_itin} className="mt-2" />
                         </div>
                         <div>
                             <label htmlFor="date_of_birth" className="block font-medium text-sm text-gray-700">Date of Birth*</label>
-                            <input value={data.date_of_birth || undefined} onChange={(e) => setData('date_of_birth', e.target.value)} max={maxDate} type="date" id="date_of_birth" name="date_of_birth" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.date_of_birth} onInput={handleChange} max={maxDate} type="date" id="date_of_birth" name="date_of_birth" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.date_of_birth} className="mt-2" />
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="driver_license_number" className="block font-medium text-sm text-gray-700">Driver License Number</label>
-                            <input value={data.driver_license_number || undefined} onChange={(e) => setData('driver_license_number', e.target.value)} type="text" id="driver_license_number" name="driver_license_number" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.driver_license_number} onInput={handleChange} type="text" id="driver_license_number" name="driver_license_number" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.driver_license_number} className="mt-2" />
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="phone" className="block font-medium text-sm text-gray-700">Phone*</label>
-                            <input value={data.phone || undefined} onChange={(e) => setData('phone', e.target.value)} type="number" id="phone" name="phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.phone} onInput={handleChange} type='number' id="phone" name="phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.phone} className="mt-2" />
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="email" className="block font-medium text-sm text-gray-700">Email*</label>
-                            <input value={data.email || undefined} onChange={(e) => setData('email', e.target.value)} type="email" id="email" name="email" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.email} onInput={handleChange} type="email" id="email" name="email" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.email} className="mt-2" />
                         </div>
                     </div>
@@ -142,47 +166,47 @@ export default function Form({ application }) {
                         <p className='col-span-6 my-2 text-2xl text-gray-500 text-bold border-b-2 py-2'>ADDRESS</p>
                         <div className="col-span-4">
                             <label htmlFor="address_line_1" className="block font-medium text-sm text-gray-700">Address Line 1*</label>
-                            <input value={data.address_line_1 || undefined} onChange={(e) => setData('address_line_1', e.target.value)} type="text" id="address_line_1" name="address_line_1" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.address_line_1} onInput={handleChange} type="text" id="address_line_1" name="address_line_1" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.address_line_1} className="mt-2" />
                         </div>
                         <div className="col-span-4">
                             <label htmlFor="address_line_2" className="block font-medium text-sm text-gray-700">Address Line 2</label>
-                            <input value={data.address_line_2 || undefined} onChange={(e) => setData('address_line_2', e.target.value)} type="text" id="address_line_2" name="address_line_2" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.address_line_2} onInput={(e) => setData('address_line_2', e.target.value)} type="text" id="address_line_2" name="address_line_2" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.address_line_2} className="mt-2" />
                         </div>
                         <div>
                             <label htmlFor="apt_unit" className="block font-medium text-sm text-gray-700">Apt/Unit</label>
-                            <input value={data.apt_unit || undefined} onChange={(e) => setData('apt_unit', e.target.value)} type="text" id="apt_unit" name="apt_unit" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.apt_unit} onInput={handleChange} type="text" id="apt_unit" name="apt_unit" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.apt_unit} className="mt-2" />
                         </div>
                         <div className="col-span-2">
                             <label htmlFor="city" className="block font-medium text-sm text-gray-700">City*</label>
-                            <input value={data.city || undefined} onChange={(e) => setData('city', e.target.value)} type="text" id="city" name="city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.city} onInput={handleChange} type="text" id="city" name="city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.city} className="mt-2" />
                         </div>
                         <div>
                             <label htmlFor="county" className="block font-medium text-sm text-gray-700">County</label>
-                            <input value={data.county || undefined} onChange={(e) => setData('county', e.target.value)} type="text" id="county" name="county" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.county} onInput={handleChange} type="text" id="county" name="county" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.county} className="mt-2" />
                         </div>
                         <div>
                             <label htmlFor="state" className="block font-medium text-sm text-gray-700">State*</label>
-                            <input value={data.state || undefined} onChange={(e) => setData('state', e.target.value)} type="text" id="state" name="state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.state} onInput={handleChange} type="text" id="state" name="state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.state} className="mt-2" />
                         </div>
                         <div>
                             <label htmlFor="zip_code" className="block font-medium text-sm text-gray-700">Zip Code*</label>
-                            <input value={data.zip_code || undefined} onChange={(e) => setData('zip_code', e.target.value)} type="text" id="zip_code" name="zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.zip_code} onInput={handleChange} type="number" id="zip_code" name="zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.zip_code} className="mt-2" />
                         </div>
                         <div className="col-span-2">
                             <label htmlFor="time_at_current_address" className="block font-medium text-sm text-gray-700">Time at Current Address (months)*</label>
-                            <input value={data.time_at_current_address || undefined} onChange={(e) => setData('time_at_current_address', e.target.value)} type="number" id="time_at_current_address" name="time_at_current_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input required value={data.time_at_current_address} onInput={handleChange} type="number" id="time_at_current_address" name="time_at_current_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.time_at_current_address} className="mt-2" />
                         </div>
                         <div>
                             <label htmlFor="current_residence_type" className="block font-medium text-sm text-gray-700">Current Residence Type*</label>
-                            <select value={data.current_residence_type || undefined} onChange={(e) => setData('current_residence_type', e.target.value)} id="current_residence_type" name="current_residence_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                            <select required value={data.current_residence_type} onInput={handleChange} id="current_residence_type" name="current_residence_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                 <option value="">Select</option>
                                 <option value="Own">Own</option>
                                 <option value="Rent">Rent</option>
@@ -192,7 +216,7 @@ export default function Form({ application }) {
                         </div>
                         <div>
                             <label htmlFor="rent_mortgage_payment" className="block font-medium text-sm text-gray-700">Rent/Mortgage Payment*</label>
-                            <input value={data.rent_mortgage_payment || undefined} onChange={(e) => setData('rent_mortgage_payment', e.target.value)} type="number" min={100} id="rent_mortgage_payment" name="rent_mortgage_payment" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" step="0.01" />
+                            <input required value={data.rent_mortgage_payment} onInput={handleChange} type="number" min={100} id="rent_mortgage_payment" name="rent_mortgage_payment" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" step="0.01" />
                             <InputError message={errors.rent_mortgage_payment} className="mt-2" />
                         </div>
                     </div>}
@@ -202,7 +226,7 @@ export default function Form({ application }) {
                             <p className='col-span-5 my-2 text-2xl text-gray-500 text-bold border-b-2 py-2'>EMPLOYMENT 1</p>
                             <div>
                                 <label htmlFor="employment1_type" className="block font-medium text-sm text-gray-700">Employment Type*</label>
-                                <select value={data.employment1_type || undefined} onChange={(e) => setData('employment1_type', e.target.value)} id="employment1_type" name="employment1_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                <select required value={data.employment1_type} onInput={handleChange} id="employment1_type" name="employment1_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                     <option value="">Select</option>
                                     <option value="Employed Full-time">Employed Full-time</option>
                                     <option value="Employed Part-time">Employed Part-time</option>
@@ -215,27 +239,27 @@ export default function Form({ application }) {
                             </div>
                             <div className='col-span-2'>
                                 <label htmlFor="employer1_name" className="block font-medium text-sm text-gray-700">Employer Name*</label>
-                                <input value={data.employer1_name || undefined} onChange={(e) => setData('employer1_name', e.target.value)} type="text" id="employer1_name" name="employer1_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <input required value={data.employer1_name} onInput={handleChange} type="text" id="employer1_name" name="employer1_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_name} className="mt-2" />
                             </div>
                             <div className='col-span-2'>
                                 <label htmlFor="employment1_rank" className="block font-medium text-sm text-gray-700">Occupation/Rank*</label>
-                                <input value={data.employment1_rank || undefined} onChange={(e) => setData('employment1_rank', e.target.value)} type="text" id="employment1_rank" name="employment1_rank" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <input required value={data.employment1_rank} onInput={handleChange} type="text" id="employment1_rank" name="employment1_rank" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employment1_rank} className="mt-2" />
                             </div>
                             <div>
                                 <label htmlFor="employer1_phone" className="block font-medium text-sm text-gray-700">Employer Phone*</label>
-                                <input value={data.employer1_phone || undefined} onChange={(e) => setData('employer1_phone', e.target.value)} type="number" id="employer1_phone" name="employer1_phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <input required value={data.employer1_phone} onInput={handleChange} type="number" id="employer1_phone" name="employer1_phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_phone} className="mt-2" />
                             </div>
                             <div>
                                 <label htmlFor="time_at_employment1" className="block font-medium text-sm text-gray-700">Employment Length (months)*</label>
-                                <input value={data.time_at_employment1 || undefined} onChange={(e) => setData('time_at_employment1', e.target.value)} type="number" min={1} id="time_at_employment1" name="time_at_employment1" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <input required value={data.time_at_employment1} onInput={handleChange} type="number" min={1} id="time_at_employment1" name="time_at_employment1" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.time_at_employment1} className="mt-2" />
                             </div>
-                            <div>
+                            <div className='col-span-2'>
                                 <label htmlFor="income1_type" className="block font-medium text-sm text-gray-700">Income Type*</label>
-                                <select value={data.income1_type || undefined} onChange={(e) => setData('income1_type', e.target.value)} id="income1_type" name="income1_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                <select required value={data.income1_type} onInput={handleChange} id="income1_type" name="income1_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                     <option value="">Select</option>
                                     <option value="Comp Paystub w/YTD">Comp Paystub w/YTD</option>
                                     <option value="Printed Paystub - No YTD">Printed Paystub - No YTD</option>
@@ -249,27 +273,27 @@ export default function Form({ application }) {
                             </div>
                             <div>
                                 <label htmlFor="income1" className="block font-medium text-sm text-gray-700">Monthly Income*</label>
-                                <input value={data.income1 || undefined} onChange={(e) => setData('income1', e.target.value)} type="number" min={1000} id="income1" name="income1" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" step="0.01" />
+                                <input required value={data.income1} onInput={handleChange} type="number" min={100} id="income1" name="income1" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" step="0.01" />
                                 <InputError message={errors.income1} className="mt-2" />
                             </div>
                             <div className='col-span-3'>
                                 <label htmlFor="employer1_address" className="block font-medium text-sm text-gray-700">Employer Address*</label>
-                                <input value={data.employer1_address || undefined} onChange={(e) => setData('employer1_address', e.target.value)} type="text" id="employer1_address" name="employer1_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <input required value={data.employer1_address} onInput={handleChange} type="text" id="employer1_address" name="employer1_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_address} className="mt-2" />
                             </div>
                             <div className='col-span-2'>
                                 <label htmlFor="employer1_city" className="block font-medium text-sm text-gray-700">Employer City*</label>
-                                <input value={data.employer1_city || undefined} onChange={(e) => setData('employer1_city', e.target.value)} type="text" id="employer1_city" name="employer1_city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <input required value={data.employer1_city} onInput={handleChange} type="text" id="employer1_city" name="employer1_city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_city} className="mt-2" />
                             </div>
                             <div>
                                 <label htmlFor="employer1_state" className="block font-medium text-sm text-gray-700">Employer State*</label>
-                                <input value={data.employer1_state || undefined} onChange={(e) => setData('employer1_state', e.target.value)} type="text" id="employer1_state" name="employer1_state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <input required value={data.employer1_state} onInput={handleChange} type="text" id="employer1_state" name="employer1_state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_state} className="mt-2" />
                             </div>
                             <div>
                                 <label htmlFor="employer1_zip_code" className="block font-medium text-sm text-gray-700">Employer Zip Code*</label>
-                                <input value={data.employer1_zip_code || undefined} onChange={(e) => setData('employer1_zip_code', e.target.value)} type="text" id="employer1_zip_code" name="employer1_zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <input required value={data.employer1_zip_code} onInput={handleChange} type="number" id="employer1_zip_code" name="employer1_zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_zip_code} className="mt-2" />
                             </div>
                         </div>
@@ -279,7 +303,7 @@ export default function Form({ application }) {
                         <p className='col-span-6 my-2 text-2xl text-gray-500 text-bold border-b-2 py-2'>EMPLOYMENT 2</p>
                         <div>
                             <label htmlFor="employment2_type" className="block font-medium text-sm text-gray-700">Employment Type</label>
-                            <select value={data.employment2_type || undefined} onChange={(e) => setData('employment2_type', e.target.value)} id="employment2_type" name="employment2_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                            <select value={data.employment2_type} onInput={handleChange} id="employment2_type" name="employment2_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                 <option value="">Select</option>
                                 <option value="Employed Full-time">Employed Full-time</option>
                                 <option value="Employed Part-time">Employed Part-time</option>
@@ -292,27 +316,27 @@ export default function Form({ application }) {
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="employer2_name" className="block font-medium text-sm text-gray-700">Employer Name</label>
-                            <input value={data.employer2_name || undefined} onChange={(e) => setData('employer2_name', e.target.value)} type="text" id="employer2_name" name="employer2_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.employer2_name} onInput={handleChange} type="text" id="employer2_name" name="employer2_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.employer2_name} className="mt-2" />
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="employment2_rank" className="block font-medium text-sm text-gray-700">Occupation/Rank</label>
-                            <input value={data.employment2_rank || undefined} onChange={(e) => setData('employment2_rank', e.target.value)} type="text" id="employment2_rank" name="employment2_rank" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.employment2_rank} onInput={handleChange} type="text" id="employment2_rank" name="employment2_rank" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.employment2_rank} className="mt-2" />
                         </div>
                         <div>
                             <label htmlFor="employer2_phone" className="block font-medium text-sm text-gray-700">Employer Phone</label>
-                            <input value={data.employer2_phone || undefined} onChange={(e) => setData('employer2_phone', e.target.value)} type="number" id="employer2_phone" name="employer2_phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.employer2_phone} onInput={handleChange} type="number" id="employer2_phone" name="employer2_phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.employer2_phone} className="mt-2" />
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="time_at_employment2" className="block font-medium text-sm text-gray-700">Employment Length (months)</label>
-                            <input value={data.time_at_employment2 || undefined} onChange={(e) => setData('time_at_employment2', e.target.value)} type="number" min={1} id="time_at_employment2" name="time_at_employment2" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.time_at_employment2} onInput={handleChange} type="number" min={1} id="time_at_employment2" name="time_at_employment2" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.time_at_employment2} className="mt-2" />
                         </div>
-                        <div>
+                        <div className='col-span-2'>
                             <label htmlFor="income2_type" className="block font-medium text-sm text-gray-700">Income Type</label>
-                            <select value={data.income2_type || undefined} onChange={(e) => setData('income2_type', e.target.value)} id="income2_type" name="income2_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                            <select value={data.income2_type} onInput={handleChange} id="income2_type" name="income2_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                 <option value="">Select</option>
                                 <option value="Comp Paystub w/YTD">Comp Paystub w/YTD</option>
                                 <option value="Printed Paystub - No YTD">Printed Paystub - No YTD</option>
@@ -326,32 +350,32 @@ export default function Form({ application }) {
                         </div>
                         <div>
                             <label htmlFor="income2" className="block font-medium text-sm text-gray-700">Monthly Income</label>
-                            <input value={data.income2 || undefined} onChange={(e) => setData('income2', e.target.value)} type="number" min={1000} id="income2" name="income2" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" step="0.01" />
+                            <input value={data.income2} onInput={handleChange} type="number" min={100} id="income2" name="income2" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" step="0.01" />
                             <InputError message={errors.income2} className="mt-2" />
                         </div>
                         <div className='col-span-4'>
                             <label htmlFor="employer2_address" className="block font-medium text-sm text-gray-700">Employer Address</label>
-                            <input value={data.employer2_address || undefined} onChange={(e) => setData('employer2_address', e.target.value)} type="text" id="employer2_address" name="employer2_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.employer2_address} onInput={handleChange} type="text" id="employer2_address" name="employer2_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.employer2_address} className="mt-2" />
                         </div>
                         <div className='col-span-2'>
                             <label htmlFor="employer2_city" className="block font-medium text-sm text-gray-700">Employer City</label>
-                            <input value={data.employer2_city || undefined} onChange={(e) => setData('employer2_city', e.target.value)} type="text" id="employer2_city" name="employer2_city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.employer2_city} onInput={handleChange} type="text" id="employer2_city" name="employer2_city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.employer2_city} className="mt-2" />
                         </div>
                         <div>
                             <label htmlFor="employer2_state" className="block font-medium text-sm text-gray-700">Employer State</label>
-                            <input value={data.employer2_state || undefined} onChange={(e) => setData('employer2_state', e.target.value)} type="text" id="employer2_state" name="employer2_state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.employer2_state} onInput={handleChange} type="text" id="employer2_state" name="employer2_state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.employer2_state} className="mt-2" />
                         </div>
                         <div>
                             <label htmlFor="employer2_zip_code" className="block font-medium text-sm text-gray-700">Employer Zip Code</label>
-                            <input value={data.zip_code || undefined} onChange={(e) => setData('employer2_zip_code', e.target.value)} type="text" id="employer2_zip_code" name="employer2_zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                            <input value={data.zip_code} onInput={handleChange} type="number" id="employer2_zip_code" name="employer2_zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.employer2_zip_code} className="mt-2" />
                         </div>
                         <div className="col-span-6">
                             <label htmlFor="income2_description" className="block font-medium text-sm text-gray-700">Income 2 Description</label>
-                            <textarea value={data.income2_description || undefined} onChange={(e) => setData('income2_description', e.target.value)} id="income2_description" name="income2_description" rows="4" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"></textarea>
+                            <textarea value={data.income2_description} onInput={handleChange} id="income2_description" name="income2_description" rows="4" className="w-full mt-1 rounded border border-gray-400 py-1 px-2"></textarea>
                             <InputError message={errors.income2_description} className="mt-2" />
                         </div>
                     </div>}

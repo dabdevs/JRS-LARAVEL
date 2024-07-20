@@ -77,7 +77,7 @@ class CarController extends Controller
      */
     public function show($slug) 
     {
-        $car = Car::whereSlug($slug)->firstOrFail();
+        $car = Car::whereSlug($slug)->with('images')->firstOrFail();
         
         return inertia('Car/Show', [
             'car' => $car

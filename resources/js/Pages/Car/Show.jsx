@@ -66,23 +66,23 @@ export default function Show({ auth, car }) {
                             <InputLabel htmlFor="status" value="Status" />
                             <p id="status" className={`text-xl ${car.status === 'Published' && 'text-green-600'} ${car.status === 'Unpublished' && 'text-primary'} ${car.status === 'Sold' && 'text-orange-600'}`}>{car.status}</p>
                         </div>
-                        {car.date_sold && <div className="my-2">
+                        {car.date_sold && <div className="my-2 col-span-2">
                             <InputLabel htmlFor="date_sold" value="Date Sold" />
-                            <p id="date_sold" className='text-xl'>{format(new Date(car.date_sold), 'MM-dd-yyyy')}</p>
+                            <p id="date_sold" className='text-xl'>{format(new Date(car.date_sold), 'MM-dd-yyyy HH:mm:ss')}</p>
                         </div>}
-                        {car.date_published && <div className="my-2">
+                        {car.date_published && <div className="my-2 col-span-2">
                             <InputLabel htmlFor="date_published" value="Date Published" />
-                            <p id="date_published" className='text-xl'>{format(new Date(car.date_published), 'MM-dd-yyyy')}</p>
+                            <p id="date_published" className='text-xl'>{format(new Date(car.date_published), 'MM-dd-yyyy HH:mm:ss')}</p>
                         </div>}
                         <div className="my-2">
                             <InputLabel htmlFor="price" value="Price" />
                             <p id="price" className='text-xl'>{formatPrice(car.price)}</p>
                         </div>
-                        <div className="my-2">
+                        <div className="my-2 col-span-2">
                             <InputLabel htmlFor="created_at" value="Date Created" />
                             <p id="created_at" className='text-xl'>{format(new Date(car.created_at), 'MM-dd-yyyy HH:mm:ss')}</p>
                         </div>
-                        <div className="my-2">
+                        <div className="my-2 col-span-2">
                             <InputLabel htmlFor="last_updated" value="Last Updated" />
                             <p id="last_updated" className='text-xl'>{(car.updated_at && format(new Date(), 'MM-dd-yyyy HH:mm:ss')) ?? 'N/A'}</p>
                         </div>
@@ -91,6 +91,15 @@ export default function Show({ auth, car }) {
                             <p id="description" className='text-xl'>{car.description}</p>
                         </div>}
                     </div>
+
+                    {car.images.length > 0 && <div>
+                        <h4 className='text-xl font-bold my-2'>Images</h4>
+
+                        <div className='grid grid-cols-5 gap-2 mb-3'>
+                            {car.images?.map(img => <img width={'200px'} src={`/storage/${img.url}`} alt={img.id} />)}
+                        </div>
+                    </div>}
+
                     <div className="flex gap-2 justify-end">
                         <Link href={route('cars.index')} className='font-bold py-2 px-6 '>Go Back</Link>
                         <Link href={route('cars.edit', car.slug)} className='inline-flex gap-2 px-2 py-1 items-center bg-primary border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>

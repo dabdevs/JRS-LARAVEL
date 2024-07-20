@@ -1,4 +1,5 @@
 import GuestLayout from '@/Layouts/GuestLayout'
+import { Link } from '@inertiajs/react'
 
 export default function Success() {
     return (

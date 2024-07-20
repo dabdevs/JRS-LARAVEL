@@ -109,4 +109,34 @@ class Helper {
     {
         return Str::slug($car->state . "-" . $car->make . "-" . $car->model . "-" . $car->year . "-" . $car->color . "-" . $car->price . "-" . $car->transmission . "-" . $car->fuel_type . "-" . $car->body_type . "-" . $car->engine_size . "-" . $car->doors . "-" . now());
     }
+
+    public static function sortApplications($q, $options = [])
+    {
+        $field = "id";
+        $order = "DESC";
+
+        // Sort
+        if (!empty(request('sortBy'))) {
+            $sortBy = request('sortBy');
+
+            switch ($sortBy) {
+                case 'lowest-price':
+                    $field = "price";
+                    $order = "ASC";
+                    break;
+                case 'highest-price':
+                    $field = "price";
+                    $order = "DESC";
+                    break;
+                case 'newest':
+                    $field = "date_published";
+                    $order = "DESC";
+                    break;
+            }
+        }
+
+        $q->orderBy($field, $order);
+
+        return $q;
+    }
 }

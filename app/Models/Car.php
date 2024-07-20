@@ -44,4 +44,14 @@ class Car extends Model
     {
         return $this->hasMany(Image::class);
     }
+
+    /**
+     * Get all of the applications for the Car
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function applications()
+    {
+        return $this->hasMany(LoanApplication::class);
+    }
 }

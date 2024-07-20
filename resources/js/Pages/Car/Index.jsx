@@ -56,7 +56,7 @@ export default function Index({ auth, cars }) {
             <section className="px-4 mx-auto">
                 <div className="flex justify-between">
                     <div className='w-1/3'>
-                        <SearchForm admin={true} />
+                        <SearchForm searchUrl={'/dashboard/cars'} fields={'make, model, and more...'}/>
                     </div>
                     <Link href={route('cars.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
                         <PlusIcon />

@@ -45,7 +45,8 @@ Route::middleware('auth')->group(function () {
 // Listing routes
 Route::match(['get', 'post'], '/listing', [ListingController::class, 'index']);
 Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('listing.car');
-// Route::get('listing/search', [ListingController::class, 'search'])->name('search');
+Route::get('get-qualified/{carId}', [GuestController::class, 'getQualified'])->name('get_qualified');
+Route::post('store-application', [GuestController::class, 'storeApplication'])->name('store_application');
 
 // Roles routes
 // Route::resource('roles', RoleController::class)->middleware(AdminMiddleware::class);
@@ -62,7 +63,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     Route::post('cars/image/{imgId}/delete', [CarController::class, 'deleteImage'])->name('cars.images.delete');
 
     // Loan Application routes
-    Route::resource('applications', LoanApplicationController::class);
+    Route::resource('applications', LoanApplicationController::class)->except('create');
+    Route::get('applications/create/{carId}', [LoanApplicationController::class, 'create'])->name('applications.create');
     
     // Upload images
     Route::post('upload-images', [UploadController::class, 'images'])->name('upload.images');

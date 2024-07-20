@@ -60,6 +60,7 @@ class LoanApplicationFactory extends Factory
             'employer2_state' => $this->faker->optional()->stateAbbr,
             'employer2_zip_code' => $this->faker->optional()->postcode,
             'status' => $this->faker->randomElement(['Pending', 'Approved', 'Denied']),
+            'car_id' => $this->faker->numberBetween(1, 99)
         ];
 
         if ($factory["status"] === "Approved") $factory["date_approved"] = $this->faker->dateTime;

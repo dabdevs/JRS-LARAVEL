@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Helper;
 use App\Http\Requests\LoanApplicationRequest;
+use App\Models\Car;
 use App\Models\LoanApplication;
 use Illuminate\Http\Request;
 
@@ -18,11 +20,14 @@ class LoanApplicationController extends Controller
 
 
         // Search
-        // if ($request->has('search')) {
-        //     $query->where('slug', 'like', '%' . $request->input('search') . '%');
-        // }
+        if ($request->has('search')) {
+            $query->where('first_name', 'like', '%' . $request->input('search') . '%');
+            $query->orWhere('last_name', 'like', '%' . $request->input('search') . '%');
+            $query->orWhere('email', 'like', '%' . $request->input('search') . '%');
+            $query->orWhere('ssn_itin', 'like', '%' . $request->input('search') . '%');
+        }
 
-        // $query = Helper::sortApplications($query);
+        $query = Helper::sortApplications($query);
 
         // Pagination
         $applications = $query->paginate(10);
@@ -36,9 +41,13 @@ class LoanApplicationController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($carId)
     {
-        return inertia('LoanApplication/Create');
+        $car = Car::with('images')->findOrFail($carId);
+
+        return inertia('LoanApplication/Create', [
+            'car' => $car
+        ]);
     }
 
     /**
@@ -47,9 +56,9 @@ class LoanApplicationController extends Controller
     public function store(LoanApplicationRequest $request)
     {
         try {
-            $application = LoanApplication::create($request->all());
+            LoanApplication::create($request->all());
 
-            return redirect(route('applications.edit', $application->id));
+            return redirect()->back()->with('success', 'Application created successfuly.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -72,10 +81,12 @@ class LoanApplicationController extends Controller
      */
     public function edit($id)
     {
-        $application = LoanApplication::findOrFail($id);
+        $application = LoanApplication::with('car')->findOrFail($id);
+        $car = Car::with('images')->findOrFail($application->car_id);
 
         return inertia('LoanApplication/Edit', [
-            'application' => $application
+            'application' => $application,
+            'car' => $car
         ]);
     }
 

@@ -53,6 +53,17 @@ class LoanApplication extends Model
         'employer2_zip_code',
         'status',
         'date_approved',
-        'date_denied'
+        'date_denied',
+        'car_id'
     ];
+
+    /**
+     * Get the car that owns the LoanApplication
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function car()
+    {
+        return $this->belongsTo(Car::class, 'foreign_key', 'other_key');
+    }
 }

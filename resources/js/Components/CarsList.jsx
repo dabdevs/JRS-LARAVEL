@@ -7,7 +7,6 @@ import SearchForm from './SearchForm';
 
 export default function CarsList() {
     const { cars } = usePage().props
-    const url = usePage().url
 
     const toggleFilter = () => {
         const filter = document.getElementById('filter')
@@ -21,11 +20,9 @@ export default function CarsList() {
     return (
         <section className="w-full px-2 md:px-4 mx-auto">
 
-            {(url.includes('/cars/') || url.includes('/listing')) &&
-                <div className='md:hidden w-full my-1'>
-                    <SearchForm />
-                </div>
-            }
+            <div className='md:hidden w-full my-1'>
+                <SearchForm searchUrl={'/listing'} fields={'make, model, and more...'} />
+            </div>
 
             <div className="flex justify-between py-2 gap-2 mb-3">
                 <div className='flex gap-2'>

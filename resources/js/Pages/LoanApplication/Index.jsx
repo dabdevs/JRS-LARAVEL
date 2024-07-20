@@ -58,12 +58,12 @@ export default function Index({ auth, applications }) {
       <section className="px-4 mx-auto">
         <div className="flex justify-between">
           <div className='w-1/3'>
-            <SearchForm admin={true} />
+            <SearchForm searchUrl={'/dashboard/applications'} fields={'name, email and more...'}/>
           </div>
-          {can('create applications') && <Link href={route('applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
+          {/* {can('create applications') && <Link href={route('applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
             <PlusIcon />
             New
-          </Link>}
+          </Link>} */}
         </div>
 
         <div className="w-full">

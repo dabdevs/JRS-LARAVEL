@@ -97,6 +97,9 @@ export default function Show({ auth, car }) {
                             <EditICon />
                             Edit
                         </Link>
+                        <Link href={route('applications.create', car.id)} className='inline-flex gap-2 px-2 py-1 items-center bg-gray-400 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+                            Create application
+                        </Link>
                     </div>
                 </div>
             </section>

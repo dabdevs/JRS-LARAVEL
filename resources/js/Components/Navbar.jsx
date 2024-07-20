@@ -8,15 +8,16 @@ import { useState } from 'react'
 export default function Navbar() {
     const [showMenu, setShowMenu] = useState(false)
     const { url } = usePage()
+    const showSearchForm = url.includes('/cars/') || url.includes('/listing')
 
     return (
         <header className="bg-white shadow-md">
             <div className={`${url.includes('/listing') ? 'px-4' : 'container mx-auto px-4'} py-2 flex justify-between items-center`}>
                 <Logo />
 
-                {(url.includes('/cars/') || url.includes('/listing')) && 
+                {showSearchForm && 
                     <div className='hidden md:block w-1/3'>
-                        <SearchForm />
+                        <SearchForm searchUrl={url.includes('/listing') ? '/listing' : '/dashboard/cars'} fields={'make, model, and more...'}/>
                     </div>
                 }
 

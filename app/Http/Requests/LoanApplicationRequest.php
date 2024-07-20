@@ -46,7 +46,7 @@ class LoanApplicationRequest extends FormRequest
             'employer1_phone' => 'required|string|max:100',
             'time_at_employment1' => 'required|integer|min:1',
             'income1_type' => 'required|string',
-            'income1' => 'required|numeric|min:100',
+            'income1' => 'required|numeric',
             'employer1_address' => 'required|string|max:255',
             'employer1_city' => 'required|string|max:150',
             'employer1_state' => 'required|string|max:50',
@@ -57,7 +57,7 @@ class LoanApplicationRequest extends FormRequest
             'employer2_phone' => 'nullable|string|max:50',
             'time_at_employment2' => 'nullable|integer|min:1',
             'income2_type' => 'nullable|string',
-            'income2' => 'nullable|numeric|min:100',
+            'income2' => 'nullable|numeric',
             'employer2_address' => 'nullable|string|max:255',
             'employer2_city' => 'nullable|string|max:150',
             'employer2_state' => 'nullable|string|max:50',
@@ -113,7 +113,8 @@ class LoanApplicationRequest extends FormRequest
             'employer2_state' => 'Employer state',
             'employer2_zip_code' => 'Employer zip code',
             'income2_description' => 'Income description',
-            'status' => 'Status'
+            'status' => 'Status',
+            'car_id' => 'required|exists:cars,id'
         ];
     }
 }

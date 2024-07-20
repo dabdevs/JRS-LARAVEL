@@ -2,12 +2,12 @@ import React from 'react'
 import Form from './Form'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout'
 
-export default function Create({auth}) {
+export default function Create({auth, car}) {
   return (
     <AuthenticatedLayout
       user={auth.user}
     >
-      <Form />
+      <Form car={car} storeUrl={route('applications.store')}/>
     </AuthenticatedLayout>
   )
 }

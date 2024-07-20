@@ -62,6 +62,9 @@ return new class extends Migration
             $table->dateTime('date_approved')->nullable();
             $table->dateTime('date_denied')->nullable();
 
+            $table->unsignedBigInteger('car_id');
+            $table->foreign('car_id')->references('id')->on('cars');
+
             $table->timestamps();
         });
     }

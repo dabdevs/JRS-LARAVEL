@@ -5,8 +5,11 @@ import SaveIcon from '@/Components/SaveIcon';
 import PlusIcon from '@/Components/PlusIcon';
 import usePermissions from '@/Components/hooks/usePermissions';
 
-export default function Form({ application }) {
+export default function Form({ application, car, storeUrl }) {
+    if (!car) throw new Error('No car selected for application')
+
     const { data, setData, post, put, setError, errors } = useForm(application || {
+        car_id: car.id,
         first_name: '',
         middle_name: '',
         last_name: '',
@@ -78,7 +81,7 @@ export default function Form({ application }) {
     const handleCreate = useCallback((e) => {
         e.preventDefault()
 
-        post(route('applications.store'));
+        post(storeUrl);
     })
 
     const handleChange = (e) => {
@@ -115,7 +118,10 @@ export default function Form({ application }) {
     return (
         <section className="px-4 mx-auto">
             <div className="p-6 rounded-md shadow-sm bg-white">
-                <h1 className="text-2xl font-semibold mb-6 text-center">Get Approved</h1>
+                <div className='flex gap-2 justify-center mb-2'>
+                    <img className='w-[100px]' src={`${car?.images.length > 0 ? `/storage/${car?.images[0].url}` : 'https://placehold.co/600x400'}`} alt={'car image'} />
+                    <h1 className="text-2xl my-auto font-semibold text-center">Get Approved For {car.state} {car.make} {car.model} {car.year}</h1>
+                </div>
                 <form>
                     <div className="grid grid-cols-1 sm:grid-cols-6 gap-4">
                         <p className='col-span-6 my-2 text-2xl text-gray-500 text-bold border-b-2 py-2'>PERSONAL INFORMATION</p>
@@ -382,16 +388,16 @@ export default function Form({ application }) {
                     <div className="flex gap-2 justify-end my-2">
                         {application ?
                             <Link href={route('applications.show', application?.id)} className='font-bold py-2 px-6 '>Cancel</Link>
-                            : <Link href={route('applications.index')} className='font-bold py-2 px-6 '>Go Back</Link>
+                            : <Link href={route().current().includes('get_qualified') ? route('listing.car', car.slug) : route('cars.show', car.slug)} className='font-bold py-2 px-6 '>Go Back</Link>
                         }
 
                         {can('create applications') && can('edit applications') && <button id='application-submit-btn' onClick={application ? handleUpdate : handleCreate} type='button' className='inline-flex gap-2 p-2 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
                             <SaveIcon />
                             Save
                         </button>}
-                        {can('create applications') && <Link href={route('applications.create')} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
+                        {can('create applications') && !route().current().includes('get_qualified') && <Link href={route('applications.create', car.id)} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
                             <PlusIcon />
-                            New
+                            New 
                         </Link>}
                     </div>
                 </form>

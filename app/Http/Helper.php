@@ -4,6 +4,7 @@ namespace App\Http;
 
 use App\Models\Car;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class Helper {
@@ -138,5 +139,23 @@ class Helper {
         $q->orderBy($field, $order);
 
         return $q;
+    }
+
+    public static function readJsonFile($path)
+    {
+        // Check if the file exists
+        if (File::exists($path)) {
+            // Get the file content
+            $json = File::get($path);
+
+            // Decode the JSON content to an array
+            $data = json_decode($json, true);
+
+            // Now you can use the $data array as needed
+            return $data;
+        } else {
+            // Handle the case where the file doesn't exist
+            return response()->json(['error' => 'File not found'], 404);
+        }
     }
 }

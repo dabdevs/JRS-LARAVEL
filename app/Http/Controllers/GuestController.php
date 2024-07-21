@@ -2,19 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\NewContact;
+use App\Http\Helper;
 use App\Http\Requests\ContactRequest;
 use App\Http\Requests\LoanApplicationRequest;
-use App\Mail\NewContactEmail;
 use App\Models\BusinessInfo;
 use App\Models\Car;
 use App\Models\Contact;
 use App\Models\LoanApplication;
 use App\Notifications\EmailReceived;
 use App\Notifications\NewContactReceived;
-use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
 
 class GuestController extends Controller
 {
@@ -51,10 +48,15 @@ class GuestController extends Controller
 
     public function getQualified($carId)
     {
+        $states = Cache::rememberForever('states', function() {
+            return Helper::readJsonFile(database_path('/statesAndCities.json'));
+        });
+
         $car = Car::with('images')->findOrFail($carId);
 
         return inertia('GetQualified', [
-            'car' => $car
+            'car' => $car,
+            'states' => $states,
         ]);
     }
 
@@ -69,7 +71,7 @@ class GuestController extends Controller
             if ($exists) {
                 return redirect()->back()->with('error', 'Application already exists.');
             }
-            
+
             LoanApplication::create($request->all());
 
             return inertia('LoanApplication/Success');

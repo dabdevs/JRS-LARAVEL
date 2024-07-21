@@ -7,6 +7,7 @@ use App\Http\Requests\LoanApplicationRequest;
 use App\Models\Car;
 use App\Models\LoanApplication;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class LoanApplicationController extends Controller
 {
@@ -43,10 +44,15 @@ class LoanApplicationController extends Controller
      */
     public function create($carId)
     {
+        $states = Cache::rememberForever('states', function () {
+            return Helper::readJsonFile(database_path('/statesAndCities.json'));
+        });
+
         $car = Car::with('images')->findOrFail($carId);
 
         return inertia('LoanApplication/Create', [
-            'car' => $car
+            'car' => $car,
+            'states' => $states,
         ]);
     }
 
@@ -91,12 +97,17 @@ class LoanApplicationController extends Controller
      */
     public function edit($id)
     {
+        $states = Cache::rememberForever('states', function () {
+            return Helper::readJsonFile(database_path('/statesAndCities.json'));
+        });
+
         $application = LoanApplication::with('car')->findOrFail($id);
         $car = Car::with('images')->findOrFail($application->car_id);
 
         return inertia('LoanApplication/Edit', [
             'application' => $application,
-            'car' => $car
+            'car' => $car,
+            'states' => $states,
         ]);
     }
 

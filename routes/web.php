@@ -47,6 +47,7 @@ Route::match(['get', 'post'], '/listing', [ListingController::class, 'index']);
 Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('listing.car');
 Route::get('get-qualified/{carId}', [GuestController::class, 'getQualified'])->name('get_qualified');
 Route::post('store-application', [GuestController::class, 'storeApplication'])->name('store_application');
+Route::get('get-qualified-success', [GuestController::class, 'getQualifiedSuccess'])->name('get_qualified_success');
 
 // Roles routes
 // Route::resource('roles', RoleController::class)->middleware(AdminMiddleware::class);

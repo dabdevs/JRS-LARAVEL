@@ -105,7 +105,8 @@ export default function Form({ application, car, states, storeUrl }) {
 
         if (type === "email" && !validateEmail(value)) {
             setError(name, `${value} is not a valid email`)
-            return
+        } else {
+            setError(name, '')
         }
 
         if (name === "state") setState(value)
@@ -171,7 +172,7 @@ export default function Form({ application, car, states, storeUrl }) {
                         </div>
                     </div>
 
-                    {!personalInfoCheck && <div className="mt-6 grid grid-cols-6 gap-4">
+                    {personalInfoCheck && <div className="mt-6 grid grid-cols-6 gap-4">
                         <p className='col-span-6 my-2 text-xl lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>ADDRESS</p>
                         <div className="col-span-6 sm:col-span-2 lg:col-span-3">
                             <label htmlFor="address_line_1" className="block font-medium text-sm text-gray-700">Address Line 1*</label>
@@ -236,7 +237,7 @@ export default function Form({ application, car, states, storeUrl }) {
                         </div>
                     </div>}
 
-                    {!personalInfoCheck && !addressCheck &&
+                    {personalInfoCheck && addressCheck &&
                         <div className="mt-6 grid grid-cols-6 gap-4">
                             <p className='col-span-6 my-2 text-xl lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>EMPLOYMENT 1</p>
                             <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
@@ -320,7 +321,7 @@ export default function Form({ application, car, states, storeUrl }) {
                         </div>
                     }
 
-                    {!personalInfoCheck && !addressCheck && !employment1Check && <div className="mt-6 grid grid-cols-6 gap-4">
+                    {personalInfoCheck && addressCheck && employment1Check && <div className="mt-6 grid grid-cols-6 gap-4">
                         <p className='col-span-6 my-2 text-xl lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>EMPLOYMENT 2</p>
                         <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
                             <label htmlFor="employment2_type" className="block font-medium text-sm text-gray-700">Employment Type</label>

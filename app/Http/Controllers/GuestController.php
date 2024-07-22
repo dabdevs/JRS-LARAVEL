@@ -18,7 +18,8 @@ class GuestController extends Controller
     /**
      *  Load index view
      */
-    public function index() {
+    public function index()
+    {
         $businessInfo = Cache::remember('businessInfo', 60, function () {
             return BusinessInfo::first();
         });
@@ -29,7 +30,7 @@ class GuestController extends Controller
     /**
      *  Send contact message
      */
-    public function contact(ContactRequest $request) 
+    public function contact(ContactRequest $request)
     {
         try {
             $contact = Contact::create($request->all());
@@ -48,7 +49,7 @@ class GuestController extends Controller
 
     public function getQualified($carId)
     {
-        $states = Cache::rememberForever('states', function() {
+        $states = Cache::rememberForever('states', function () {
             return Helper::readJsonFile(database_path('/statesAndCities.json'));
         });
 
@@ -63,20 +64,23 @@ class GuestController extends Controller
     public function storeApplication(LoanApplicationRequest $request)
     {
         try {
-            $exists = LoanApplication::where([
-                'ssn_itin' => $request->ssn_itin,
-                'car_id' => $request->car_id,
-            ])->exists();
+            $data = $request->all();
+            $exists = LoanApplication::existsForUser($data);
 
             if ($exists) {
-                return redirect()->back()->with('error', 'Application already exists.');
+                return redirect()->back()->with('error', 'You already applied for this car');
             }
+            
+            LoanApplication::create($data);
 
-            LoanApplication::create($request->all());
-
-            return inertia('LoanApplication/Success');
+            return redirect(route('get_qualified_success'));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
+    }
+
+    public function getQualifiedSuccess()
+    {
+        return inertia('LoanApplication/Success');
     }
 }

@@ -62,19 +62,15 @@ class LoanApplicationController extends Controller
     public function store(LoanApplicationRequest $request)
     {
         try {
-
-            $exists = LoanApplication::where([
-                'ssn_itin' => $request->ssn_itin,
-                'car_id' => $request->car_id,
-            ])->exists();
-
+            $data = $request->all();
+            $exists = LoanApplication::existsForUser($data);
+            
             if ($exists) {
-                return redirect()->back()->with('error', 'Application already exists.');
+                return redirect()->back()->with('error', 'You already applied for this car');
             }
+            $application = LoanApplication::create($data);
 
-            LoanApplication::create($request->all());
-
-            return redirect()->back()->with('success', 'Application created successfuly.');
+            return redirect(route('applications.show', $application->id))->with('success', 'Application created successfuly.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -117,10 +113,9 @@ class LoanApplicationController extends Controller
     public function update($id, LoanApplicationRequest $request)
     {
         try {
-            $application = LoanApplication::findOrFail($id);
-            $application->update($request->all());
+            LoanApplication::findOrFail($id)->update($request->all());
 
-            return redirect(route('applications.edit', $application->id))->with('success', 'Application updated successfuly.');
+            return redirect()->back()->with('success', 'Application updated successfuly.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }

@@ -66,7 +66,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     // Loan Application routes
     Route::resource('applications', LoanApplicationController::class)->except('create');
     Route::get('applications/create/{carId}', [LoanApplicationController::class, 'create'])->name('applications.create');
-    
+    Route::post('change-application-status/{application_id}/{status}', [LoanApplicationController::class, 'changeApplicationStatus'])->name('applications.change_status');
+
     // Upload images
     Route::post('upload-images', [UploadController::class, 'images'])->name('upload.images');
 })->middleware(AdminMiddleware::class);

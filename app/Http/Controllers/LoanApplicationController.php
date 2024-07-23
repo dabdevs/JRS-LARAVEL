@@ -8,6 +8,7 @@ use App\Models\Car;
 use App\Models\LoanApplication;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Str;
 
 class LoanApplicationController extends Controller
 {
@@ -130,6 +131,35 @@ class LoanApplicationController extends Controller
             LoanApplication::findOrFail($id)->delete();
 
             return redirect()->back()->with('success', 'Application deleted successfuly.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function changeApplicationStatus($application_id, $status)
+    {
+        try {
+            $data["status"] = $status;
+            $application = LoanApplication::findOrFail($application_id);
+
+            switch ($status) {
+                case 'Approved':
+                    $data["date_approved"] = now();
+                    $data["date_denied"] = null;
+                    break;
+                case 'Denied':
+                    $data["date_denied"] = now();
+                    $data["date_approved"] = null;
+                    break;
+                
+                default:
+                    $data["date_denied"] = null;
+                    $data["date_approved"] = null;
+                    break;
+            }
+        
+            $application->update($data);
+            return redirect()->back()->with('success', 'Application '. Str::lower($status));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }

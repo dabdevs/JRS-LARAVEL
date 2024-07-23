@@ -1,5 +1,5 @@
 import InputLabel from '@/Components/InputLabel';
-import { Link } from '@inertiajs/react';
+import { Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import EditICon from '@/Components/EditICon';
 import useUtils from '@/Hooks/useUtils';
@@ -7,8 +7,15 @@ import { format } from 'date-fns';
 import usePermissions from '@/Components/hooks/usePermissions';
 
 export default function Show({ auth, application }) {
+  const {post} = useForm({
+    status: application.status
+  })
   const { formatPrice } = useUtils()
   const { can } = usePermissions()
+
+  const handleStatus = (status) => {
+    post(route('applications.change_status', {application_id: application.id, status }))
+  }
 
   function Content() {
     return (
@@ -203,10 +210,13 @@ export default function Show({ auth, application }) {
           </div>
           <div className="flex gap-2 justify-end">
             <Link href={route('applications.index')} className='font-bold py-2 px-6 '>Go Back</Link>
-            {can('edit applications') && <Link href={route('applications.edit', application.id)} className='inline-flex gap-2 px-2 py-1 items-center bg-primary border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+            {can('edit applications') && <Link href={route('applications.edit', application.id)} className='inline-flex gap-2 px-2 py-1 items-center bg-gray-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
               <EditICon />
               Edit
             </Link>}
+            {can('approve applications') && ['Pending', 'Denied'].includes(application.status) && <button onClick={() => handleStatus('Approved')} className='inline-flex gap-2 px-2 py-1 items-center bg-green-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>Approve</button>}
+            {can('deny applications') && ['Pending', 'Approved'].includes(application.status) && <button onClick={() => handleStatus('Denied')} className='inline-flex gap-2 px-2 py-1 items-center bg-primary border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>Deny</button>}
+            {can('edit applications') && application.status !== 'Pending' && <button onClick={() => handleStatus('Pending')} className='inline-flex gap-2 px-2 py-1 items-center bg-orange-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>Pending</button>}
           </div>
         </div>
       </section>

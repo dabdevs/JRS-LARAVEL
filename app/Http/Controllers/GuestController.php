@@ -9,6 +9,7 @@ use App\Models\BusinessInfo;
 use App\Models\Car;
 use App\Models\Contact;
 use App\Models\LoanApplication;
+use App\Models\State;
 use App\Notifications\EmailReceived;
 use App\Notifications\NewContactReceived;
 use Illuminate\Support\Facades\Cache;
@@ -50,7 +51,7 @@ class GuestController extends Controller
     public function getQualified($carId)
     {
         $states = Cache::rememberForever('states', function () {
-            return Helper::readJsonFile(database_path('/statesAndCities.json'));
+            return State::orderBy('name')->pluck('name');
         });
 
         $car = Car::with('images')->findOrFail($carId);

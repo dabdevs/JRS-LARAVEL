@@ -7,14 +7,14 @@ import { format } from 'date-fns';
 import usePermissions from '@/Components/hooks/usePermissions';
 
 export default function Show({ auth, application, car }) {
-  const {post} = useForm({
+  const { post } = useForm({
     status: application.status
   })
   const { formatPrice } = useUtils()
   const { can } = usePermissions()
 
   const handleStatus = (status) => {
-    post(route('applications.change_status', {application_id: application.id, status }))
+    post(route('applications.change_status', { application_id: application.id, status }))
   }
 
   function Content() {
@@ -84,8 +84,8 @@ export default function Show({ auth, application, car }) {
               <p id="zip_code" className='text-xl'>{application.zip_code}</p>
             </div>
             <div className="mb-2">
-              <InputLabel htmlFor="time_at_current_address" value="Time At Current Address" />
-              <p id="time_at_current_address" className='text-xl'>{application.time_at_current_address}</p>
+              <InputLabel htmlFor="time_at_current_address_years" value="Time At Current Address" />
+              <p id="time_at_current_address_years" className='text-xl'>{application.time_at_current_address_years} {application.time_at_current_address_months}</p>
             </div>
             <div className="mb-2">
               <InputLabel htmlFor="current_residence_type" value="Current Residence Type" />
@@ -117,7 +117,7 @@ export default function Show({ auth, application, car }) {
             </div>
             <div className="mb-2">
               <InputLabel htmlFor="time_at_employment1" value="Time At Employment" />
-              <p id="time_at_employment1" className='text-xl'>{application.time_at_employment1 ?? 'N/A'}</p>
+              <p id="time_at_employment1" className='text-xl'>{application.time_at_employment1_years} {application.time_at_employment1_years}</p>
             </div>
             <div className="mb-2 col-span-2">
               <InputLabel htmlFor="employer1_address" value="Address" />
@@ -161,7 +161,7 @@ export default function Show({ auth, application, car }) {
             </div>
             <div className="mb-2">
               <InputLabel htmlFor="time_at_employment2" value="Time At Employment" />
-              <p id="time_at_employment2" className='text-xl'>{application.time_at_employment2 ?? 'N/A'}</p>
+              <p id="time_at_employment2" className='text-xl'>{application.time_at_employment2_years ? `${application.time_at_employment2_years} ${application.time_at_employment2_months}` : 'N/A'}</p>
             </div>
             <div className="mb-2 col-span-2">
               <InputLabel htmlFor="employer2_address" value="Address" />

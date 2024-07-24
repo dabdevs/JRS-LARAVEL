@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(CarSeeder::class);
         $this->call(BusinessInfoSeeder::class);
         $this->call(CarModelSeeder::class);
+        $this->call(StatesSeeder::class);
         $this->call(LoanApplicationSeeder::class);
     }
 }

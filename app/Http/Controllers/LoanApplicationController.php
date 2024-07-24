@@ -6,6 +6,7 @@ use App\Http\Helper;
 use App\Http\Requests\LoanApplicationRequest;
 use App\Models\Car;
 use App\Models\LoanApplication;
+use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
@@ -45,7 +46,7 @@ class LoanApplicationController extends Controller
     public function create($carId)
     {
         $states = Cache::rememberForever('states', function () {
-            return Helper::readJsonFile(database_path('/statesAndCities.json'));
+            return State::orderBy('name')->pluck('name');
         });
 
         $car = Car::with('images')->findOrFail($carId);
@@ -90,7 +91,7 @@ class LoanApplicationController extends Controller
     public function edit($id)
     {
         $states = Cache::rememberForever('states', function () {
-            return Helper::readJsonFile(database_path('/statesAndCities.json'));
+            return State::orderBy('name')->pluck('name');
         });
 
         $application = LoanApplication::findOrFail($id);
@@ -146,15 +147,15 @@ class LoanApplicationController extends Controller
                     $data["date_denied"] = now();
                     $data["date_approved"] = null;
                     break;
-                
+
                 default:
                     $data["date_denied"] = null;
                     $data["date_approved"] = null;
                     break;
             }
-        
+
             $application->update($data);
-            return redirect()->back()->with('success', 'Application '. Str::lower($status));
+            return redirect()->back()->with('success', 'Application ' . Str::lower($status));
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }

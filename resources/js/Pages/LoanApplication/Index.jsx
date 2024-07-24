@@ -13,14 +13,12 @@ import Sort from '@/Components/Sort';
 import ViewIcon from '@/Components/ViewIcon';
 import useUtils from '@/Hooks/useUtils';
 import { format } from 'date-fns';
-import usePermissions from '@/Components/hooks/usePermissions';
 
 export default function Index({ auth, applications }) {
   const { setData, delete: destroy } = useForm({
     id: ''
   });
-  const { can } = usePermissions()
-
+  console.log(applications)
   const { formatPrice } = useUtils()
 
   const handleDelete = (id) => {
@@ -92,9 +90,6 @@ export default function Index({ auth, applications }) {
                       City
                     </th>
                     <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
-                      Phone
-                    </th>
-                    <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
                       Monthly Income
                     </th>
                     {!sidebarExpanded && <th scope="col" className="px-4 py-3.5 text-sm font-bold text-left rtl:text-right text-gray-500">
@@ -125,9 +120,6 @@ export default function Index({ auth, applications }) {
                       </td>
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                         {application.city}
-                      </td>
-                      <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
-                        {application.phone}
                       </td>
                       <td className="p-2 text-sm text-gray-500 whitespace-nowrap">
                         <b>{formatPrice(application.income1)}</b>

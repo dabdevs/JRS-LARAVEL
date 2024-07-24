@@ -104,14 +104,14 @@ export default function Form({ application, car, states, storeUrl }) {
         } 
 
         if (type === "email" && !validateEmail(value)) {
-            setError(name, `${value} is not a valid email`)
+            setError(name, 'The Email Address field is required.')
         } else {
             setError(name, '')
         }
 
         if (name === "state") setState(value)
 
-        setError(name, '')
+        // setError(name, '')
         setData(name, value)
     }
 
@@ -381,7 +381,7 @@ export default function Form({ application, car, states, storeUrl }) {
                             <InputError message={errors.employer2_address} className="mt-2" />
                         </div>
                         <div className='col-span-6 sm:col-span-2 lg:col-span-2'>
-                            <label htmlFor="employer2_state" className="block font-medium text-sm text-gray-700">Employer State*</label>
+                            <label htmlFor="employer2_state" className="block font-medium text-sm text-gray-700">Employer State</label>
                             <select required value={data.employer2_state} onInput={handleChange} id="employer2_state" name="employer2_state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                 <option value="">Select</option>
                                 {Object.keys(states).map(state => <option key={state} value={state}>{state}</option>)}
@@ -389,7 +389,7 @@ export default function Form({ application, car, states, storeUrl }) {
                             <InputError message={errors.employer2_state} className="mt-2" />
                         </div>
                         {state && <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                            <label htmlFor="employer2_city" className="block font-medium text-sm text-gray-700">Employer City*</label>
+                            <label htmlFor="employer2_city" className="block font-medium text-sm text-gray-700">Employer City</label>
                             <select required value={data.employer2_city} onInput={handleChange} id="employer2_city" name="employer2_city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                 <option value="">Select</option>
                                 {states[state].map(city => <option key={city} value={city}>{city}</option>)}

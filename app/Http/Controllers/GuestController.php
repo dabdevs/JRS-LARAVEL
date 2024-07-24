@@ -64,14 +64,7 @@ class GuestController extends Controller
     public function storeApplication(LoanApplicationRequest $request)
     {
         try {
-            $data = $request->all();
-            $exists = LoanApplication::existsForUser($data);
-
-            if ($exists) {
-                return redirect()->back()->with('error', 'You already applied for this car');
-            }
-            
-            LoanApplication::create($data);
+            LoanApplication::create($request->all());
 
             return redirect(route('get_qualified_success'));
         } catch (\Throwable $th) {

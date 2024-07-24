@@ -20,7 +20,6 @@ class LoanApplicationController extends Controller
         $query = LoanApplication::query();
         // ->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
 
-
         // Search
         if ($request->has('search')) {
             $query->where('first_name', 'like', '%' . $request->input('search') . '%');
@@ -63,13 +62,7 @@ class LoanApplicationController extends Controller
     public function store(LoanApplicationRequest $request)
     {
         try {
-            $data = $request->all();
-            $exists = LoanApplication::existsForUser($data);
-            
-            if ($exists) {
-                return redirect()->back()->with('error', 'You already applied for this car');
-            }
-            $application = LoanApplication::create($data);
+            $application = LoanApplication::create($request->all());
 
             return redirect(route('applications.show', $application->id))->with('success', 'Application created successfuly.');
         } catch (\Throwable $th) {
@@ -83,9 +76,11 @@ class LoanApplicationController extends Controller
     public function show($id)
     {
         $application = LoanApplication::findOrFail($id);
+        $car = Car::with('images')->findOrFail($application->car_id);
 
         return inertia('LoanApplication/Show', [
-            'application' => $application
+            'application' => $application,
+            'car' => $car
         ]);
     }
 
@@ -98,7 +93,7 @@ class LoanApplicationController extends Controller
             return Helper::readJsonFile(database_path('/statesAndCities.json'));
         });
 
-        $application = LoanApplication::with('car')->findOrFail($id);
+        $application = LoanApplication::findOrFail($id);
         $car = Car::with('images')->findOrFail($application->car_id);
 
         return inertia('LoanApplication/Edit', [

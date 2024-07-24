@@ -66,14 +66,4 @@ class LoanApplication extends Model
     {
         return $this->belongsTo(Car::class, 'foreign_key', 'other_key');
     }
-
-    public static function existsForUser($data)
-    {
-        if (!isset($data["id"])) {
-            return LoanApplication::where([
-                'ssn_itin' => $data["ssn_itin"],
-                'car_id' => $data["car_id"],
-            ])->exists();
-        }
-    }
 }

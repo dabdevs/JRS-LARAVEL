@@ -6,7 +6,7 @@ import useUtils from '@/Hooks/useUtils';
 import { format } from 'date-fns';
 import usePermissions from '@/Components/hooks/usePermissions';
 
-export default function Show({ auth, application }) {
+export default function Show({ auth, application, car }) {
   const {post} = useForm({
     status: application.status
   })
@@ -21,6 +21,10 @@ export default function Show({ auth, application }) {
     return (
       <section className="px-4 mx-auto">
         <div className="p-4 rounded-md shadow-sm bg-white text-center sm:ml-4 sm:mt-0 sm:text-left">
+          <div className='flex gap-2 justify-center mb-2'>
+            <img className='w-[80px] lg:w-[100px]' src={`${car?.images.length > 0 ? `/storage/${car?.images[0].url}` : 'https://placehold.co/600x400'}`} alt={'car image'} />
+            <h1 className="text-xl lg:text-2xl my-auto font-semibold text-center">{car.state} {car.make} {car.model} {car.year}</h1>
+          </div>
           <div className="mb-2 w-full grid grid-cols-6 gap-4">
             <p className='col-span-6 mt-2 text-2xl border-b-2 py-2 text-gray-500 text-bold'>PERSONAL INFORMATION</p>
             <div className="mb-2">

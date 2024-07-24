@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LoanApplicationRequest extends FormRequest
 {
@@ -21,12 +22,12 @@ class LoanApplicationRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
+        $rules = [
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'ssn_itin' => 'required|string|max:15',
+            'ssn_itin' => 'required|string|max:20',
             'date_of_birth' => 'required|date',
             'driver_license_number' => 'nullable|string|max:50',
             'phone' => 'required|string|max:255',
@@ -67,6 +68,20 @@ class LoanApplicationRequest extends FormRequest
             'date_approved' => 'nullable|date',
             'date_denied' => 'nullable|date',
         ];
+
+        // Ensure a ssn is unique for a car application
+        if (!$this->id) {
+            $rules['ssn_itin'] = [
+                'required',
+                'string',
+                'max:20',
+                Rule::unique('loan_applications')->where(function ($query) {
+                    return $query->where('car_id', request('car_id'));
+                }),
+            ];
+        }
+
+        return $rules;
     }
 
     public function attributes()

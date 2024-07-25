@@ -69,7 +69,7 @@ export default function Form({ application, car, states, storeUrl }) {
 
     const employment1Check = data.employment1_type !== '' && data.employer1_rank !== '' && data.employer1_name !== '' &&
         data.employer1_phone !== '' && data.time_at_employment1_years !== '' && data.income1_type !== '' && data.income1 !== '' &&
-        data.employer1_address !== '' && data.employer1_city !== '' && data.employer1_state !== '' && data.employer1_zip_code !== ''
+        data.employer1_city !== '' && data.employer1_state !== '' && data.employer1_zip_code !== ''
 
     const today = new Date();
     const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
@@ -122,12 +122,11 @@ export default function Form({ application, car, states, storeUrl }) {
         return re.test(String(email).toLowerCase());
     }
 
-    console.log(data)
     return (
         <section className="px-4 mx-auto">
             <div className="p-6 rounded-md shadow-sm bg-white">
                 <div className='flex gap-2 justify-center mb-2'>
-                    <img className='w-[80px] lg:w-[100px]' src={`${car?.images.length > 0 ? `/storage/${car?.images[0].url}` : 'https://placehold.co/600x400'}`} alt={'car image'} />
+                    <img className='w-[80px] lg:w-[100px]' src={car?.images.length > 0 ? `/storage/${car?.images[0].url}` : 'https://placehold.co/600x400'} alt={'car image'} />
                     <h1 className="text-xl lg:text-2xl my-auto font-semibold text-center">Get Approved For {car.state} {car.make} {car.model} {car.year}</h1>
                 </div>
                 <form>
@@ -215,25 +214,23 @@ export default function Form({ application, car, states, storeUrl }) {
                             <input required value={data.zip_code} onInput={handleChange} type="number" id="zip_code" name="zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.zip_code} className="mt-2" />
                         </div>
-                        <div className="col-span-6 sm:col-span-3 lg:col-span-2">
+                        <div className="col-span-6 sm:col-span-3 lg:col-span-2" id='time_at_current_address'>
                             <label htmlFor="time_at_current_address" className="block font-medium text-sm text-gray-700">Time at Current Address*</label>
-                            <div id='time_at_current_address'>
-                                <div className="flex gap-1">
-                                    <div className="w-1/2">
-                                        <select required value={data.time_at_current_address_years} onInput={handleChange} id="time_at_current_address_years" name="time_at_current_address_years" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
-                                            <option value="">Select</option>
-                                            {years.map(year => <option>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
-                                        </select>
-                                    </div>
-                                    <div className="w-1/2">
-                                        <select required value={data.time_at_current_address_months} onInput={handleChange} id="time_at_current_address_months" name="time_at_current_address_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
-                                            <option value="">Select</option>
-                                            {months.map(month => <option>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
-                                        </select>
-                                    </div>
+                            <div className="flex gap-1">
+                                <div className="w-1/2">
+                                    <select required value={data.time_at_current_address_years} onInput={handleChange} id="time_at_current_address_years" name="time_at_current_address_years" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                        <option value="">Select Years</option>
+                                        {years.map(year => <option>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
+                                    </select>
                                 </div>
-                                <InputError message={errors.time_at_current_address_years} className="mt-2" />
+                                <div className="w-1/2">
+                                    <select value={data.time_at_current_address_months} onInput={handleChange} id="time_at_current_address_months" name="time_at_current_address_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                        <option value="">Select Months</option>
+                                        {months.map(month => <option>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
+                                    </select>
+                                </div>
                             </div>
+                            <InputError message={errors.time_at_current_address_years} className="mt-2" />
                         </div>
                         <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
                             <label htmlFor="current_residence_type" className="block font-medium text-sm text-gray-700">Current Residence Type*</label>
@@ -283,18 +280,18 @@ export default function Form({ application, car, states, storeUrl }) {
                                 <input required value={data.employer1_phone} onInput={handleChange} type="number" id="employer1_phone" name="employer1_phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_phone} className="mt-2" />
                             </div>
-                            <div id='time_at_employment1'>
+                            <div className="col-span-6 sm:col-span-3 lg:col-span-2" id='time_at_employment1'>
                                 <label htmlFor="time_at_employment1" className="block font-medium text-sm text-gray-700">Time at Employment 1*</label>
                                 <div className="flex gap-1">
                                     <div className="w-1/2">
                                         <select required value={data.time_at_employment1_years} onInput={handleChange} id="time_at_employment1_years" name="time_at_employment1_years" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
-                                            <option value="">Select</option>
+                                            <option value="">Select Years</option>
                                             {years.map(year => <option>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
                                         </select>
                                     </div>
                                     <div className="w-1/2">
-                                        <select required value={data.time_at_employment1_months} onInput={handleChange} id="time_at_employment1_months" name="time_at_employment1_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
-                                            <option value="">Select</option>
+                                        <select value={data.time_at_employment1_months} onInput={handleChange} id="time_at_employment1_months" name="time_at_employment1_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                            <option value="">Select Months</option>
                                             {months.map(month => <option>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
                                         </select>
                                     </div>
@@ -321,8 +318,8 @@ export default function Form({ application, car, states, storeUrl }) {
                                 <InputError message={errors.income1} className="mt-2" />
                             </div>
                             <div className='col-span-6 sm:col-span-2 lg:col-span-2'>
-                                <label htmlFor="employer1_address" className="block font-medium text-sm text-gray-700">Employer Address*</label>
-                                <input required value={data.employer1_address} onInput={handleChange} type="text" id="employer1_address" name="employer1_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <label htmlFor="employer1_address" className="block font-medium text-sm text-gray-700">Employer Address</label>
+                                <input value={data.employer1_address} onInput={handleChange} type="text" id="employer1_address" name="employer1_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_address} className="mt-2" />
                             </div>
                             <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
@@ -376,18 +373,18 @@ export default function Form({ application, car, states, storeUrl }) {
                             <input value={data.employer2_phone} onInput={handleChange} type="number" id="employer2_phone" name="employer2_phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                             <InputError message={errors.employer2_phone} className="mt-2" />
                         </div>
-                        <div id='time_at_employment2'>
+                        <div className="col-span-6 sm:col-span-3 lg:col-span-2" id='time_at_employment2'>
                             <label htmlFor="time_at_employment2" className="block font-medium text-sm text-gray-700">Time at Employment 2</label>
                             <div className="flex gap-1">
                                 <div className="w-1/2">
-                                    <select required value={data.time_at_employment2_years} onInput={handleChange} id="time_at_employment2_years" name="time_at_employment2_years" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
-                                        <option value="">Select</option>
+                                    <select value={data.time_at_employment2_years} onInput={handleChange} id="time_at_employment2_years" name="time_at_employment2_years" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                        <option value="">Select Years</option>
                                         {years.map(year => <option>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
                                     </select>
                                 </div>
                                 <div className="w-1/2">
-                                    <select required value={data.time_at_employment2_months} onInput={handleChange} id="time_at_employment2_months" name="time_at_employment2_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
-                                        <option value="">Select</option>
+                                    <select value={data.time_at_employment2_months} onInput={handleChange} id="time_at_employment2_months" name="time_at_employment2_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                        <option value="">Select Months</option>
                                         {months.map(month => <option>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
                                     </select>
                                 </div>

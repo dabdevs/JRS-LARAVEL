@@ -42,7 +42,7 @@ return new class extends Migration
             $table->string('time_at_employment1_months')->nullable();
             $table->string('income1_type');
             $table->decimal('income1', 10, 2);
-            $table->string('employer1_address');
+            $table->string('employer1_address')->nullable();
             $table->string('employer1_city');
             $table->string('employer1_state');
             $table->string('employer1_zip_code');

@@ -45,7 +45,7 @@ class LoanApplicationFactory extends Factory
             'time_at_employment1_months' => $this->faker->numberBetween(1, 11),
             'income1_type' => $this->faker->randomElement(['Comp Paystub w/YTD', 'Printed Paystub - No YTD', 'Self Emp - TurboPass', 'Self Emp - Bus Bank Stmt', 'Self Emp - Pers Bank Stmt', 'Job Letter', 'SSI - Buyer']),
             'income1' => $this->faker->randomFloat(2, 3000, 10000),
-            'employer1_address' => $this->faker->streetAddress,
+            'employer1_address' => $this->faker->optional()->streetAddress,
             'employer1_city' => $this->faker->city,
             'employer1_state' => $this->faker->stateAbbr,
             'employer1_zip_code' => $this->faker->postcode,

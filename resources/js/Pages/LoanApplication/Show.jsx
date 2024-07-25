@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react';
 import InputLabel from '@/Components/InputLabel';
 import { Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -5,11 +6,17 @@ import EditICon from '@/Components/EditICon';
 import useUtils from '@/Hooks/useUtils';
 import { format } from 'date-fns';
 import usePermissions from '@/Components/hooks/usePermissions';
+import { useReactToPrint } from 'react-to-print';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
+import Spinner from '@/Components/Spinner';
+import ApplicationHeader from './ApplicationHeader';
 
 export default function Show({ auth, application, car }) {
   const { post } = useForm({
     status: application.status
   })
+  const [loading, setLoading] = useState(false)
   const { formatPrice } = useUtils()
   const { can } = usePermissions()
 
@@ -17,14 +24,40 @@ export default function Show({ auth, application, car }) {
     post(route('applications.change_status', { application_id: application.id, status }))
   }
 
+  const componentRef = useRef();
+  const documentTitle = `${application.first_name}-${application.last_name}-${car.state}-${car.make}-${car.model}-${car.year}-application`
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+    documentTitle: documentTitle,
+  });
+
+  const handleDownloadPdf = async () => {
+    setLoading(true)
+    const buttons = document.getElementById('buttons')
+    buttons.classList.add('hidden')
+    const element = componentRef.current;
+    const canvas = await html2canvas(element);
+    const data = canvas.toDataURL('image/png');
+
+    const pdf = new jsPDF();
+    const imgProperties = pdf.getImageProperties(data);
+    const pdfWidth = pdf.internal.pageSize.getWidth();
+    const pdfHeight = (imgProperties.height * pdfWidth) / imgProperties.width;
+
+    pdf.addImage(data, 'PNG', 0, 0, pdfWidth, pdfHeight);
+    pdf.save(documentTitle);
+
+    buttons.classList.remove('hidden')
+    setLoading(false)
+  };
+
   function Content() {
     return (
-      <section className="px-4 mx-auto">
+      <section className="px-4 mx-auto" ref={componentRef}>
+        {loading && <Spinner />}
         <div className="p-4 rounded-md shadow-sm bg-white text-center sm:ml-4 sm:mt-0 sm:text-left">
-          <div className='flex gap-2 justify-center mb-2'>
-            <img className='w-[80px] lg:w-[100px]' src={car?.images.length > 0 ? `/storage/${car?.images[0].url}` : 'https://placehold.co/600x400'} alt={'car image'} />
-            <h1 className="text-xl lg:text-2xl my-auto font-semibold text-center">{car.state} {car.make} {car.model} {car.year}</h1>
-          </div>
+          <ApplicationHeader car={car} />
           <div className="mb-2 w-full grid grid-cols-6 gap-4">
             <p className='col-span-6 mt-2 text-2xl border-b-2 py-2 text-gray-500 text-bold'>PERSONAL INFORMATION</p>
             <div className="mb-2">
@@ -212,15 +245,18 @@ export default function Show({ auth, application, car }) {
               <p id="last_updated" className='text-xl'>{(application.updated_at && format(new Date(), 'MM-dd-yyyy HH:mm:ss')) ?? 'N/A'}</p>
             </div>
           </div>
-          <div className="flex gap-2 justify-end">
+          <div className="flex gap-2 justify-end" id='buttons'>
             <Link href={route('applications.index')} className='font-bold py-2 px-6 '>Go Back</Link>
             {can('edit applications') && <Link href={route('applications.edit', application.id)} className='inline-flex gap-2 px-2 py-1 items-center bg-gray-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
-              <EditICon />
+
               Edit
             </Link>}
             {can('approve applications') && ['Pending', 'Denied'].includes(application.status) && <button onClick={() => handleStatus('Approved')} className='inline-flex gap-2 px-2 py-1 items-center bg-green-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>Approve</button>}
             {can('deny applications') && ['Pending', 'Approved'].includes(application.status) && <button onClick={() => handleStatus('Denied')} className='inline-flex gap-2 px-2 py-1 items-center bg-primary border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>Deny</button>}
             {can('edit applications') && application.status !== 'Pending' && <button onClick={() => handleStatus('Pending')} className='inline-flex gap-2 px-2 py-1 items-center bg-orange-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>Pending</button>}
+            <button onClick={handleDownloadPdf} className='inline-flex gap-2 p-2 items-center bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+              Download as PDF
+            </button>
           </div>
         </div>
       </section>

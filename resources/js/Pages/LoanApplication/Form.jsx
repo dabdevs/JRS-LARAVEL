@@ -1,9 +1,10 @@
-import React, { useCallback, useState } from 'react'
+import React, { useCallback } from 'react'
 import InputError from '@/Components/InputError';
 import { Link, useForm } from '@inertiajs/react';
 import SaveIcon from '@/Components/SaveIcon';
 import PlusIcon from '@/Components/PlusIcon';
 import usePermissions from '@/Components/hooks/usePermissions';
+import Header from './ApplicationHeader';
 
 export default function Form({ application, car, states, storeUrl }) {
     if (!car) throw new Error('No car selected for application')
@@ -113,7 +114,6 @@ export default function Form({ application, car, states, storeUrl }) {
             setError(name, '')
         }
 
-        // setError(name, '')
         setData(name, value)
     }
 
@@ -125,10 +125,7 @@ export default function Form({ application, car, states, storeUrl }) {
     return (
         <section className="px-4 mx-auto">
             <div className="p-6 rounded-md shadow-sm bg-white">
-                <div className='flex gap-2 justify-center mb-2'>
-                    <img className='w-[80px] lg:w-[100px]' src={car?.images.length > 0 ? `/storage/${car?.images[0].url}` : 'https://placehold.co/600x400'} alt={'car image'} />
-                    <h1 className="text-xl lg:text-2xl my-auto font-semibold text-center">Get Approved For {car.state} {car.make} {car.model} {car.year}</h1>
-                </div>
+                <Header car={car} />
                 <form>
                     <div className="grid grid-cols-6 gap-4">
                         <p className='col-span-6 my-2 text-xl lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>PERSONAL INFORMATION</p>

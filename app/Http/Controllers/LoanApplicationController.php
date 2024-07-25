@@ -19,8 +19,7 @@ class LoanApplicationController extends Controller
     public function index(Request $request)
     {
         $query = LoanApplication::query();
-        // ->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
-
+    
         // Search
         if ($request->has('search')) {
             $query->where('first_name', 'like', '%' . $request->input('search') . '%');

@@ -9,7 +9,7 @@ export default function Card({car}) {
             <img
                 src={url}
                 alt={'car image'}
-                className="w-full h-48 object-cover rounded-lg mb-4"
+                className="w-full h-32 lg:h-48 object-cover rounded-lg mb-4"
             />
             <div className="text-center">
                 <h3 className="text-xl text-primary font-bold mb-2">{`${car?.year} ${car?.make} ${car?.model}`}</h3>

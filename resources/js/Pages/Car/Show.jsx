@@ -103,7 +103,7 @@ export default function Show({ auth, car }) {
                     <div className="flex gap-2 justify-end">
                         <Link href={route('cars.index')} className='font-bold py-2 px-6 '>Go Back</Link>
                         <Link href={route('cars.edit', car.slug)} className='inline-flex gap-2 px-2 py-1 items-center bg-gray-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
-                            <EditICon />
+                            
                             Edit
                         </Link>
                         {car.status === 'Published' && <Link href={route('applications.create', car.id)} className='inline-flex gap-2 px-2 py-1 items-center bg-green-600 border border-transparent rounded-md font-bold text-xs text-white uppercase tracking-widest hover:bg-green-800 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>

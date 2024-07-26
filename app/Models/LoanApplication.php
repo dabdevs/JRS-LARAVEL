@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 
 class LoanApplication extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'first_name',
@@ -63,10 +64,9 @@ class LoanApplication extends Model
     /**
      * Get the car that owns the LoanApplication
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function car()
     {
-        return $this->belongsTo(Car::class, 'foreign_key', 'other_key');
+        return $this->belongsTo(Car::class);
     }
 }

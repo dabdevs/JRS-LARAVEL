@@ -9,7 +9,7 @@ import Header from './ApplicationHeader';
 export default function Form({ application, car, states, storeUrl }) {
     if (!car) throw new Error('No car selected for application')
 
-    const { data, setData, post, put, setError, errors } = useForm(application || {
+    const { data, setData, post, put, setError, processing, errors } = useForm(application || {
         car_id: car.id,
         first_name: '',
         middle_name: '',
@@ -217,13 +217,13 @@ export default function Form({ application, car, states, storeUrl }) {
                                 <div className="w-1/2">
                                     <select required value={data.time_at_current_address_years} onInput={handleChange} id="time_at_current_address_years" name="time_at_current_address_years" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                         <option value="">Select Years</option>
-                                        {years.map(year => <option>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
+                                        {years.map(year => <option key={year}>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
                                     </select>
                                 </div>
                                 <div className="w-1/2">
                                     <select value={data.time_at_current_address_months} onInput={handleChange} id="time_at_current_address_months" name="time_at_current_address_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                         <option value="">Select Months</option>
-                                        {months.map(month => <option>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
+                                        {months.map(month => <option key={month}>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
                                     </select>
                                 </div>
                             </div>
@@ -283,13 +283,13 @@ export default function Form({ application, car, states, storeUrl }) {
                                     <div className="w-1/2">
                                         <select required value={data.time_at_employment1_years} onInput={handleChange} id="time_at_employment1_years" name="time_at_employment1_years" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                             <option value="">Select Years</option>
-                                            {years.map(year => <option>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
+                                            {years.map(year => <option key={year}>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
                                         </select>
                                     </div>
                                     <div className="w-1/2">
                                         <select value={data.time_at_employment1_months} onInput={handleChange} id="time_at_employment1_months" name="time_at_employment1_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                             <option value="">Select Months</option>
-                                            {months.map(month => <option>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
+                                            {months.map(month => <option key={month}>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
                                         </select>
                                     </div>
                                 </div>
@@ -376,13 +376,13 @@ export default function Form({ application, car, states, storeUrl }) {
                                 <div className="w-1/2">
                                     <select value={data.time_at_employment2_years} onInput={handleChange} id="time_at_employment2_years" name="time_at_employment2_years" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                         <option value="">Select Years</option>
-                                        {years.map(year => <option>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
+                                        {years.map(year => <option key={year}>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
                                     </select>
                                 </div>
                                 <div className="w-1/2">
                                     <select value={data.time_at_employment2_months} onInput={handleChange} id="time_at_employment2_months" name="time_at_employment2_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
                                         <option value="">Select Months</option>
-                                        {months.map(month => <option>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
+                                        {months.map(month => <option key={month}>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
                                     </select>
                                 </div>
                             </div>
@@ -445,7 +445,7 @@ export default function Form({ application, car, states, storeUrl }) {
 
                         <button id='application-submit-btn' onClick={application ? handleUpdate : handleCreate} type='button' className='inline-flex gap-2 p-2 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
                             <SaveIcon />
-                            {route().current('get_qualified') ? 'Submit' : 'Save'}
+                            {route().current('get_qualified') ? (processing ? 'Submitting...' : 'Submit') : (processing ? 'Saving...' : 'Save')}
                         </button>
                         {can('create applications') && !route().current().includes('get_qualified') && <Link href={route('applications.create', car.id)} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
                             <PlusIcon />

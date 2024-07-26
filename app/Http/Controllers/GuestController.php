@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Helper;
 use App\Http\Requests\ContactRequest;
 use App\Http\Requests\LoanApplicationRequest;
 use App\Models\BusinessInfo;
@@ -10,7 +9,9 @@ use App\Models\Car;
 use App\Models\Contact;
 use App\Models\LoanApplication;
 use App\Models\State;
+use App\Notifications\ApplicationReceived;
 use App\Notifications\EmailReceived;
+use App\Notifications\NewApplication;
 use App\Notifications\NewContactReceived;
 use Illuminate\Support\Facades\Cache;
 
@@ -35,8 +36,6 @@ class GuestController extends Controller
     {
         try {
             $contact = Contact::create($request->all());
-
-            // event(new NewContact($contact));
 
             $contact->notify(new EmailReceived($contact));
             BusinessInfo::firstOrFail()->notify(new NewContactReceived($contact));
@@ -65,7 +64,11 @@ class GuestController extends Controller
     public function storeApplication(LoanApplicationRequest $request)
     {
         try {
-            LoanApplication::create($request->all());
+            $application = LoanApplication::create($request->all());
+          
+            // Send notifications
+            $application->notify(new ApplicationReceived($application));
+            BusinessInfo::firstOrFail()->notify(new NewApplication($application));
 
             return redirect(route('get_qualified_success'));
         } catch (\Throwable $th) {

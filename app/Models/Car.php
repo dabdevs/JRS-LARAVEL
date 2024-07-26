@@ -48,7 +48,6 @@ class Car extends Model
     /**
      * Get all of the applications for the Car
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function applications()
     {

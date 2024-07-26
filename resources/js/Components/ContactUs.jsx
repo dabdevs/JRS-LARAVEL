@@ -33,7 +33,7 @@ export default function ContactUs() {
         <section id="contact-us" className="py-20 bg-white">
             <div className="max-w-7xl mx-auto px-4">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl font-bold">Contact Us</h2>
+                    <h2 className="text-2xl lg:text-3xl font-extrabold text-dark-grey-900">Contact Us</h2>
                     <p className="text-gray-600 mt-4">We would love to hear from you</p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

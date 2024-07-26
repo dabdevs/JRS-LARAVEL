@@ -128,7 +128,7 @@ export default function Form({ application, car, states, storeUrl }) {
                 <Header car={car} />
                 <form>
                     <div className="grid grid-cols-6 gap-4">
-                        <p className='col-span-6 my-2 text-xl lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>PERSONAL INFORMATION</p>
+                        <p className='col-span-6 my-2 text-lg lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>PERSONAL INFORMATION</p>
                         <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
                             <label htmlFor="first_name" className="block font-medium text-sm text-gray-700">First Name*</label>
                             <input required value={data.first_name} onInput={handleChange} type="text" id="first_name" name="first_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
@@ -172,7 +172,7 @@ export default function Form({ application, car, states, storeUrl }) {
                     </div>
 
                     {personalInfoCheck && <div className="mt-6 grid grid-cols-6 gap-4">
-                        <p className='col-span-6 my-2 text-xl lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>ADDRESS</p>
+                        <p className='col-span-6 my-2 text-lg lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>ADDRESS</p>
                         <div className="col-span-6 sm:col-span-2 lg:col-span-3">
                             <label htmlFor="address_line_1" className="block font-medium text-sm text-gray-700">Address Line 1*</label>
                             <input required value={data.address_line_1} onInput={handleChange} type="text" id="address_line_1" name="address_line_1" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
@@ -248,7 +248,7 @@ export default function Form({ application, car, states, storeUrl }) {
 
                     {personalInfoCheck && addressCheck &&
                         <div className="mt-6 grid grid-cols-6 gap-4">
-                            <p className='col-span-6 my-2 text-xl lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>EMPLOYMENT 1</p>
+                            <p className='col-span-6 my-2 text-lg lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>EMPLOYMENT 1</p>
                             <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
                                 <label htmlFor="employment1_type" className="block font-medium text-sm text-gray-700">Employment Type*</label>
                                 <select required value={data.employment1_type} onInput={handleChange} id="employment1_type" name="employment1_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
@@ -341,7 +341,7 @@ export default function Form({ application, car, states, storeUrl }) {
                     }
 
                     {personalInfoCheck && addressCheck && employment1Check && <div className="mt-6 grid grid-cols-6 gap-4">
-                        <p className='col-span-6 my-2 text-xl lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>EMPLOYMENT 2</p>
+                        <p className='col-span-6 my-2 text-lg lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>EMPLOYMENT 2</p>
                         <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
                             <label htmlFor="employment2_type" className="block font-medium text-sm text-gray-700">Employment Type</label>
                             <select value={data.employment2_type} onInput={handleChange} id="employment2_type" name="employment2_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">

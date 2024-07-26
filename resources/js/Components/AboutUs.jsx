@@ -12,7 +12,7 @@ export default function AboutUs() {
                         <img src="img/about-us.webp" alt="About Us" className="rounded-lg shadow-lg" />
                     </div>
                     <div className="md:w-1/2 md:ml-12 mt-8 md:mt-0">
-                        <h2 className="text-3xl font-bold">About Us</h2>
+                        <h2 className="text-2xl lg:text-3xl font-extrabold text-dark-grey-900">About Us</h2>
                         <p className="my-4 text-gray-600">{about_us}</p>
                         <Link
                             role="button"

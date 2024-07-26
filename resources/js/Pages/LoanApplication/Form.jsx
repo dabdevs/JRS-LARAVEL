@@ -262,7 +262,7 @@ export default function Form({ application, car, states, storeUrl }) {
                                 </select>
                                 <InputError message={errors.employment1_type} className="mt-2" />
                             </div>
-                            <div className='col-span-6 sm:col-span-2 lg:col-span-2'>
+                            {data.employment1_type !== "Retired" && <><div className='col-span-6 sm:col-span-2 lg:col-span-2'>
                                 <label htmlFor="employer1_name" className="block font-medium text-sm text-gray-700">Employer Name*</label>
                                 <input required value={data.employer1_name} onInput={handleChange} type="text" id="employer1_name" name="employer1_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_name} className="mt-2" />
@@ -294,7 +294,7 @@ export default function Form({ application, car, states, storeUrl }) {
                                     </div>
                                 </div>
                                 <InputError message={errors.time_at_employment1_years} className="mt-2" />
-                            </div>
+                            </div></>}
                             <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
                                 <label htmlFor="income1_type" className="block font-medium text-sm text-gray-700">Income Type*</label>
                                 <select required value={data.income1_type} onInput={handleChange} id="income1_type" name="income1_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
@@ -314,7 +314,7 @@ export default function Form({ application, car, states, storeUrl }) {
                                 <input required value={data.income1} onInput={handleChange} type="number" min={100} id="income1" name="income1" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" step="0.01" />
                                 <InputError message={errors.income1} className="mt-2" />
                             </div>
-                            <div className='col-span-6 sm:col-span-2 lg:col-span-2'>
+                            {data.employment1_type !== "Retired" && <><div className='col-span-6 sm:col-span-2 lg:col-span-2'>
                                 <label htmlFor="employer1_address" className="block font-medium text-sm text-gray-700">Employer Address</label>
                                 <input value={data.employer1_address} onInput={handleChange} type="text" id="employer1_address" name="employer1_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_address} className="mt-2" />
@@ -336,7 +336,7 @@ export default function Form({ application, car, states, storeUrl }) {
                                 <label htmlFor="employer1_zip_code" className="block font-medium text-sm text-gray-700">Employer Zip Code*</label>
                                 <input required value={data.employer1_zip_code} onInput={handleChange} type="number" id="employer1_zip_code" name="employer1_zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_zip_code} className="mt-2" />
-                            </div>
+                            </div></>}
                         </div>
                     }
 

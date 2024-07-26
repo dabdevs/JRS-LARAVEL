@@ -14,7 +14,7 @@ export default function AuthenticatedLayout({ user, header, children }) {
     });
 
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen w-full bg-gray-100">
 
             {header && (
                 <header className="bg-white shadow">

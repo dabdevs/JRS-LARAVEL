@@ -35,17 +35,17 @@ return new class extends Migration
             $table->decimal('rent_mortgage_payment', 10, 2);
 
             $table->enum('employment1_type', ['Employed Full-time', 'Employed Part-time', 'Retired', 'Military', 'Self-Employed', 'Other']);
-            $table->string('employment1_rank');
-            $table->string('employer1_name');
-            $table->string('employer1_phone');
-            $table->string('time_at_employment1_years');
+            $table->string('employment1_rank')->nullable();
+            $table->string('employer1_name')->nullable();
+            $table->string('employer1_phone')->nullable();
+            $table->string('time_at_employment1_years')->nullable();
             $table->string('time_at_employment1_months')->nullable();
+            $table->string('employer1_address')->nullable();
+            $table->string('employer1_city')->nullable();
+            $table->string('employer1_state')->nullable();
+            $table->string('employer1_zip_code')->nullable();
             $table->string('income1_type');
             $table->decimal('income1', 10, 2);
-            $table->string('employer1_address')->nullable();
-            $table->string('employer1_city');
-            $table->string('employer1_state');
-            $table->string('employer1_zip_code');
 
             $table->enum('employment2_type', ['Employed Full-time', 'Employed Part-time', 'Retired', 'Military', 'Self-Employed', 'Other'])->nullable();
             $table->string('employer2_name')->nullable();

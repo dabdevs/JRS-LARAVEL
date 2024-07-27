@@ -18,25 +18,29 @@ class LoanApplicationController extends Controller
      */
     public function index(Request $request)
     {
-        $query = LoanApplication::query();
-    
-        // Search
-        if ($request->has('search')) {
-            $query->where('first_name', 'like', '%' . $request->input('search') . '%');
-            $query->orWhere('last_name', 'like', '%' . $request->input('search') . '%');
-            $query->orWhere('email', 'like', '%' . $request->input('search') . '%');
-            $query->orWhere('ssn_itin', 'like', '%' . $request->input('search') . '%');
+        try {
+            $query = LoanApplication::query();
+
+            // Search
+            if ($request->has('search')) {
+                $query->where('first_name', 'like', '%' . $request->input('search') . '%');
+                $query->orWhere('last_name', 'like', '%' . $request->input('search') . '%');
+                $query->orWhere('email', 'like', '%' . $request->input('search') . '%');
+                $query->orWhere('ssn_itin', 'like', '%' . $request->input('search') . '%');
+            }
+
+            $query = Helper::sortApplications($query);
+
+            // Pagination
+            $applications = $query->paginate(10);
+
+            return inertia('LoanApplication/Index', [
+                'applications' => $applications,
+                'filters' => $request->only(['search', 'sort', 'direction']),
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
         }
-
-        $query = Helper::sortApplications($query);
-
-        // Pagination
-        $applications = $query->paginate(10);
-
-        return inertia('LoanApplication/Index', [
-            'applications' => $applications,
-            'filters' => $request->only(['search', 'sort', 'direction']),
-        ]);
     }
 
     /**
@@ -44,16 +48,20 @@ class LoanApplicationController extends Controller
      */
     public function create($carId)
     {
-        $states = Cache::rememberForever('states', function () {
-            return State::orderBy('name')->pluck('name');
-        });
+        try {
+            $states = Cache::rememberForever('states', function () {
+                return State::orderBy('name')->pluck('name');
+            });
 
-        $car = Car::with('images')->findOrFail($carId);
+            $car = Car::with('images')->findOrFail($carId);
 
-        return inertia('LoanApplication/Create', [
-            'car' => $car,
-            'states' => $states,
-        ]);
+            return inertia('LoanApplication/Create', [
+                'car' => $car,
+                'states' => $states,
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -75,13 +83,20 @@ class LoanApplicationController extends Controller
      */
     public function show($id)
     {
-        $application = LoanApplication::findOrFail($id);
-        $car = Car::with('images')->findOrFail($application->car_id);
+        try {
+            $application = LoanApplication::find($id);
 
-        return inertia('LoanApplication/Show', [
-            'application' => $application,
-            'car' => $car
-        ]);
+            if (!$application) return inertia('Errors/NotFound');
+
+            $car = Car::with('images')->findOrFail($application->car_id);
+
+            return inertia('LoanApplication/Show', [
+                'application' => $application,
+                'car' => $car
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -89,18 +104,22 @@ class LoanApplicationController extends Controller
      */
     public function edit($id)
     {
-        $states = Cache::rememberForever('states', function () {
-            return State::orderBy('name')->pluck('name');
-        });
+        try {
+            $states = Cache::rememberForever('states', function () {
+                return State::orderBy('name')->pluck('name');
+            });
 
-        $application = LoanApplication::findOrFail($id);
-        $car = Car::with('images')->findOrFail($application->car_id);
+            $application = LoanApplication::findOrFail($id);
+            $car = Car::with('images')->findOrFail($application->car_id);
 
-        return inertia('LoanApplication/Edit', [
-            'application' => $application,
-            'car' => $car,
-            'states' => $states,
-        ]);
+            return inertia('LoanApplication/Edit', [
+                'application' => $application,
+                'car' => $car,
+                'states' => $states,
+            ]);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**

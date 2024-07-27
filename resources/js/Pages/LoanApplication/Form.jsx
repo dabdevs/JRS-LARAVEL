@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import InputError from '@/Components/InputError';
 import { Link, useForm } from '@inertiajs/react';
 import SaveIcon from '@/Components/SaveIcon';
 import PlusIcon from '@/Components/PlusIcon';
 import usePermissions from '@/Components/hooks/usePermissions';
 import Header from './ApplicationHeader';
+import useUtils from '@/Hooks/useUtils';
 
 export default function Form({ application, car, states, storeUrl }) {
     if (!car) throw new Error('No car selected for application')
@@ -60,7 +61,45 @@ export default function Form({ application, car, states, storeUrl }) {
         date_denied: '',
     });
 
+    useEffect(() => {
+        if (['Retired', 'Self-Employed'].includes(data.employment1_type)) {
+            setData(prevData => ({
+                ...prevData,
+                employer1_name: '',
+                employer1_phone: '',
+                employment1_rank: '',
+                time_at_employment1_years: '',
+                time_at_employment1_months: '',
+                employer1_address: '',
+                employer1_city: '',
+                employer1_state: '',
+                employer1_zip_code: '',
+                employment2_type: '',
+                employer2_name: '',
+                employer2_phone: '',
+                employment2_rank: '',
+                time_at_employment2_years: '',
+                time_at_employment2_months: '',
+                employer2_address: '',
+                employer2_city: '',
+                employer2_state: '',
+                employer2_zip_code: '',
+            }))
+
+            setError('employer1_name', '')
+            setError('employer1_phone', '')
+            setError('employment1_rank', '')
+            setError('time_at_employment1_years', '')
+            setError('time_at_employment1_months', '')
+            setError('employer1_address', '')
+            setError('employer1_city', '')
+            setError('employer1_state', '')
+            setError('employer1_zip_code', '')
+        }
+    }, [data.employment1_type]);
+
     const { can } = usePermissions()
+    const { validateEmail } = useUtils()
 
     const personalInfoCheck = data.first_name !== '' && data.last_name !== '' && data.date_of_birth !== '' &&
         data.ssn_itin !== '' && data.phone !== '' && data.email !== ''
@@ -71,7 +110,7 @@ export default function Form({ application, car, states, storeUrl }) {
     const employment1Check = data.employment1_type !== '' && data.employer1_rank !== '' && data.employer1_name !== '' &&
         data.employer1_phone !== '' && data.time_at_employment1_years !== '' && data.income1_type !== '' && data.income1 !== '' &&
         data.employer1_city !== '' && data.employer1_state !== '' && data.employer1_zip_code !== ''
-
+        
     const today = new Date();
     const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
     const maxDate = minDate.toISOString().split('T')[0]
@@ -116,12 +155,7 @@ export default function Form({ application, car, states, storeUrl }) {
 
         setData(name, value)
     }
-
-    function validateEmail(email) {
-        const re = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-        return re.test(String(email).toLowerCase());
-    }
-
+  
     return (
         <section className="px-4 mx-auto">
             <div className="p-6 rounded-md shadow-sm bg-white">
@@ -262,7 +296,7 @@ export default function Form({ application, car, states, storeUrl }) {
                                 </select>
                                 <InputError message={errors.employment1_type} className="mt-2" />
                             </div>
-                            {data.employment1_type !== "Retired" && <><div className='col-span-6 sm:col-span-2 lg:col-span-2'>
+                            {!['Retired', 'Self-Employed'].includes(data.employment1_type) && <><div className='col-span-6 sm:col-span-2 lg:col-span-2'>
                                 <label htmlFor="employer1_name" className="block font-medium text-sm text-gray-700">Employer Name*</label>
                                 <input required value={data.employer1_name} onInput={handleChange} type="text" id="employer1_name" name="employer1_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_name} className="mt-2" />
@@ -314,7 +348,7 @@ export default function Form({ application, car, states, storeUrl }) {
                                 <input required value={data.income1} onInput={handleChange} type="number" min={100} id="income1" name="income1" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" step="0.01" />
                                 <InputError message={errors.income1} className="mt-2" />
                             </div>
-                            {data.employment1_type !== "Retired" && <><div className='col-span-6 sm:col-span-2 lg:col-span-2'>
+                            {!['Retired', 'Self-Employed'].includes(data.employment1_type) && <><div className='col-span-6 sm:col-span-2 lg:col-span-2'>
                                 <label htmlFor="employer1_address" className="block font-medium text-sm text-gray-700">Employer Address</label>
                                 <input value={data.employer1_address} onInput={handleChange} type="text" id="employer1_address" name="employer1_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_address} className="mt-2" />
@@ -340,7 +374,7 @@ export default function Form({ application, car, states, storeUrl }) {
                         </div>
                     }
 
-                    {personalInfoCheck && addressCheck && employment1Check && <div className="mt-6 grid grid-cols-6 gap-4">
+                    {personalInfoCheck && addressCheck && employment1Check && !['Retired', 'Self-Employed'].includes(data.employment1_type) && <div className="mt-6 grid grid-cols-6 gap-4">
                         <p className='col-span-6 my-2 text-lg lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>EMPLOYMENT 2</p>
                         <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
                             <label htmlFor="employment2_type" className="block font-medium text-sm text-gray-700">Employment Type</label>

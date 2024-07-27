@@ -1,19 +1,32 @@
 import useBusinessInfo from '@/Hooks/useBusinessInfo';
+import useUtils from '@/Hooks/useUtils';
 import { useForm } from '@inertiajs/react'
 import { useState } from 'react';
+import InputError from '@/Components/InputError';
 
 export default function ContactUs() {
     const {address, phone, email} = useBusinessInfo()
     const [success, setSuccess] = useState(false)
-    const { data, setData, post, processing, reset } = useForm({
+    const { data, setData, post, processing, setError, errors, reset } = useForm({
         name: '',
         email: '',
         message: '',
     }); 
 
+    const { validateEmail } = useUtils()
+
     const handleChange = (e) => {
         setSuccess(false)
-        setData(e.target.name, e.target.value)
+        const name = e.target.name
+        const value = e.target.value
+
+        if (name === "email" && !validateEmail(value)) {
+            setError(name, 'The email address field is not valid.')
+        } else {
+            setError(name, '')
+        }
+
+        setData(name, value)
     }
 
     const handleSubmit = (e) => {
@@ -58,6 +71,7 @@ export default function ContactUs() {
                                     type="text"
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-0"
                                     placeholder="Your Name" />
+                                <InputError message={errors.name} className="mt-2" />
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-600">Email</label>
@@ -68,6 +82,7 @@ export default function ContactUs() {
                                     name="email"
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-0"
                                     placeholder="Your Email" />
+                                <InputError message={errors.email} className="mt-2" />
                             </div>
                             <div className="mb-4">
                                 <label className="block text-gray-600">Message</label>
@@ -77,7 +92,7 @@ export default function ContactUs() {
                                     name="message"
                                     className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-0"
                                     rows="4" placeholder="Your Message"></textarea>
-                                {processing && 'Sending...'}
+                                <InputError message={errors.message} className="mt-2" />
                                 {success && <p className='font-bold text-green-600'>Message sent successfuly!</p>}
                             </div>
                             <div>
@@ -85,7 +100,7 @@ export default function ContactUs() {
                                     disabled={processing}
                                     type="submit"
                                     className="w-full bg-primary text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-primary border-2 hover:border-primary transition duration-300">
-                                    Send Message
+                                    {(processing && data.name && data.email && data.message) ? 'Sending...' : 'Send Message'} 
                                 </button>
                             </div>
                         </form>

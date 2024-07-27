@@ -4,8 +4,8 @@ import { Link } from '@inertiajs/react'
 export default function Success() {
     return (
         <GuestLayout>
-            <div className="bg-gray-100 p-2 md:p-6 text-gray-800 min-h-screen">
-                <div className="bg-white p-6 md:w-1/3 md:mx-auto shadow-md rounded-md">
+            <div className="bg-gray-100 py-2 md:p-6 text-gray-800 min-h-screen">
+                <div className="bg-white p-6 md:w-1/3 md:mx-auto md:shadow-md md:rounded-md">
                     <svg viewBox="0 0 24 24" className="text-green-600 w-16 h-16 mx-auto my-6">
                         <path
                             fill="currentColor"

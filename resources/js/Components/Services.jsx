@@ -16,7 +16,7 @@ export default function Services() {
                             </svg>
                         </span>
                         <p className="text-2xl lg:text-3xl font-extrabold text-dark-grey-900">Car Sales</p>
-                        <p className="text-base leading-7 text-center text-dark-grey-600">Find the best deals on new and used cars.</p>
+                        <p className="text-base leading-7 text-center text-gray-600">Find the best deals on new and used cars.</p>
                     </div>
                     <div className="flex flex-col items-center gap-3 px-8 py-10 bg-white rounded-3xl shadow-main">
                         <span>
@@ -27,7 +27,7 @@ export default function Services() {
                             </svg>
                         </span>
                         <p className="text-2xl lg:text-3xl font-extrabold text-dark-grey-900">Auto Repairs</p>
-                        <p className="text-base leading-7 text-center text-dark-grey-600">Expert mechanics ready to fix your vehicle.</p>
+                        <p className="text-base leading-7 text-center text-gray-600">Expert mechanics ready to fix your vehicle.</p>
                     </div>
                     <div className="flex flex-col items-center gap-3 px-8 py-10 bg-white rounded-3xl shadow-main">
                         <span>
@@ -59,7 +59,7 @@ export default function Services() {
                             </svg>
                         </span>
                         <p className="text-2xl lg:text-3xl font-extrabold text-dark-grey-900">Auto Parts</p>
-                        <p className="text-base leading-7 text-center text-dark-grey-600">High-quality auto parts at competitive prices.</p>
+                        <p className="text-base leading-7 text-center text-gray-600">High-quality auto parts at competitive prices.</p>
                     </div>
                 </div>
             </div>

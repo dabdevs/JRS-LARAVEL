@@ -5,7 +5,7 @@ import ClearFilters from './ClearFilters';
 import Sort from './Sort';
 import SearchForm from './SearchForm';
 
-export default function CarsList() {
+export default function CarsList({ pagination }) {
     const { cars } = usePage().props
 
     const toggleFilter = () => {
@@ -51,7 +51,7 @@ export default function CarsList() {
                 cars?.data?.length == 0 ? <p className="p-8 mt-8 text-center font-bold text-2xl text-gray-600">
                     No data found.
                 </p>
-                    : <Pagination links={cars.links} />
+                    : cars?.total > pagination && <Pagination links={cars.links} />
             }
         </section>
     )

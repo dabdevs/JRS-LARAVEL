@@ -13,6 +13,8 @@ class ListingController extends Controller
      */
     public function index()
     {
+        $pagination = env('PAGINATION');
+
         $formatedMakeModels = Cache::remember('formatedMakeModels', 60, function () {
             $carsData = [];
             $cars = Car::select(['make', 'model'])->where('status', 'Published')->get();
@@ -73,11 +75,12 @@ class ListingController extends Controller
         $query = Helper::sortCars($query);
 
         // Execute the query and paginate results
-        $cars = $query->paginate(20);
+        $cars = $query->paginate($pagination);
 
         return inertia('Listing', [
             'cars' => $cars,
             'manufacturers' => $formatedMakeModels,
+            'pagination' => $pagination,
         ]);
     }
 

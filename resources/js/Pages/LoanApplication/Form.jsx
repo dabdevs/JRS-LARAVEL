@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import InputError from '@/Components/InputError';
 import { Link, useForm } from '@inertiajs/react';
 import SaveIcon from '@/Components/SaveIcon';
@@ -6,6 +6,9 @@ import PlusIcon from '@/Components/PlusIcon';
 import usePermissions from '@/Components/hooks/usePermissions';
 import Header from './ApplicationHeader';
 import useUtils from '@/Hooks/useUtils';
+import InputLabel from '@/Components/InputLabel';
+import Modal from '@/Components/Modal';
+import TermsAndConditions from './TermsAndConditions';
 
 export default function Form({ application, car, states, storeUrl }) {
     if (!car) throw new Error('No car selected for application')
@@ -61,6 +64,9 @@ export default function Form({ application, car, states, storeUrl }) {
         date_denied: '',
     });
 
+    const [agree, setAgree] = useState(false)
+    const [modal, setModal] = useState(false)
+
     useEffect(() => {
         if (['Retired', 'Self-Employed'].includes(data.employment1_type)) {
             setData(prevData => ({
@@ -107,9 +113,15 @@ export default function Form({ application, car, states, storeUrl }) {
     const addressCheck = data.address_line_1 !== '' && data.city !== '' && data.state !== '' &&
         data.zip_code !== '' && data.time_at_current_address_years !== '' && data.current_residence_type !== '' && data.rent_mortgage_payment !== ''
 
-    const employment1Check = data.employment1_type !== '' && data.employer1_rank !== '' && data.employer1_name !== '' &&
-        data.employer1_phone !== '' && data.time_at_employment1_years !== '' && data.income1_type !== '' && data.income1 !== '' &&
-        data.employer1_city !== '' && data.employer1_state !== '' && data.employer1_zip_code !== ''
+    const employment1Check = () => {
+        if (['Retired', 'Self-Employed'].includes(data.employment1_type)) {
+            return data.income1_type !== '' && data.income1 !== ''
+        }
+
+        return data.employment1_type !== '' && data.employer1_rank !== '' && data.employer1_name !== '' &&
+            data.employer1_phone !== '' && data.time_at_employment1_years !== '' && data.income1_type !== '' && data.income1 !== '' &&
+            data.employer1_city !== '' && data.employer1_state !== '' && data.employer1_zip_code !== ''
+    } 
         
     const today = new Date();
     const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
@@ -155,10 +167,12 @@ export default function Form({ application, car, states, storeUrl }) {
 
         setData(name, value)
     }
-  
+
+    const disabled = !(personalInfoCheck && addressCheck && employment1Check() && agree)
+    console.log(disabled)
     return (
-        <section className="px-4 mx-auto">
-            <div className="p-6 rounded-md shadow-sm bg-white">
+        <section className="md:px-4 mx-auto">
+            <div className="p-6 md:rounded-md md:shadow-sm bg-white">
                 <Header car={car} />
                 <form>
                     <div className="grid grid-cols-6 gap-4">
@@ -374,7 +388,7 @@ export default function Form({ application, car, states, storeUrl }) {
                         </div>
                     }
 
-                    {personalInfoCheck && addressCheck && employment1Check && !['Retired', 'Self-Employed'].includes(data.employment1_type) && <div className="mt-6 grid grid-cols-6 gap-4">
+                    {personalInfoCheck && addressCheck && employment1Check() && !['Retired', 'Self-Employed'].includes(data.employment1_type) && <div className="mt-6 grid grid-cols-6 gap-4">
                         <p className='col-span-6 my-2 text-lg lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>EMPLOYMENT 2</p>
                         <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
                             <label htmlFor="employment2_type" className="block font-medium text-sm text-gray-700">Employment Type</label>
@@ -471,13 +485,32 @@ export default function Form({ application, car, states, storeUrl }) {
                         </div>
                     </div>}
 
+                    {employment1Check() && <div className="flex gap-2 align-middle mt-2">
+                        <input
+                            value={true}
+                            onChange={() => setAgree(!agree)}
+                            name="agree"
+                            type='checkbox'
+                            id='agree'
+                            checked={agree}
+                            className="rounded border border-gray-400"
+                        />
+                        <InputLabel className='text-black' htmlFor="agree">
+                            I agree to the <a href='#' role='button' onClick={() => setModal(!modal)} className='text-blue-600'>terms and conditions</a>
+                        </InputLabel>
+
+                        <Modal isOpen={modal} setIsOpen={setModal} cancelBtn='Close'>
+                            <TermsAndConditions />
+                        </Modal>
+                    </div>}
+
                     <div className="flex gap-1 lg:gap-2 justify-end my-2">
                         {application ?
                             <Link href={route('applications.show', application?.id)} className='font-bold py-2 px-6 '>Cancel</Link>
                             : <Link href={route().current().includes('get_qualified') ? route('listing.car', car.slug) : route('cars.show', car.slug)} className='font-bold py-2 px-6 '>Go Back</Link>
                         }
 
-                        <button id='application-submit-btn' onClick={application ? handleUpdate : handleCreate} type='button' className='inline-flex gap-2 p-2 items-center bg-primary border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-primary focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+                        <button disabled={disabled} id='application-submit-btn' onClick={application ? handleUpdate : handleCreate} type='button' className={`inline-flex gap-2 p-2 items-center ${disabled ? 'bg-red-300' : 'bg-primary hover:bg-primary'} border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150`}>
                             <SaveIcon />
                             {route().current('get_qualified') ? (processing ? 'Submitting...' : 'Submit') : (processing ? 'Saving...' : 'Save')}
                         </button>

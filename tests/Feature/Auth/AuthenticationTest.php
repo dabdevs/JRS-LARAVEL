@@ -12,7 +12,6 @@ beforeEach(function () {
 test('login screen can be rendered', function () {
     $response = $this->get('/admin');
     
-    // dd($response->content());
     $response->assertStatus(200);
 });
 

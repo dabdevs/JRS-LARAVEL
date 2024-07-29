@@ -140,9 +140,11 @@ class CarController extends Controller
     {
         try {
             DB::transaction(function () use ($car) {
+                $directory = env('APP_ENV') === 'development' ? 'public/' : 'public_html/';
+
                 // Delete the image files from the storage first
                 foreach ($car->images as $image) {
-                    Storage::delete('public/' . $image->url);
+                    Storage::delete($directory . $image->url);
                 }
 
                 // Delete the images from the database
@@ -167,9 +169,10 @@ class CarController extends Controller
         try {
             $car = Car::findOrFail($request->id);
             $image = $car->images()->findOrFail($imgId);
+            $directory = env('APP_ENV') === 'development' ? 'public/' : 'public_html/';
 
             // Delete the image file from storage
-            Storage::delete('public/' . $image->url);
+            Storage::delete($directory . $image->url);
 
             // Delete the image record from the database
             $image->delete();

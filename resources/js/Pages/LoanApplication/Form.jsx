@@ -514,7 +514,7 @@ export default function Form({ application, car, states, storeUrl }) {
                             <SaveIcon />
                             {route().current('get_qualified') ? (processing ? 'Submitting...' : 'Submit') : (processing ? 'Saving...' : 'Save')}
                         </button>
-                        {can('create applications') && !route().current().includes('get_qualified') && <Link href={route('applications.create', car.id)} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
+                        {!route().current().includes('get_qualified') && <Link href={route('applications.create', car.id)} className='flex gap-2 bg-green-600 text-white font-bold py-2 px-4 rounded-lg hover:bg-white hover:text-green-600 border-2 border-green-600 transition duration-300'>
                             <PlusIcon />
                             New
                         </Link>}

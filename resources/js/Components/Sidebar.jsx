@@ -37,14 +37,14 @@ export default function Sidebar({ sidebarExpanded, setSidebarExpanded }) {
                             </Link>
                         } */}
 
-                        {can('read cars') && <Link href={route('cars.index')} className={`${route().current().includes('car') ? 'bg-red-100 text-primary my-3' : 'hover:bg-gray-100 text-gray-500'} flex gap-2 p-2 w-full focus:outline-nones transition-colors duration-200 rounded-lg`}>
+                        <Link href={route('cars.index')} className={`${route().current().includes('car') ? 'bg-red-100 text-primary my-3' : 'hover:bg-gray-100 text-gray-500'} flex gap-2 p-2 w-full focus:outline-nones transition-colors duration-200 rounded-lg`}>
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                 <path d="M3 8L5.72187 10.2682C5.90158 10.418 6.12811 10.5 6.36205 10.5H17.6379C17.8719 10.5 18.0984 10.418 18.2781 10.2682L21 8M6.5 14H6.51M17.5 14H17.51M8.16065 4.5H15.8394C16.5571 4.5 17.2198 4.88457 17.5758 5.50772L20.473 10.5777C20.8183 11.1821 21 11.8661 21 12.5623V18.5C21 19.0523 20.5523 19.5 20 19.5H19C18.4477 19.5 18 19.0523 18 18.5V17.5H6V18.5C6 19.0523 5.55228 19.5 5 19.5H4C3.44772 19.5 3 19.0523 3 18.5V12.5623C3 11.8661 3.18166 11.1821 3.52703 10.5777L6.42416 5.50772C6.78024 4.88457 7.44293 4.5 8.16065 4.5ZM7 14C7 14.2761 6.77614 14.5 6.5 14.5C6.22386 14.5 6 14.2761 6 14C6 13.7239 6.22386 13.5 6.5 13.5C6.77614 13.5 7 13.7239 7 14ZM18 14C18 14.2761 17.7761 14.5 17.5 14.5C17.2239 14.5 17 14.2761 17 14C17 13.7239 17.2239 13.5 17.5 13.5C17.7761 13.5 18 13.7239 18 14Z" strokeLinecap="round" strokeLinejoin="round" />
                             </svg>
                             Cars
-                        </Link>}
+                        </Link>
                         
-                        {can('read applications') && <Link href={route('applications.index')} className={`${route().current().includes('applications') ? 'bg-red-100 text-primary my-3' : 'hover:bg-gray-100 text-gray-500'} flex gap-2 p-2 w-full focus:outline-nones transition-colors duration-200 rounded-lg`}>
+                        <Link href={route('applications.index')} className={`${route().current().includes('applications') ? 'bg-red-100 text-primary my-3' : 'hover:bg-gray-100 text-gray-500'} flex gap-2 p-2 w-full focus:outline-nones transition-colors duration-200 rounded-lg`}>
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">
                                 <path d="M18 6.00002V6.75002H18.75V6.00002H18ZM15.7172 2.32614L15.6111 1.58368L15.7172 2.32614ZM4.91959 3.86865L4.81353 3.12619H4.81353L4.91959 3.86865ZM5.07107 6.75002H18V5.25002H5.07107V6.75002ZM18.75 6.00002V4.30604H17.25V6.00002H18.75ZM15.6111 1.58368L4.81353 3.12619L5.02566 4.61111L15.8232 3.0686L15.6111 1.58368ZM4.81353 3.12619C3.91638 3.25435 3.25 4.0227 3.25 4.92895H4.75C4.75 4.76917 4.86749 4.63371 5.02566 4.61111L4.81353 3.12619ZM18.75 4.30604C18.75 2.63253 17.2678 1.34701 15.6111 1.58368L15.8232 3.0686C16.5763 2.96103 17.25 3.54535 17.25 4.30604H18.75ZM5.07107 5.25002C4.89375 5.25002 4.75 5.10627 4.75 4.92895H3.25C3.25 5.9347 4.06532 6.75002 5.07107 6.75002V5.25002Z" fill="#1C274D" />
                                 <path d="M8 12H16" strokeWidth="1.5" strokeLinecap="round" />
@@ -52,7 +52,7 @@ export default function Sidebar({ sidebarExpanded, setSidebarExpanded }) {
                                 <path d="M4 6V19C4 20.6569 5.34315 22 7 22H17C18.6569 22 20 20.6569 20 19V14M4 6V5M4 6H17C18.6569 6 20 7.34315 20 9V10" strokeWidth="1.5" strokeLinecap="round" />
                             </svg>
                             Applications
-                        </Link>}
+                        </Link>
 
                         {/* {can('read contacts') && <Link href="#" className={`${route().current('contacts.index') ? 'bg-red-100 text-primary' : 'hover:bg-gray-100 text-gray-500'} flex gap-2 p-2 w-full focus:outline-nones transition-colors duration-200 rounded-lg`}>
                             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" strokeWidth="1.5" stroke="currentColor" className="w-6 h-6">

@@ -16,6 +16,7 @@ class Car extends Model
      */
     protected $fillable = [
         'slug',
+        'description',
         'state',
         'make',
         'model',
@@ -30,8 +31,8 @@ class Car extends Model
         'doors',
         'cylinders',
         'date_published',
-        'is_published',
-        'is_sold',
+        'date_sold',
+        'status',
     ];
 
     /**
@@ -42,5 +43,14 @@ class Car extends Model
     public function images()
     {
         return $this->hasMany(Image::class);
+    }
+
+    /**
+     * Get all of the applications for the Car
+     *
+     */
+    public function applications()
+    {
+        return $this->hasMany(LoanApplication::class);
     }
 }

@@ -11,7 +11,7 @@ class CarRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -21,8 +21,30 @@ class CarRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            //
+        $rules = [
+            'description' => 'nullable|string|max:300',
+            'state' => 'required|string',
+            'make' => 'required|string',
+            'model' => 'required|string',
+            'year' => 'required|numeric|digits:4|min:1980|max:' . date('Y'),
+            'color' => 'required|string',
+            'body_type' => 'required|string',
+            'doors' => 'required|integer',
+            'transmission' => 'required|string',
+            'mileage' => 'nullable|integer',
+            'fuel_type' => 'required|string',
+            'engine_size' => 'required|string',
+            'cylinders' => 'required|integer',
+            'status' => 'required|in:Published,Unpublished,Sold',
+            'price' => 'required|decimal:2',
         ];
+
+        if ($this->state === 'New') {
+            $rules['mileage'] = 'nullable|integer';
+        } else {
+            $rules['mileage'] = 'required|integer';
+        }
+
+        return $rules;
     }
 }

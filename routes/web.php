@@ -4,15 +4,40 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CarController;
 use App\Http\Controllers\GuestController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\LoanApplicationController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RoleController;
+use App\Http\Controllers\UploadController;
 use App\Http\Middleware\AdminMiddleware;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [GuestController::class, 'index'])->name('index');
+/*
 
-// Dashboard routes
-Route::get('/dashboard', [AdminController::class, 'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+
+
+Route::get('/migrate', function () {
+    Artisan::call('migrate');
+});
+
+Route::get('/queue', function () {
+    Artisan::call('queue:work');
+});
+
+Route::get('/optimize', function () {
+    Artisan::call('optimize:clear');
+});
+*/
+Route::get('/linkstorage', function () {
+    Artisan::call('storage:link');
+});
+
+Route::get('/production-linkstorage', function () {
+    Artisan::call('storage:custom-link');
+});
+
+Route::get('/', [GuestController::class, 'index'])->name('index');
+Route::post('/contact', [GuestController::class, 'contact'])->name('contact');
 
 // Auth routes
 Route::middleware('auth')->group(function () {
@@ -24,7 +49,9 @@ Route::middleware('auth')->group(function () {
 // Listing routes
 Route::match(['get', 'post'], '/listing', [ListingController::class, 'index']);
 Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('listing.car');
-// Route::get('listing/search', [ListingController::class, 'search'])->name('search');
+Route::get('get-qualified/{carId}', [GuestController::class, 'getQualified'])->name('get_qualified');
+Route::post('store-application', [GuestController::class, 'storeApplication'])->name('store_application');
+Route::get('get-qualified-success', [GuestController::class, 'getQualifiedSuccess'])->name('get_qualified_success');
 
 // Roles routes
 // Route::resource('roles', RoleController::class)->middleware(AdminMiddleware::class);
@@ -32,8 +59,21 @@ Route::get('listing/{slug}', [ListingController::class, 'displayCar'])->name('li
 // Route::post('/roles/{roleId}/remove', [RoleController::class, 'removePermission'])->name('roles.permissions.remove');
 
 // Cars routes
-Route::prefix('dashboard')->middleware('auth')->group(function () {
+Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () { // Dashboard routes
+    Route::get('/', [AdminController::class, 'dashboard'])->name('dashboard');
+    
+    // Car routes
     Route::resource('cars', CarController::class);
+    // Route::get('cars/{slug}', [CarController::class, 'show'])->name('cars.show');
+    Route::post('cars/image/{imgId}/delete', [CarController::class, 'deleteImage'])->name('cars.images.delete');
+
+    // Loan Application routes
+    Route::resource('applications', LoanApplicationController::class)->except('create');
+    Route::get('applications/create/{carId}', [LoanApplicationController::class, 'create'])->name('applications.create');
+    Route::post('change-application-status/{application_id}/{status}', [LoanApplicationController::class, 'changeApplicationStatus'])->name('applications.change_status');
+
+    // Upload images
+    Route::post('upload-images', [UploadController::class, 'images'])->name('upload.images');
 })->middleware(AdminMiddleware::class);
 
 Route::fallback(function () {

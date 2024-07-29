@@ -16,7 +16,7 @@ class CarController extends Controller
      *  Render car view
      */
     public function index(Request $request)
-    {
+    { 
         $query = Car::query()
             // ->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
             ->with(['images' => function ($q) {
@@ -33,7 +33,7 @@ class CarController extends Controller
         // Pagination
         $cars = $query->paginate(5);
 
-        return inertia('Cars', [
+        return inertia('Car/Index', [
             'cars' => $cars,
             'filters' => $request->only(['search', 'sort', 'direction']),
         ]);
@@ -45,25 +45,89 @@ class CarController extends Controller
     public function store(CarRequest $request)
     {
         try {
-            $car = Car::create(["name" => Str::lower($request->name)]);
+            $data = $request->all();
 
-            return redirect()->back()->with(['extraData' => ['carId' => $car->id], 'success' => 'Car created successfuly.']);
+            $car = new Car($data); 
+            $car->slug = Helper::generateSlug($car);
+            
+            if (Car::whereSlug($car->slug)->exists()) {
+                return back()->with('error', 'This car already exists in the database');
+            }
+
+            $car->save();
+
+            return redirect(route('cars.edit', $car->slug))->with('success', 'Car created successfuly.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
     /**
+     *  Create view
+     */
+    public function create()
+    {
+        return inertia('Car/Create', [
+            'models' => Helper::getCarModels()
+        ]);
+    }
+
+    /**
+     *  Show view
+     */
+    public function show($slug) 
+    {
+        $car = Car::whereSlug($slug)->with('images')->firstOrFail();
+        
+        return inertia('Car/Show', [
+            'car' => $car
+        ]);
+    }
+
+    /**
+     *  Edit view
+     */
+    public function edit($slug) 
+    {
+        $car = Car::whereSlug($slug)->with('images')->firstOrFail();
+    
+        return inertia('Car/Edit', [
+            'car' => $car,
+            'models' => Helper::getCarModels()
+        ]);
+    }
+
+    /**
      *  Update existing car
      */
-    public function update(CarRequest $request)
+    public function update(Car $car, CarRequest $request)
     {
         try {
-            $car = Car::findOrFail($request->id);
+            $car->fill($request->all());
 
-            $car->update($request->all());
+            switch ($car->status) {
+                case 'Published':
+                    if ($car->images->count() === 0) {
+                        return back()->with('error', 'Cannot change the state before uploading images.');
+                    }
+                    $car->date_published = now();
+                    break;
+                case 'Sold':
+                    if ($car->images->count() === 0) {
+                        return back()->with('error', 'Cannot change the state before uploading images.');
+                    }
+                    $car->date_sold = now();
+                    break;
+                
+                default:
+                    $car->date_published = null;
+                    break;
+            }
 
-            return redirect()->back()->with('success', 'Car updated successfuly.');
+            $car->slug = Helper::generateSlug($car);
+            $car->save();
+
+            return redirect(route('cars.edit', $car->slug))->with('success', 'Car updated successfuly.');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }
@@ -76,10 +140,12 @@ class CarController extends Controller
     {
         try {
             DB::transaction(function () use ($car) {
+                $directory = env('APP_ENV') === 'development' ? 'public/' : 'public_html/';
+
                 // Delete the image files from the storage first
-                // foreach ($car->images as $image) {
-                //     Storage::delete($image->url);
-                // }
+                foreach ($car->images as $image) {
+                    Storage::delete($directory . $image->url);
+                }
 
                 // Delete the images from the database
                 $car->images()->delete();
@@ -92,6 +158,33 @@ class CarController extends Controller
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+    /** 
+     * Delete image
+     */
+    public function deleteImage(Request $request, $imgId)
+    {
+        try {
+            $car = Car::findOrFail($request->id);
+            $image = $car->images()->findOrFail($imgId);
+            $directory = env('APP_ENV') === 'development' ? 'public/' : 'public_html/';
+
+            // Delete the image file from storage
+            Storage::delete($directory . $image->url);
+
+            // Delete the image record from the database
+            $image->delete();
+
+            if ($car->images()->count() === 0) {
+                $car->status = 'Unpublished';
+                $car->save();
+            }
+
+            return redirect(route('cars.edit', $car->slug))->with('success', 'Image deleted successfully.');
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('success', 'Image deleted successfully.');
         }
     }
 }

@@ -1,15 +1,20 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import Dropdown from '@/Components/Dropdown';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link } from '@inertiajs/react';
 import FlashMessage from '@/Components/FlashMessage';
 import Sidebar from '@/Components/Sidebar';
 
-export default function AuthenticatedLayout({ user, permissions, header, children }) {
+export default function AuthenticatedLayout({ user, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-  
+    const [sidebarExpanded, setSidebarExpanded] = useState(true);
+
+    const childrenWithProps = React.Children.map(children, child => {
+        return React.cloneElement(child, { sidebarExpanded, setSidebarExpanded });
+    });
+
     return (
-        <div className="min-h-screen bg-gray-100">
+        <div className="min-h-screen w-full bg-gray-100">
 
             {header && (
                 <header className="bg-white shadow">
@@ -19,11 +24,11 @@ export default function AuthenticatedLayout({ user, permissions, header, childre
 
             <main className="flex">
                 
-                <Sidebar user={user} />
+                <Sidebar user={user} sidebarExpanded={sidebarExpanded} setSidebarExpanded={setSidebarExpanded} />
 
                 <div className='w-full'>
-                    <nav className="border-b border-gray-100">
-                        <div className="max-w-8xl mx-auto sm:px-6 lg:px-4">
+                    <nav>
+                        <div className="mx-auto sm:px-6 lg:px-4">
                             <div className="flex justify-between h-16">
                                 <div className="flex">
                                     <div className="shrink-0 flex items-center">
@@ -120,8 +125,11 @@ export default function AuthenticatedLayout({ user, permissions, header, childre
                     </nav>
 
                     <FlashMessage />
+
+                    <div className="py-5">
+                        {childrenWithProps}
+                    </div>
                     
-                    {children}
                 </div>
             </main>
         </div>

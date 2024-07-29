@@ -142,27 +142,65 @@ class CarFactory extends Factory
         $make = $this->faker->randomElement($manufacturers);
         $model = $this->faker->randomElement($models[$make]);
 
+        $engineSizes = [
+            '1.0L',
+            '1.2L',
+            '1.4L',
+            '1.6L',
+            '1.8L',
+            '2.0L',
+            '2.2L',
+            '2.4L',
+            '2.5L',
+            '2.7L',
+            '3.0L',
+            '3.3L',
+            '3.5L',
+            '3.6L',
+            '3.8L',
+            '4.0L',
+            '4.2L',
+            '4.4L',
+            '4.6L',
+            '5.0L'
+        ];
+
+    $carColors = [
+        'White',
+        'Black',
+        'Silver',
+        'Gray',
+        'Red',
+        'Blue',
+        'Brown',
+        'Yellow',
+        'Green',
+        'Beige',
+        'Orange',
+        'Pink'
+    ];
+
         $data = [
             'make' => $make,
             'model' => $model,
             'year' => $this->faker->numberBetween(2000, 2024),
-            'color' => $this->faker->safeColorName,
+            'color' => $this->faker->randomElement($carColors),
             'mileage' => $this->faker->numberBetween(0, 100000),
             'price' => $this->faker->numberBetween(5000, 50000),
             'transmission' => $this->faker->randomElement(['Automatic', 'Manual']),
-            'cylinders' => $this->faker->randomElement([4, 6, 8]),
+            'cylinders' => $this->faker->randomElement([3, 4, 5, 6, 8, 10, 12]),
             'state' => $this->faker->randomElement(['New', 'Used']),
             'fuel_type' => $this->faker->randomElement(['Gasoline', 'Diesel', 'Electric']),
             'body_type' => $this->faker->randomElement(['Sedan', 'SUV', 'Truck', 'Coupe']),
-            'engine_size' => $this->faker->randomFloat(2, 1.0, 5.0),
+            'engine_size' => $this->faker->randomElement($engineSizes),
             'doors' => $this->faker->numberBetween(2, 5),
-            'is_published' => true,
-            'date_published' => now(),
-            'is_published' => true,
+            'status' => $this->faker->randomElement(['Published', 'Unpublished']),
         ];
 
         $slug = Str::slug($data['make'] . "-" . $data['model'] . "-" . $data['year'] . "-" . $data['color'] . "-" . $data['mileage'] . "-" . $data['price'] . "-" . $data['transmission'] . "-" .$data['fuel_type'] . "-" .$data['body_type']. "-" . $data['engine_size'] . "-" . $data['doors']);
         $data['slug'] = $slug;
+        
+        if ($data['status'] === 'Published') $data['date_published'] = now();
         
         return $data;
     }

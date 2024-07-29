@@ -18,20 +18,20 @@ return new class extends Migration
             $table->string('model');
             $table->year('year');
             $table->string('color');
-            $table->integer('mileage')->unsigned();
+            $table->integer('mileage')->unsigned()->nullable();
             $table->decimal('price', 10, 2);
             $table->string('transmission');
             $table->string('fuel_type');
-            $table->string('body_type')->nullable();
+            $table->string('body_type');
             $table->string('engine_size')->nullable();
-            $table->integer('doors')->unsigned()->nullable();
-            $table->integer('cylinders')->unsigned()->nullable();
+            $table->integer('doors')->unsigned();
+            $table->integer('cylinders');
             $table->enum('state', ['New', 'Used']);
-            $table->boolean('is_published')->default(false);
-            $table->boolean('is_sold')->default(false);
+            $table->enum('status', ['Published', 'Unpublished', 'Sold']);
             $table->index(['make', 'model', 'year']);
             $table->index(['transmission', 'slug', 'body_type']);
             $table->dateTime('date_published')->nullable();
+            $table->dateTime('date_sold')->nullable();
             $table->timestamps();
         });
     }

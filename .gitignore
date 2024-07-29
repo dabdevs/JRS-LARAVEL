@@ -1,9 +1,11 @@
 /.phpunit.cache
 /node_modules
-/public/build
 /public/hot
+/public/build
+/public_html/build
+/public_html/storage
 /public/storage
-/storage/*.key
+/storage/app
 /vendor
 .env
 .env.backup

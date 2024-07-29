@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->id();
             $table->string('url');
-            $table->string('extention');
             $table->boolean('is_primary')->default(false);
             $table->unsignedBigInteger('car_id');
             $table->foreign('car_id')->references('id')->on('cars');

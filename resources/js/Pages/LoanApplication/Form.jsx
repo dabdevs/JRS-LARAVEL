@@ -9,6 +9,7 @@ import useUtils from '@/Hooks/useUtils';
 import InputLabel from '@/Components/InputLabel';
 import Modal from '@/Components/Modal';
 import TermsAndConditions from './TermsAndConditions';
+import RevealOnScroll from '@/Components/RevealOnScroll';
 
 export default function Form({ application, car, states, storeUrl }) {
     if (!car) throw new Error('No car selected for application')
@@ -121,8 +122,8 @@ export default function Form({ application, car, states, storeUrl }) {
         return data.employment1_type !== '' && data.employer1_rank !== '' && data.employer1_name !== '' &&
             data.employer1_phone !== '' && data.time_at_employment1_years !== '' && data.income1_type !== '' && data.income1 !== '' &&
             data.employer1_city !== '' && data.employer1_state !== '' && data.employer1_zip_code !== ''
-    } 
-        
+    }
+
     const today = new Date();
     const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
     const maxDate = minDate.toISOString().split('T')[0]
@@ -169,55 +170,59 @@ export default function Form({ application, car, states, storeUrl }) {
     }
 
     const disabled = !(personalInfoCheck && addressCheck && employment1Check() && agree)
-    console.log(disabled)
+
     return (
         <section className="md:px-4 mx-auto">
             <div className="p-6 md:rounded-md md:shadow-sm bg-white">
-                <Header car={car} />
+                <RevealOnScroll>
+                    <Header car={car} />
+                </RevealOnScroll>
                 <form>
-                    <div className="grid grid-cols-6 gap-4">
-                        <p className='col-span-6 my-2 text-lg lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>PERSONAL INFORMATION</p>
-                        <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                            <label htmlFor="first_name" className="block font-medium text-sm text-gray-700">First Name*</label>
-                            <input required value={data.first_name} onInput={handleChange} type="text" id="first_name" name="first_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                            <InputError message={errors.first_name} className="mt-2" />
+                    <RevealOnScroll>
+                        <div className="grid grid-cols-6 gap-4">
+                            <p className='col-span-6 my-2 text-lg lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>PERSONAL INFORMATION</p>
+                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                <label htmlFor="first_name" className="block font-medium text-sm text-gray-700">First Name*</label>
+                                <input required value={data.first_name} onInput={handleChange} type="text" id="first_name" name="first_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <InputError message={errors.first_name} className="mt-2" />
+                            </div>
+                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                <label htmlFor="middle_name" className="block font-medium text-sm text-gray-700">Middle Name</label>
+                                <input value={data.middle_name} onInput={handleChange} type="text" id="middle_name" name="middle_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <InputError message={errors.middle_name} className="mt-2" />
+                            </div>
+                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                <label htmlFor="last_name" className="block font-medium text-sm text-gray-700">Last Name*</label>
+                                <input required value={data.last_name} onInput={handleChange} type="text" id="last_name" name="last_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <InputError message={errors.last_name} className="mt-2" />
+                            </div>
+                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                <label htmlFor="date_of_birth" className="block font-medium text-sm text-gray-700">Date of Birth*</label>
+                                <input required value={data.date_of_birth} onInput={handleChange} max={maxDate} type="date" id="date_of_birth" name="date_of_birth" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <InputError message={errors.date_of_birth} className="mt-2" />
+                            </div>
+                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                <label htmlFor="phone" className="block font-medium text-sm text-gray-700">Phone*</label>
+                                <input required value={data.phone} onInput={handleChange} type='number' id="phone" name="phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <InputError message={errors.phone} className="mt-2" />
+                            </div>
+                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                <label htmlFor="email" className="block font-medium text-sm text-gray-700">Email*</label>
+                                <input required value={data.email} onInput={handleChange} type="email" id="email" name="email" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <InputError message={errors.email} className="mt-2" />
+                            </div>
+                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                <label htmlFor="ssn_itin" className="block font-medium text-sm text-gray-700">SSN/ITIN*</label>
+                                <input required value={data.ssn_itin} onInput={handleChange} type="text" id="ssn_itin" name="ssn_itin" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <InputError message={errors.ssn_itin} className="mt-2" />
+                            </div>
+                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                <label htmlFor="driver_license_number" className="block font-medium text-sm text-gray-700">Driver License Number</label>
+                                <input value={data.driver_license_number} onInput={handleChange} type="text" id="driver_license_number" name="driver_license_number" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                <InputError message={errors.driver_license_number} className="mt-2" />
+                            </div>
                         </div>
-                        <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                            <label htmlFor="middle_name" className="block font-medium text-sm text-gray-700">Middle Name</label>
-                            <input value={data.middle_name} onInput={handleChange} type="text" id="middle_name" name="middle_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                            <InputError message={errors.middle_name} className="mt-2" />
-                        </div>
-                        <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                            <label htmlFor="last_name" className="block font-medium text-sm text-gray-700">Last Name*</label>
-                            <input required value={data.last_name} onInput={handleChange} type="text" id="last_name" name="last_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                            <InputError message={errors.last_name} className="mt-2" />
-                        </div>
-                        <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                            <label htmlFor="date_of_birth" className="block font-medium text-sm text-gray-700">Date of Birth*</label>
-                            <input required value={data.date_of_birth} onInput={handleChange} max={maxDate} type="date" id="date_of_birth" name="date_of_birth" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                            <InputError message={errors.date_of_birth} className="mt-2" />
-                        </div>
-                        <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                            <label htmlFor="phone" className="block font-medium text-sm text-gray-700">Phone*</label>
-                            <input required value={data.phone} onInput={handleChange} type='number' id="phone" name="phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                            <InputError message={errors.phone} className="mt-2" />
-                        </div>
-                        <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                            <label htmlFor="email" className="block font-medium text-sm text-gray-700">Email*</label>
-                            <input required value={data.email} onInput={handleChange} type="email" id="email" name="email" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                            <InputError message={errors.email} className="mt-2" />
-                        </div>
-                        <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                            <label htmlFor="ssn_itin" className="block font-medium text-sm text-gray-700">SSN/ITIN*</label>
-                            <input required value={data.ssn_itin} onInput={handleChange} type="text" id="ssn_itin" name="ssn_itin" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                            <InputError message={errors.ssn_itin} className="mt-2" />
-                        </div>
-                        <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                            <label htmlFor="driver_license_number" className="block font-medium text-sm text-gray-700">Driver License Number</label>
-                            <input value={data.driver_license_number} onInput={handleChange} type="text" id="driver_license_number" name="driver_license_number" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                            <InputError message={errors.driver_license_number} className="mt-2" />
-                        </div>
-                    </div>
+                    </RevealOnScroll>
 
                     {personalInfoCheck && <div className="mt-6 grid grid-cols-6 gap-4">
                         <p className='col-span-6 my-2 text-lg lg:text-2xl text-gray-500 text-bold border-b-2 py-2'>ADDRESS</p>
@@ -315,34 +320,34 @@ export default function Form({ application, car, states, storeUrl }) {
                                 <input required value={data.employer1_name} onInput={handleChange} type="text" id="employer1_name" name="employer1_name" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_name} className="mt-2" />
                             </div>
-                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                                <label htmlFor="employment1_rank" className="block font-medium text-sm text-gray-700">Occupation/Rank*</label>
-                                <input required value={data.employment1_rank} onInput={handleChange} type="text" id="employment1_rank" name="employment1_rank" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                                <InputError message={errors.employment1_rank} className="mt-2" />
-                            </div>
-                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                                <label htmlFor="employer1_phone" className="block font-medium text-sm text-gray-700">Employer Phone*</label>
-                                <input required value={data.employer1_phone} onInput={handleChange} type="number" id="employer1_phone" name="employer1_phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                                <InputError message={errors.employer1_phone} className="mt-2" />
-                            </div>
-                            <div className="col-span-6 sm:col-span-3 lg:col-span-2" id='time_at_employment1'>
-                                <label htmlFor="time_at_employment1" className="block font-medium text-sm text-gray-700">Time at Employment 1*</label>
-                                <div className="flex gap-1">
-                                    <div className="w-1/2">
-                                        <select required value={data.time_at_employment1_years} onInput={handleChange} id="time_at_employment1_years" name="time_at_employment1_years" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
-                                            <option value="">Select Years</option>
-                                            {years.map(year => <option key={year}>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
-                                        </select>
-                                    </div>
-                                    <div className="w-1/2">
-                                        <select value={data.time_at_employment1_months} onInput={handleChange} id="time_at_employment1_months" name="time_at_employment1_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
-                                            <option value="">Select Months</option>
-                                            {months.map(month => <option key={month}>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
-                                        </select>
-                                    </div>
+                                <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                    <label htmlFor="employment1_rank" className="block font-medium text-sm text-gray-700">Occupation/Rank*</label>
+                                    <input required value={data.employment1_rank} onInput={handleChange} type="text" id="employment1_rank" name="employment1_rank" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                    <InputError message={errors.employment1_rank} className="mt-2" />
                                 </div>
-                                <InputError message={errors.time_at_employment1_years} className="mt-2" />
-                            </div></>}
+                                <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                    <label htmlFor="employer1_phone" className="block font-medium text-sm text-gray-700">Employer Phone*</label>
+                                    <input required value={data.employer1_phone} onInput={handleChange} type="number" id="employer1_phone" name="employer1_phone" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                    <InputError message={errors.employer1_phone} className="mt-2" />
+                                </div>
+                                <div className="col-span-6 sm:col-span-3 lg:col-span-2" id='time_at_employment1'>
+                                    <label htmlFor="time_at_employment1" className="block font-medium text-sm text-gray-700">Time at Employment 1*</label>
+                                    <div className="flex gap-1">
+                                        <div className="w-1/2">
+                                            <select required value={data.time_at_employment1_years} onInput={handleChange} id="time_at_employment1_years" name="time_at_employment1_years" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                                <option value="">Select Years</option>
+                                                {years.map(year => <option key={year}>{`${year} year${year > 1 ? 's' : ''}`}</option>)}
+                                            </select>
+                                        </div>
+                                        <div className="w-1/2">
+                                            <select value={data.time_at_employment1_months} onInput={handleChange} id="time_at_employment1_months" name="time_at_employment1_months" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                                <option value="">Select Months</option>
+                                                {months.map(month => <option key={month}>{`${month} month${month > 1 ? 's' : ''}`}</option>)}
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <InputError message={errors.time_at_employment1_years} className="mt-2" />
+                                </div></>}
                             <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
                                 <label htmlFor="income1_type" className="block font-medium text-sm text-gray-700">Income Type*</label>
                                 <select required value={data.income1_type} onInput={handleChange} id="income1_type" name="income1_type" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
@@ -367,24 +372,24 @@ export default function Form({ application, car, states, storeUrl }) {
                                 <input value={data.employer1_address} onInput={handleChange} type="text" id="employer1_address" name="employer1_address" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
                                 <InputError message={errors.employer1_address} className="mt-2" />
                             </div>
-                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                                <label htmlFor="employer1_state" className="block font-medium text-sm text-gray-700">Employer State*</label>
-                                <select required value={data.employer1_state} onInput={handleChange} id="employer1_state" name="employer1_state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
-                                    <option value="">Select</option>
-                                    {states.map(state => <option key={state} value={state}>{state}</option>)}
-                                </select>
-                                <InputError message={errors.employer1_state} className="mt-2" />
-                            </div>
-                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                                <label htmlFor="employer1_city" className="block font-medium text-sm text-gray-700">Employer City*</label>
-                                <input value={data.employer1_city} onInput={handleChange} type="text" id="employer1_city" name="employer1_city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                                <InputError message={errors.employer1_city} className="mt-2" />
-                            </div>
-                            <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
-                                <label htmlFor="employer1_zip_code" className="block font-medium text-sm text-gray-700">Employer Zip Code*</label>
-                                <input required value={data.employer1_zip_code} onInput={handleChange} type="number" id="employer1_zip_code" name="employer1_zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
-                                <InputError message={errors.employer1_zip_code} className="mt-2" />
-                            </div></>}
+                                <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                    <label htmlFor="employer1_state" className="block font-medium text-sm text-gray-700">Employer State*</label>
+                                    <select required value={data.employer1_state} onInput={handleChange} id="employer1_state" name="employer1_state" className="w-full mt-1 rounded border border-gray-400 py-1 px-2">
+                                        <option value="">Select</option>
+                                        {states.map(state => <option key={state} value={state}>{state}</option>)}
+                                    </select>
+                                    <InputError message={errors.employer1_state} className="mt-2" />
+                                </div>
+                                <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                    <label htmlFor="employer1_city" className="block font-medium text-sm text-gray-700">Employer City*</label>
+                                    <input value={data.employer1_city} onInput={handleChange} type="text" id="employer1_city" name="employer1_city" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                    <InputError message={errors.employer1_city} className="mt-2" />
+                                </div>
+                                <div className='col-span-6 sm:col-span-2 lg:col-span-1'>
+                                    <label htmlFor="employer1_zip_code" className="block font-medium text-sm text-gray-700">Employer Zip Code*</label>
+                                    <input required value={data.employer1_zip_code} onInput={handleChange} type="number" id="employer1_zip_code" name="employer1_zip_code" className="w-full mt-1 rounded border border-gray-400 py-1 px-2" />
+                                    <InputError message={errors.employer1_zip_code} className="mt-2" />
+                                </div></>}
                         </div>
                     }
 

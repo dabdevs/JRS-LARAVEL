@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { useCallback, useState } from 'react'
 import InputLabel from '@/Components/InputLabel';
 import InputError from '@/Components/InputError';
 import { Link, useForm } from '@inertiajs/react';
@@ -10,10 +10,12 @@ import DangerButton from '@/Components/DangerButton';
 import SuccessButton from '@/Components/SuccessButton';
 import PlusIcon from '@/Components/PlusIcon';
 import { Textarea } from '@headlessui/react';
+import useUtils from '@/Hooks/useUtils';
 
 export default function Form({car, models}) {
     let initialState = {
         id: '',
+        vin: '',
         state: '',
         make: '',
         model: '',
@@ -26,6 +28,8 @@ export default function Form({car, models}) {
         doors: '',
         transmission: '',
         cylinders: '',
+        seats: '',
+        seat_rows: '',
         status: 'Unpublished',
         description: '',
         deleteImgId: ''
@@ -35,8 +39,10 @@ export default function Form({car, models}) {
         initialState = car
         if (car.description === null) initialState.description = ''
     }
-    
+
     const { data, setData, post, put, setError, errors } = useForm(initialState);
+    const [apiData, setApiData] = useState(null)
+    const { capitalize } = useUtils()
 
     const maxImages = 25
 
@@ -110,6 +116,66 @@ export default function Form({car, models}) {
         '5.0L'
     ]
 
+    const fuelTypes = [
+        'Gasoline',
+        'Diesel',
+        'Electric'
+    ]
+
+    const bodyTypes = [
+        'Sedan',
+        'SUV',
+        'Truck',
+        'Coupe'
+    ]
+
+    // Searh vehicule by vin
+    const searchByVin = (e) => {
+        e.preventDefault()
+        const vin = e.target.value
+        if (vin === '') {
+            setData(initialState)
+            return
+        }
+
+        setData('vin', vin)
+        let url = `https://vpic.nhtsa.dot.gov/api/vehicles/decodevinvaluesextended/${vin}?format=json`
+
+        axios.get(url)
+            .then(function ({ data }) {
+                setApiData(data.Results[0])
+
+                let { Make, Model, ModelYear, BodyClass, FuelTypePrimary, EngineCylinders, Seats, Doors, VIN, SeatRows } = data.Results[0]
+                
+                if (BodyClass.includes('SUV')) BodyClass = 'SUV'
+
+                setData(prevData => ({
+                    ...prevData,
+                    make: capitalize(Make),
+                    model: capitalize(Model),
+                    year: ModelYear,
+                    body_type: BodyClass,
+                    fuel_type: FuelTypePrimary,
+                    cylinders: EngineCylinders,
+                    seats: Seats,
+                    seat_rows: SeatRows,
+                    doors: Doors,
+                    vin: VIN
+                }))
+
+                if (!fuelTypes.includes(FuelTypePrimary)) {
+                    fuelTypes.push(FuelTypePrimary)
+                }
+
+                if (!bodyTypes.includes(BodyClass)) {
+                    bodyTypes.push(BodyClass)
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            })
+    }
+
     const deleteImage = (id) => {
         setData('deleteImgId', id)
         confirmAlert({
@@ -142,12 +208,76 @@ export default function Form({car, models}) {
             }
         })
     }
-    console.log(data.price)
+    
     return (
         <section className="px-4 mx-auto">
             <div className="p-4 rounded-md shadow-sm bg-white text-center sm:ml-4 sm:mt-0 sm:text-left">
                 <h1 className="text-2xl font-semibold mb-4">{car ? `${car?.make} ${car?.model}` : 'New Car'}</h1>
                 <div className="my-2 w-full grid grid-cols-6 gap-4">
+                    <div className="my-2">
+                        <InputLabel htmlFor="vin" value="Vin" />
+                        <input
+                            value={data.vin}
+                            onChange={searchByVin}
+                            name="vin"
+                            id="vin"
+                            type='text'
+                            className="w-full mt-1 rounded border border-gray-400 py-1"
+                        />
+                        <InputError message={errors.vin} className="mt-2" />
+                    </div>
+                    <div className="my-2 col-span-1">
+                        <InputLabel htmlFor="make" value="Make" />
+                        <select
+                            value={data.make}
+                            onChange={(e) => setData('make', e.target.value)}
+                            name="make"
+                            id="make"
+                            className="w-full mt-1 rounded border border-gray-400 py-1"
+                        >
+                            <option value="">Select</option>
+                            {Object.keys(models)?.map(make => 
+                                <option key={make} value={make}>{make}</option>
+                            )}
+                            {apiData && !(capitalize(apiData.Make) in models) && <option value={data.make} key={data.make}>{data.make}</option>}
+                        </select>
+                        <InputError message={errors.make} className="mt-2" />
+                    </div>
+                    {data.make && <div className="my-2 col-span-1">
+                        <InputLabel htmlFor="model" value="Model" />
+                        <select
+                            value={data.model}
+                            onChange={(e) => setData('model', e.target.value)}
+                            name="model"
+                            id="model"
+                            className="w-full mt-1 rounded border border-gray-400 py-1"
+                        >
+                            <option value="">Select</option>
+                            {models[data.make]?.map(model => (
+                                <option key={model} value={model}>{model}</option>
+                            ))}
+                            {apiData && !(models[data.make].includes(capitalize(apiData.Model))) && <option value={data.model} key={data.model}>{data.model}</option>}
+                        </select>
+                        <InputError message={errors.model} className="mt-2" />
+                    </div>}
+                    <div className="my-2 w-full">
+                        <InputLabel htmlFor="year" value="Year" />
+                        <select
+                            value={data.year}
+                            onChange={(e) => setData('year', e.target.value)}
+                            name="year"
+                            id="year"
+                            className="w-full mt-1 rounded border border-gray-400 py-1"
+                        >
+                            <option value={''}>Select</option>
+                            {years.map(year => (
+                                <option key={year} value={year}>
+                                    {year}
+                                </option>
+                            ))}
+                        </select>
+                        <InputError message={errors.year} className="mt-2" />
+                    </div>
                     <div className="my-2">
                         <InputLabel htmlFor="state" value="State" className='text-center' />
                         <div className="flex justify-around gap-3" id='state'>
@@ -177,56 +307,6 @@ export default function Form({car, models}) {
                             </div>
                         </div>
                         <InputError message={errors.state} className="mt-2" />
-                    </div>
-                    <div className="my-2 col-span-2">
-                        <InputLabel htmlFor="make" value="Make" />
-                        <select
-                            value={data.make}
-                            onChange={(e) => setData('make', e.target.value)}
-                            name="make"
-                            id="make"
-                            className="w-full mt-1 rounded border border-gray-400 py-1"
-                        >
-                            <option value="">Select</option>
-                            {Object.keys(models)?.map(make => (
-                                <option key={make} value={make}>{make}</option>
-                            ))}
-                        </select>
-                        <InputError message={errors.make} className="mt-2" />
-                    </div>
-                    {data.make && <div className="my-2 col-span-2">
-                        <InputLabel htmlFor="model" value="Model" />
-                        <select
-                            value={data.model}
-                            onChange={(e) => setData('model', e.target.value)}
-                            name="model"
-                            id="model"
-                            className="w-full mt-1 rounded border border-gray-400 py-1"
-                        >
-                            <option value="">Select</option>
-                            {models[data.make]?.map(model => (
-                                <option key={model} value={model}>{model}</option>
-                            ))}
-                        </select>
-                        <InputError message={errors.model} className="mt-2" />
-                    </div>}
-                    <div className="my-2 w-full">
-                        <InputLabel htmlFor="year" value="Year" />
-                        <select
-                            value={data.year}
-                            onChange={(e) => setData('year', e.target.value)}
-                            name="year"
-                            id="year"
-                            className="w-full mt-1 rounded border border-gray-400 py-1"
-                        >
-                            <option value={''}>Select</option>
-                            {years.map(year => (
-                                <option key={year} value={year}>
-                                    {year}
-                                </option>
-                            ))}
-                        </select>
-                        <InputError message={errors.year} className="mt-2" />
                     </div>
                 </div>
                 <div className="my-2 w-full grid grid-cols-6 gap-4">
@@ -258,10 +338,8 @@ export default function Form({car, models}) {
                             className="w-full mt-1 rounded border border-gray-400 py-1"
                         >
                             <option value="">Select</option>
-                            <option value="Sedan">Sedan</option>
-                            <option value="SUV">SUV</option>
-                            <option value="Truck">Truck</option>
-                            <option value="Coupe">Coupe</option>
+                            {bodyTypes.map(bodyType => <option key={bodyType} value={bodyType}>{bodyType}</option>)}
+                            {apiData && <option value={data.body_type}>{data.body_type}</option>}
                         </select>
                         <InputError message={errors.body_type} className="mt-2" />
                     </div>
@@ -279,13 +357,41 @@ export default function Form({car, models}) {
                             <option value="3">3</option>
                             <option value="4">4</option>
                             <option value="5">5</option>
+                            <option value="6">6</option>
+                            <option value="7">7</option>
+                            <option value="8">8</option>
+                            <option value="9">9</option>
+                            <option value="10">10</option>
                         </select>
                         <InputError message={errors.doors} className="mt-2" />
+                    </div>
+                    <div className="my-2">
+                        <InputLabel htmlFor="seats" value="Seats" />
+                        <input
+                            value={data.seats}
+                            onChange={(e) => setData('seats', e.target.value)}
+                            name="seats"
+                            id="seats"
+                            type='number'
+                            className="w-full mt-1 rounded border border-gray-400 py-1"
+                        />
+                        <InputError message={errors.seats} className="mt-2" />
+                    </div>
+                    <div className="my-2">
+                        <InputLabel htmlFor="seat_rows" value="Seat Rows" />
+                        <input
+                            value={data.seat_rows}
+                            onChange={(e) => setData('seat_rows', e.target.value)}
+                            name="seat_rows"
+                            id="seat_rows"
+                            type='number'
+                            className="w-full mt-1 rounded border border-gray-400 py-1"
+                        />
+                        <InputError message={errors.seat_rows} className="mt-2" />
                     </div>
                     {data.state === 'Used' && <div className="my-2">
                         <InputLabel htmlFor="mileage" value="Mileage" />
                         <input
-                            readOnly={data.state === 'New'}
                             value={data.mileage}
                             onChange={(e) => setData('mileage', e.target.value)}
                             name="mileage"
@@ -335,9 +441,8 @@ export default function Form({car, models}) {
                             className="w-full mt-1 rounded border border-gray-400 py-1"
                         >
                             <option value="">Select</option>
-                            <option value="Gasoline">Gasoline</option>
-                            <option value="Diesel">Diesel</option>
-                            <option value="Electric">Electric</option>
+                            {fuelTypes.map(fuelType => <option key={fuelType} value={fuelType}>{fuelType}</option>)}
+                            {apiData && <option value={data.fuel_type}>{data.fuel_type}</option>}
                         </select>
                         <InputError message={errors.fuel_type} className="mt-2" />
                     </div>

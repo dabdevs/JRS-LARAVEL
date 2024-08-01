@@ -1,6 +1,7 @@
 import Slider from 'react-slick'
+import RevealOnScroll from './RevealOnScroll'
 
-export default function Carousel({images}) {
+export default function Carousel({ images }) {
     const settings = {
         dots: true,
         infinite: true,
@@ -10,14 +11,16 @@ export default function Carousel({images}) {
     }
 
     return (
-        <div className="h-full w-full md:w-1/2">
-            <Slider {...settings}>
-                {images?.map(img => (
-                    <div key={img.url} className='lg:h-[530px]'>
-                        <img src={`/storage/${img.url}`} alt="Car Image" className="w-full h-full object-cover" />
-                    </div>
-                ))}
-            </Slider>
+        <div className="h-full w-full md:w-1/2 hide display-car">
+            <RevealOnScroll>
+                <Slider {...settings}>
+                    {images?.map(img => (
+                        <div key={img.url} className='lg:h-[530px]'>
+                            <img src={`/storage/${img.url}`} alt="Car Image" className="w-full h-full object-cover" />
+                        </div>
+                    ))}
+                </Slider>
+            </RevealOnScroll>
         </div>
     )
 }

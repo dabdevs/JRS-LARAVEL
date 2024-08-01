@@ -32,7 +32,7 @@ export default function ScrollToTopButton() {
             {isVisible && (
                 <button
                     onClick={scrollToTop}
-                    className="p-3 rounded-full font-bold bg-primary text-white shadow-lg hover:bg-white hover:text-primary border-2 border-primary transition duration-300"
+                    className="animate-bounce p-3 rounded-full font-bold bg-primary text-white shadow-lg hover:bg-white hover:text-primary border-2 border-primary transition duration-300"
                 >
                     ↑
                 </button>

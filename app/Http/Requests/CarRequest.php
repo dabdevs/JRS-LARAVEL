@@ -24,6 +24,7 @@ class CarRequest extends FormRequest
         $rules = [
             'description' => 'nullable|string|max:300',
             'state' => 'required|string',
+            'vin' => 'nullable|string',
             'make' => 'required|string',
             'model' => 'required|string',
             'year' => 'required|numeric|digits:4|min:1980|max:' . date('Y'),
@@ -32,6 +33,8 @@ class CarRequest extends FormRequest
             'doors' => 'required|integer',
             'transmission' => 'required|string',
             'mileage' => 'nullable|integer',
+            'mileage' => 'seats|integer',
+            'mileage' => 'seat_rows|integer',
             'fuel_type' => 'required|string',
             'engine_size' => 'required|string',
             'cylinders' => 'required|integer',

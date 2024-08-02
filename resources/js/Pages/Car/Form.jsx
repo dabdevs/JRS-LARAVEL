@@ -208,6 +208,28 @@ export default function Form({car, models}) {
             }
         })
     }
+
+    const handleChange = (e) => {
+        const name = e.target.name
+        const value = e.target.value
+        const required = e.target.required
+        const type = e.target.type
+        setData(name, '')
+
+        if (type === "number" && value === '') {
+            e.target.value = ''
+            return
+        }
+
+        if (required && value === '') {
+            setError(name, `${name} is required`)
+            return
+        } else {
+            setError(name, '')
+        }
+
+        setData(name, value)
+    }
     
     return (
         <section className="px-4 mx-auto">
@@ -227,10 +249,11 @@ export default function Form({car, models}) {
                         <InputError message={errors.vin} className="mt-2" />
                     </div>
                     <div className="my-2 col-span-1">
-                        <InputLabel htmlFor="make" value="Make" />
+                        <InputLabel htmlFor="make" value="Make*" />
                         <select
+                            required
                             value={data.make}
-                            onChange={(e) => setData('make', e.target.value)}
+                            onChange={handleChange}
                             name="make"
                             id="make"
                             className="w-full mt-1 rounded border border-gray-400 py-1"
@@ -244,10 +267,11 @@ export default function Form({car, models}) {
                         <InputError message={errors.make} className="mt-2" />
                     </div>
                     {data.make && <div className="my-2 col-span-1">
-                        <InputLabel htmlFor="model" value="Model" />
+                        <InputLabel htmlFor="model" value="Model*" />
                         <select
+                            required
                             value={data.model}
-                            onChange={(e) => setData('model', e.target.value)}
+                            onChange={handleChange}
                             name="model"
                             id="model"
                             className="w-full mt-1 rounded border border-gray-400 py-1"
@@ -261,10 +285,11 @@ export default function Form({car, models}) {
                         <InputError message={errors.model} className="mt-2" />
                     </div>}
                     <div className="my-2 w-full">
-                        <InputLabel htmlFor="year" value="Year" />
+                        <InputLabel htmlFor="year" value="Year*" />
                         <select
+                            required
                             value={data.year}
-                            onChange={(e) => setData('year', e.target.value)}
+                            onChange={handleChange}
                             name="year"
                             id="year"
                             className="w-full mt-1 rounded border border-gray-400 py-1"
@@ -278,43 +303,23 @@ export default function Form({car, models}) {
                         </select>
                         <InputError message={errors.year} className="mt-2" />
                     </div>
-                    <div className="my-2">
-                        <InputLabel htmlFor="state" value="State" className='text-center' />
-                        <div className="flex justify-around gap-3" id='state'>
-                            <div className="flex gap-2">
-                                <input
-                                    value={'New'}
-                                    onChange={() => setData('state', 'New')}
-                                    name="state"
-                                    type='radio'
-                                    id='New'
-                                    checked={data.state === 'New'}
-                                    className="mt-3 rounded border border-gray-400 py-1"
-                                />
-                                <InputLabel className='py-2 text-black' htmlFor="New" value="New" />
-                            </div>
-                            <div className="flex gap-2">
-                                <input
-                                    value={'Used'}
-                                    onChange={() => setData('state', 'Used')}
-                                    name="state"
-                                    type='radio'
-                                    id='Used'
-                                    checked={data.state === 'Used'}
-                                    className="mt-3 rounded border border-gray-400 py-1"
-                                />
-                                <InputLabel className='py-2 text-black' htmlFor="Used" value="Used" />
-                            </div>
-                        </div>
+                    <div className="my-2 w-full">
+                        <InputLabel htmlFor="state" value="State*" />
+                        <select required onChange={handleChange} className='w-full mt-1 rounded border border-gray-400 py-1' value={data.state} name="state" id="state">
+                            <option value="">Select</option>
+                            <option value="New">New</option>
+                            <option value="Used">Used</option>
+                        </select>
                         <InputError message={errors.state} className="mt-2" />
                     </div>
                 </div>
                 <div className="my-2 w-full grid grid-cols-6 gap-4">
                     <div className="my-2 w-full">
-                        <InputLabel htmlFor="color" value="Color" />
+                        <InputLabel htmlFor="color" value="Color*" />
                         <select
+                            required
                             value={data.color}
-                            onChange={(e) => setData('color', e.target.value)}
+                            onChange={handleChange}
                             name="color"
                             id="color"
                             className="w-full mt-1 rounded border border-gray-400 py-1"
@@ -329,10 +334,11 @@ export default function Form({car, models}) {
                         <InputError message={errors.color} className="mt-2" />
                     </div>
                     <div className="my-2">
-                        <InputLabel htmlFor="body_type" value="Body Type" />
+                        <InputLabel htmlFor="body_type" value="Body Type*" />
                         <select
+                            required
                             value={data.body_type}
-                            onChange={(e) => setData('body_type', e.target.value)}
+                            onChange={handleChange}
                             name="body_type"
                             id="body_type"
                             className="w-full mt-1 rounded border border-gray-400 py-1"
@@ -344,10 +350,11 @@ export default function Form({car, models}) {
                         <InputError message={errors.body_type} className="mt-2" />
                     </div>
                     <div className="my-2">
-                        <InputLabel htmlFor="doors" value="Doors" />
+                        <InputLabel htmlFor="doors" value="Doors*" />
                         <select
+                            required
                             value={data.doors}
-                            onChange={(e) => setData('doors', e.target.value)}
+                            onChange={handleChange}
                             name="doors"
                             id="doors"
                             className="w-full mt-1 rounded border border-gray-400 py-1"
@@ -369,7 +376,7 @@ export default function Form({car, models}) {
                         <InputLabel htmlFor="seats" value="Seats" />
                         <input
                             value={data.seats}
-                            onChange={(e) => setData('seats', e.target.value)}
+                            onChange={handleChange}
                             name="seats"
                             id="seats"
                             type='number'
@@ -381,7 +388,7 @@ export default function Form({car, models}) {
                         <InputLabel htmlFor="seat_rows" value="Seat Rows" />
                         <input
                             value={data.seat_rows}
-                            onChange={(e) => setData('seat_rows', e.target.value)}
+                            onChange={handleChange}
                             name="seat_rows"
                             id="seat_rows"
                             type='number'
@@ -393,7 +400,7 @@ export default function Form({car, models}) {
                         <InputLabel htmlFor="mileage" value="Mileage" />
                         <input
                             value={data.mileage}
-                            onChange={(e) => setData('mileage', e.target.value)}
+                            onChange={handleChange}
                             name="mileage"
                             id="mileage"
                             type='number'
@@ -401,41 +408,21 @@ export default function Form({car, models}) {
                         />
                         <InputError message={errors.mileage} className="mt-2" />
                     </div>}
-                    <div className="my-2 col-span-2">
+                    <div className="my-2 col-span-1">
                         <InputLabel className='text-center' htmlFor="transmission" value="Transmission" />
-                        <div className="flex justify-around gap-4" id='transmission'>
-                            <div className="flex gap-2">
-                                <input
-                                    value={'Automatic'}
-                                    onChange={(e) => setData('transmission', 'Automatic')}
-                                    name="transmission"
-                                    type='radio'
-                                    id='Automatic'
-                                    checked={data.transmission === 'Automatic'}
-                                    className="mt-3 rounded border border-gray-400 py-1"
-                                />
-                                <InputLabel className='py-2 text-black' htmlFor="Automatic" value="Automatic" />
-                            </div>
-                            <div className="flex gap-2">
-                                <input
-                                    value={'Manual'}
-                                    onChange={(e) => setData('transmission', 'Manual')}
-                                    name="transmission"
-                                    type='radio'
-                                    id='Manual'
-                                    checked={data.transmission === 'Manual'}
-                                    className="mt-3 rounded border border-gray-400 py-1"
-                                />
-                                <InputLabel className='py-2 text-black' htmlFor="Manual" value="Manual" />
-                            </div>
-                        </div>
+                        <select required onChange={handleChange} className='w-full mt-1 rounded border border-gray-400 py-1' value={data.transmission} name="transmission" id="transmission">
+                            <option value="">Select</option>
+                            <option value="Automatic">Automatic</option>
+                            <option value="Manual">Manual</option>
+                        </select>
                         <InputError message={errors.transmission} className="mt-2" />
                     </div>
                     <div className="my-2">
                         <InputLabel htmlFor="fuel_type" value="Fuel Type" />
                         <select
+                            required
                             value={data.fuel_type}
-                            onChange={(e) => setData('fuel_type', e.target.value)}
+                            onChange={handleChange}
                             name="fuel_type"
                             id="fuel_type"
                             className="w-full mt-1 rounded border border-gray-400 py-1"
@@ -449,8 +436,9 @@ export default function Form({car, models}) {
                     <div className="my-2">
                         <InputLabel htmlFor="engine_size" value="Engine Size" />
                         <select
+                            required
                             value={data.engine_size}
-                            onChange={(e) => setData('engine_size', e.target.value)}
+                            onChange={handleChange}
                             name="engine_size"
                             id="engine_size"
                             className="w-full mt-1 rounded border border-gray-400 py-1"
@@ -467,8 +455,9 @@ export default function Form({car, models}) {
                     <div className="my-2">
                         <InputLabel htmlFor="cylinders" value="Cylinders" />
                         <select
+                            required
                             value={data.cylinders}
-                            onChange={(e) => setData('cylinders', e.target.value)}
+                            onChange={handleChange}
                             name="cylinders"
                             id="cylinders"
                             className="w-full mt-1 rounded border border-gray-400 py-1"
@@ -487,8 +476,9 @@ export default function Form({car, models}) {
                     {car && <div className="my-2">
                         <InputLabel htmlFor="status" value="Status" />
                         <select
+                            required
                             value={data.status}
-                            onChange={(e) => setData('status', e.target.value)}
+                            onChange={handleChange}
                             name="status"
                             id="status"
                             className="w-full mt-1 rounded border border-gray-400 py-1"
@@ -503,8 +493,9 @@ export default function Form({car, models}) {
                     <div className="my-2">
                         <InputLabel htmlFor="price" value="Price" />
                         <input
+                            required
                             value={data.price}
-                            onChange={(e) => setData('price', e.target.value)}
+                            onChange={handleChange}
                             name="price"
                             id="price"
                             type='number'
@@ -517,7 +508,7 @@ export default function Form({car, models}) {
                 </div>
                 {showDescription && <div className="my-2">
                     <InputLabel htmlFor="description" value="Description" />
-                    <Textarea value={data.description} onChange={(e) => setData('description', e.target.value)} className="w-full mt-1 rounded border border-gray-400 py-1" rows={5} name='description' id='description' />
+                    <Textarea value={data.description} onChange={handleChange} className="w-full mt-1 rounded border border-gray-400 py-1" rows={5} name='description' id='description' />
                     <InputError message={errors.description} className="mt-2" />
                 </div>}
 

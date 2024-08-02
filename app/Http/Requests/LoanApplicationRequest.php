@@ -67,6 +67,8 @@ class LoanApplicationRequest extends FormRequest
             'income2_type' => 'nullable|string',
             'income2' => 'nullable|numeric',
             'income2_description' => 'nullable|string|max:255',
+            'down_payment' => 'required|decimal:2',
+            'sent_to_bank' => 'nullable|boolean',
             'status' => 'required|in:Pending,Approved,Denied',
             'date_approved' => 'nullable|date',
             'date_denied' => 'nullable|date',

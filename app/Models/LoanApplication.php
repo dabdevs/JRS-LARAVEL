@@ -55,6 +55,8 @@ class LoanApplication extends Model
         'employer2_city',
         'employer2_state',
         'employer2_zip_code',
+        'down_payment',
+        'sent_to_bank',
         'status',
         'date_approved',
         'date_denied',

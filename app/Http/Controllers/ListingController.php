@@ -18,7 +18,7 @@ class ListingController extends Controller
 
             $formatedMakeModels = Cache::remember('formatedMakeModels', 60, function () {
                 $carsData = [];
-                $cars = Car::select(['make', 'model'])->where('status', 'Published')->get();
+                $cars = Car::select(['make', 'model'])->where('status', '<>', 'Unpublished')->get();
 
                 foreach ($cars as $car) {
                     if (!array_key_exists($car->make, $carsData)) {
@@ -32,10 +32,10 @@ class ListingController extends Controller
             });
 
             // Initiate query builder
-            $query = Car::query()->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage'])
+            $query = Car::query()->select(['id', 'slug', 'make', 'model', 'state', 'year', 'price', 'mileage', 'status'])
                 ->with(['images' => function ($q) {
                     $q->select(['id', 'url', 'car_id'])->orderBy('id')->take(1);
-                }])->where('status', 'Published');
+                }])->where('status', '<>', 'Unpublished'); 
 
             // search
             if (request('search')) {

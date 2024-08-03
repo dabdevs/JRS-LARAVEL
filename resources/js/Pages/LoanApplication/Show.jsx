@@ -74,7 +74,7 @@ export default function Show({ auth, application, car }) {
             </div>
             <div className="mb-2">
               <InputLabel htmlFor="date_of_birth" value="Date of Birth" />
-              <p id="date_of_birth" className='text-xl'>{application.date_of_birth}</p>
+              <p id="date_of_birth" className='text-xl'>{format(new Date(application.date_of_birth), 'MM-dd-yyyy')}</p>
             </div>
             <div className="mb-2">
               <InputLabel htmlFor="driver_license_number" value="Driver's License #" />
@@ -224,6 +224,10 @@ export default function Show({ auth, application, car }) {
 
           <div className='mb-2 w-full grid grid-cols-6 gap-4'>
             <p className='col-span-6 mt-2 text-2xl border-b-2 py-2 text-gray-500 text-bold'>APPLICATION INFORMATION</p>
+            <div className="mb-2">
+              <InputLabel htmlFor="down_payment" value="Down Payment" />
+              <p id="down_payment" className='text-xl'>{formatPrice(application.down_payment)}</p>
+            </div>
             <div className="mb-2">
               <InputLabel htmlFor="status" value="Status" />
               <p id="status" className={`text-xl ${application.status === 'Approved' && 'text-green-600'} ${application.status === 'Denied' && 'text-primary'} ${application.status === 'Pending' && 'text-orange-600'}`}>{application.status}</p>

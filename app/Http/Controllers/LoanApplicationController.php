@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Helper;
 use App\Http\Requests\LoanApplicationRequest;
+use App\Mail\ApplicationBankMail;
 use App\Models\Car;
 use App\Models\LoanApplication;
 use App\Models\State;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
 
 class LoanApplicationController extends Controller
 {
@@ -174,6 +176,19 @@ class LoanApplicationController extends Controller
 
             $application->update($data);
             return redirect()->back()->with('success', 'Application ' . Str::lower($status));
+        } catch (\Throwable $th) {
+            return redirect()->back()->with('error', $th->getMessage());
+        }
+    }
+
+    public function sendToBank()
+    {
+        try {
+            $application = LoanApplication::findOrFail(request('id'));
+            Mail::to(env('BANK_EMAIL'))->send(new ApplicationBankMail($application));
+            
+            $application->update(['sent_to_bank' => true]);
+            return redirect()->back()->with('success', 'Application e-mailed to the bank successfuly');
         } catch (\Throwable $th) {
             return redirect()->back()->with('error', $th->getMessage());
         }

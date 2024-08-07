@@ -4,6 +4,7 @@ import { Link, useForm } from '@inertiajs/react';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import EditICon from '@/Components/EditICon';
 import useUtils from '@/Hooks/useUtils';
+import { confirmAlert } from 'react-confirm-alert';
 import { format } from 'date-fns';
 import usePermissions from '@/Components/hooks/usePermissions';
 import { useReactToPrint } from 'react-to-print';
@@ -11,9 +12,12 @@ import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import Spinner from '@/Components/Spinner';
 import ApplicationHeader from './ApplicationHeader';
+import DangerButton from '@/Components/DangerButton';
+import SuccessButton from '@/Components/SuccessButton';
 
 export default function Show({ auth, application, car }) {
   const { post } = useForm({
+    id: application.id,
     status: application.status
   })
   const [loading, setLoading] = useState(false)
@@ -27,10 +31,10 @@ export default function Show({ auth, application, car }) {
   const componentRef = useRef();
   const documentTitle = `${application.first_name}-${application.last_name}-${car.state}-${car.make}-${car.model}-${car.year}-application`
 
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-    documentTitle: documentTitle,
-  });
+  // const handlePrint = useReactToPrint({
+  //   content: () => componentRef.current,
+  //   documentTitle: documentTitle,
+  // });
 
   const handleDownloadPdf = async () => {
     setLoading(true)
@@ -51,6 +55,35 @@ export default function Show({ auth, application, car }) {
     buttons.classList.remove('hidden')
     setLoading(false)
   };
+
+  const sendToBank = () => {
+    confirmAlert({
+      customUI: ({ onClose }) => {
+        return (
+          <div className='bg-white shadow-md z-50'>
+            <div className="p-5">
+              <h1 className='text-2xl'>Are you sure?</h1>
+              <p>You want to email the application to the bank?</p>
+            </div>
+            <div className="flex gap-2 p-2 bg-gray-50">
+              <DangerButton onClick={onClose}>No</DangerButton>
+              <SuccessButton
+                onClick={() => {
+                  post(route('applications.send_to_bank'), {
+                    onSuccess: () => {
+                      onClose();
+                    }
+                  })
+                }}
+              >
+                yes
+              </SuccessButton>
+            </div>
+          </div>
+        );
+      }
+    })
+  }
 
   function Content() {
     return (
@@ -113,7 +146,7 @@ export default function Show({ auth, application, car }) {
               <p id="state" className='text-xl'>{application.state ?? 'N/A'}</p>
             </div>
             <div className="mb-2">
-              <InputLabel htmlFor="zip_code" value="zip_code" />
+              <InputLabel htmlFor="zip_code" value="Zip Code" />
               <p id="zip_code" className='text-xl'>{application.zip_code}</p>
             </div>
             <div className="mb-2">
@@ -140,7 +173,7 @@ export default function Show({ auth, application, car }) {
               <InputLabel htmlFor="employer1_name" value="Employer" />
               <p id="employer1_name" className='text-xl'>{application.employer1_name}</p>
             </div>
-            <div className="mb-2 col-span-2">
+            <div className="mb-2">
               <InputLabel htmlFor="employment1_rank" value="Job Title" />
               <p id="employment1_rank" className='text-xl'>{application.employment1_rank}</p>
             </div>
@@ -152,7 +185,7 @@ export default function Show({ auth, application, car }) {
               <InputLabel htmlFor="time_at_employment1" value="Time At Employment" />
               <p id="time_at_employment1" className='text-xl'>{application.time_at_employment1_years} {application.time_at_employment1_years}</p>
             </div>
-            <div className="mb-2 col-span-2">
+            <div className="mb-2">
               <InputLabel htmlFor="employer1_address" value="Address" />
               <p id="employer1_address" className='text-xl'>{application.employer1_address ?? 'N/A'}</p>
             </div>
@@ -167,6 +200,10 @@ export default function Show({ auth, application, car }) {
             <div className="mb-2">
               <InputLabel htmlFor="employer1_zip_code" value="Zip Code" />
               <p id="employer1_zip_code" className='text-xl'>{application.employer1_zip_code ?? 'N/A'}</p>
+            </div>
+            <div className="mb-2">
+              <InputLabel htmlFor="income1_type" value="Income Type" />
+              <p id="income1_type" className='text-xl'>{application.income1_type ?? 'N/A'}</p>
             </div>
             <div className="mb-2">
               <InputLabel htmlFor="income1" value="Monthly Income" />
@@ -248,6 +285,10 @@ export default function Show({ auth, application, car }) {
               <InputLabel htmlFor="last_updated" value="Last Updated" />
               <p id="last_updated" className='text-xl'>{(application.updated_at && format(new Date(), 'MM-dd-yyyy HH:mm:ss')) ?? 'N/A'}</p>
             </div>
+            <div className="mb-2 col-span-2">
+              <InputLabel htmlFor="sent_to_bank" value="Sent to bank" />
+              <p id="sent_to_bank" className='text-xl'>{application.sent_to_bank ? 'YES' : 'NO' }</p>
+            </div>
           </div>
           <div className="flex gap-2 justify-end" id='buttons'>
             <Link href={route('applications.index')} className='font-bold py-2 px-6 '>Go Back</Link>
@@ -261,6 +302,9 @@ export default function Show({ auth, application, car }) {
             <button onClick={handleDownloadPdf} className='inline-flex gap-2 p-2 items-center bg-blue-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
               Download as PDF
             </button>
+            {!application.sent_to_bank && <button onClick={sendToBank} className='inline-flex gap-2 p-2 items-center bg-indigo-600 border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest hover:bg-indigo-600 focus:outline-none focus:ring-2 focus:ring-offset-2 transition ease-in-out duration-150'>
+              Send to bank
+            </button>}
           </div>
         </div>
       </section>

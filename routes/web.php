@@ -66,7 +66,8 @@ Route::prefix('dashboard')->middleware(['auth', 'verified'])->group(function () 
     // Loan Application routes
     Route::resource('applications', LoanApplicationController::class)->except('create');
     Route::get('applications/create/{carId}', [LoanApplicationController::class, 'create'])->name('applications.create');
-    Route::post('change-application-status/{application_id}/{status}', [LoanApplicationController::class, 'changeApplicationStatus'])->name('applications.change_status');
+    Route::post('applications/change-status/{application_id}/{status}', [LoanApplicationController::class, 'changeApplicationStatus'])->name('applications.change_status');
+    Route::post('applications/send-to-bank', [LoanApplicationController::class, 'sendToBank'])->name('applications.send_to_bank');
 
     // Upload images
     Route::post('upload-images', [UploadController::class, 'images'])->name('upload.images');

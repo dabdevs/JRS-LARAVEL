@@ -31,7 +31,8 @@ class ApplicationBankMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Loan Application',
+            subject: 'Loan Application', 
+            bcc: [env('MAIL_FROM_ADDRESS')],
         );
     }
 

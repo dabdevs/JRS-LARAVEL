@@ -109,7 +109,7 @@ return [
     */
 
     'from' => [
-        'address' => env('MAIL_FROM_ADDRESS', 'admin@jrcautocorp.com'),
+        'address' => env('MAIL_FROM_ADDRESS', 'info@jrsautocorp.com'),
         'name' => env('MAIL_FROM_NAME', 'JRS AUTO CORP'),
     ],
 
